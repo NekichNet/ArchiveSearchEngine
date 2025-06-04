@@ -10,7 +10,7 @@ class IdleScreen(MDScreen):
         self.name = 'Idle'
         self.md_bg_color = self.theme_cls.surfaceColor
 
-        background_image = FitImage(source="app/res/background.png")
+        background_image = FitImage(source="app/res/background1.png")
         self.add_widget(background_image)
 
         main_layout = MDFloatLayout(size_hint=(.5, .5),

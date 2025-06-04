@@ -23,7 +23,7 @@ class RegistrationScreen(MDScreen):
         self.back_to = 'Idle'
         self.admin = False
 
-        background_image = FitImage(source="app/res/background.png")
+        background_image = FitImage(source="app/res/background6.png")
         self.add_widget(background_image)
 
         main_layout = MDStackLayout(size_hint=(.7, .7),

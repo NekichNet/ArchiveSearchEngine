@@ -2,6 +2,7 @@ from kivymd.app import MDApp
 from kivymd.uix.screenmanager import MDScreenManager
 
 # Screens' files won't import without "."
+from .StartScreen import StartScreen
 from .IdleScreen import IdleScreen
 from .LoginScreen import LoginScreen
 from .RegistrationScreen import RegistrationScreen
@@ -34,6 +35,7 @@ class SearcherApp(MDApp):
         self.theme_cls.md_bg_color = self.theme_cls.backgroundColor
 
         sm = MDScreenManager()
+        sm.add_widget(StartScreen())
         sm.add_widget(IdleScreen())
         sm.add_widget(LoginScreen(self.table_user))
         sm.add_widget(RegistrationScreen(self.table_user))

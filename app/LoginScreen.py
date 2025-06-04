@@ -22,7 +22,7 @@ class LoginScreen(MDScreen):
         self.md_bg_color = self.theme_cls.surfaceColor
         self.table_user = table_user
 
-        background_image = FitImage(source="app/res/background.png")
+        background_image = FitImage(source="app/res/background4.png")
         self.add_widget(background_image)
 
         main_layout = MDStackLayout(size_hint=(.7, .7),

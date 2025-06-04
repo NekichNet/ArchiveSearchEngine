@@ -25,12 +25,12 @@ class DatabaseConnection:
         
         volume_num TEXT NOT NULL,
         
-        bool_num TEXT NOT NULL,
+        book_num TEXT NOT NULL,
         
         content_quantity INTEGER NOT NULL,
         
-        inventory_date DATE NOT NULL,
-        inventory_num TEXT NOT NULL,
+        inventory_date DATE,
+        inventory_num TEXT,
         
         object_index TEXT NOT NULL,
         object_name TEXT NOT NULL,
@@ -44,15 +44,17 @@ class DatabaseConnection:
         
         case_num TEXT NOT NULL,
         
-        destruct_act_num TEXT NOT NULL,
-        destruct_act_date DATE NOT NULL,
+        destruct_act_num TEXT,
+        destruct_act_date DATE,
         
-        struct_division TEXT NOT NULL,
+        struct_division TEXT,
         
-        gived_post TEXT NOT NULL,
-        gived_fullname TEXT NOT NULL,
-        achieved_post TEXT NOT NULL,
-        achieved_fullname TEXT NOT NULL
+        gived_post TEXT,
+        gived_fullname TEXT,
+        achieved_post TEXT,
+        achieved_fullname TEXT,
+        
+        note TEXT
         )''')
 
         self.cursor.execute('''

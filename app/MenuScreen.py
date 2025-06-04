@@ -15,7 +15,7 @@ class MenuScreen(MDScreen):
         self.md_bg_color = self.theme_cls.surfaceColor
         self.user = None
 
-        background_image = FitImage(source="app/res/background.png")
+        background_image = FitImage(source="app/res/background1.png")
         self.add_widget(background_image)
 
         self.main_layout = MDStackLayout(size_hint=(.7, .7),
