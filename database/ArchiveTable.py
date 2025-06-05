@@ -11,4 +11,7 @@ class ArchiveTable:
         return self.cursor.fetchall()
 
     def add(self, values: dict):
-        self.cursor.execute(f"INSERT INTO ArchiveTable ({', '.join(list(values.keys()))})", tuple([value for key, value in values]))
+        self.cursor.execute(
+            f"INSERT INTO ArchiveTable ({', '.join(list(values.keys()))}) VALUES ({', '.join('?' * len(values.keys()))})",
+            tuple([value for key, value in values.items()])
+        )

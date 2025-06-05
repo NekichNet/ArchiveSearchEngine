@@ -1,8 +1,11 @@
 import sqlite3
+from os.path import exists
+from hashlib import sha256
 
 
 class DatabaseConnection:
     def __init__(self, dbfilename: str):
+        generate_admin = not exists(dbfilename)
         self.connection = sqlite3.connect(dbfilename)
         self.cursor = self.connection.cursor()
 
@@ -68,5 +71,10 @@ class DatabaseConnection:
         time_returned TIME NOT NULL
         )
         ''')
+
+        if generate_admin:  # Добавляем админа по умолчанию, если бд пересоздаётся
+            self.cursor.execute('''
+            INSERT INTO UserTable (login, password_hash, fullname, post, is_admin) VALUES (?, ?, ?, ?, ?)
+            ''', ('admin', sha256('admin'.encode()).hexdigest(), "Администратор", "Администратор", True))
 
         self.connection.commit()

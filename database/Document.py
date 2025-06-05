@@ -11,7 +11,7 @@ class Document:
              "object_index": "Код/индекс дела",
              "object_name": "Наименование объекта",
              "rack": "Стеллаж №",
-             "shelf": "Пока №",
+             "shelf": "Полка №",
              "expiring_in": "Срок хранения дела",
              "documents_date": "Дата документов",
              "case_num": "Дело № (валовый номер)",

@@ -19,6 +19,5 @@ class UserTable:
         self.connection.commit()
 
     def check_user(self, login: str, password: str):
-
         self.cursor.execute('SELECT login, fullname, post, is_admin FROM UserTable WHERE login == ? AND password_hash == ?', (login, sha256(password.encode()).hexdigest()))
         return self.cursor.fetchall()

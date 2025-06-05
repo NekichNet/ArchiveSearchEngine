@@ -27,6 +27,7 @@ class NewDocScreen(MDScreen):
         self.add_widget(background_image)
 
         scrollview_layout = MDBoxLayout(pos_hint={"center_x": 0.5, "center_y": 0.5},
+                                        orientation='vertical',
                                         radius=(50, 15, 50, 15),
                                         md_bg_color=self.theme_cls.surfaceColor,
                                         size_hint=(.8, .8),
@@ -35,7 +36,7 @@ class NewDocScreen(MDScreen):
 
         scrollview = MDScrollView(do_scroll_x=False,
                                   pos_hint={"center_x": 0.5, "center_y": 0.5},
-                                  size_hint=(.9, .9))
+                                  size_hint=(.9, .85))
         scrollview_layout.add_widget(scrollview)
 
         self.main_layout = MDBoxLayout(pos_hint={"center_x": 0.5, "center_y": 0.5},
@@ -50,14 +51,17 @@ class NewDocScreen(MDScreen):
             self.main_layout.add_widget(MDTextField(MDTextFieldHintText(text=title), multiline=False, id=param))
 
         done_button = MDButton(MDButtonText(text="Добавить"),
-                               style='tonal')
+                               style='tonal',
+                               pos_hint={"center_x": 0.5})
         done_button.bind(on_press=self.add_doc)
-        self.main_layout.add_widget(done_button)
+        scrollview_layout.add_widget(done_button)
 
     def add_doc(self, *args):
         values = dict()
-        for param in list(Document.names.keys()):
-            values[param] = self.main_layout.get_ids()[param].text
-            self.main_layout.ids[param].text = ""
+        quantity = len(self.main_layout.children)
+        for ind, textfield in enumerate(self.main_layout.children):
+            if type(textfield) is not MDButton:
+                values[textfield.id] = textfield.text
+                textfield.text = ""
         self.table_archive.add(values)
         self.manager.current = 'Menu'
