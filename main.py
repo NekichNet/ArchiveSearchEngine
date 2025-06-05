@@ -2,6 +2,7 @@ from os.path import join
 import sys
 from kivy.resources import resource_add_path
 from app.SearcherApp import SearcherApp
+from kivy.core.window import Window
 
 from database.DatabaseConnection import DatabaseConnection
 from database.ArchiveTable import ArchiveTable
@@ -17,11 +18,13 @@ if __name__ == "__main__":
     table_user = UserTable(db_connection)
     table_history = HistoryTable(db_connection)
 
+    Window.size = (1600, 900)
+
     try:
         if hasattr(sys, '_MEIPASS'):  # Нужно для корректной сборки KivyMD
             resource_add_path(join(sys._MEIPASS))
         SearcherApp(table_archive, table_user, table_history).run()
     except Exception as e:
-        print(e)
+        raise e
     finally:
         db_connection.connection.close()

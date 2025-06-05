@@ -77,6 +77,7 @@ class LoginScreen(MDScreen):
 
     def login(self, *args):
         results = self.table_user.check_user(self.login_input.text, self.password_input.text)
+
         if len(results) > 0:
             self.manager.get_screen('Menu').update_user(
                 User(

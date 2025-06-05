@@ -2,6 +2,7 @@ from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.label import MDLabel
 from kivymd.uix.fitimage import FitImage
 from kivymd.uix.screen import MDScreen
+from kivy.clock import Clock
 
 from random import shuffle
 from time import sleep
@@ -22,12 +23,12 @@ class StartScreen(MDScreen):
         self.main_layout = MDFloatLayout(md_bg_color=self.theme_cls.surfaceColor)
         self.add_widget(self.main_layout)
 
-    def do_animation(self):
-        sleep(0.5)
+    def on_start(self):
+        Clock.usleep(500)
         self.main_layout.size_hint = (0.4, 1.)
 
-        sleep(0.3)
+        Clock.usleep(300)
         self.main_layout.size_hint = (.4, .4)
 
-        sleep(2)
+        Clock.usleep(2000)
         self.manager.current = 'Idle'

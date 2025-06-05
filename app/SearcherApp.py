@@ -8,6 +8,7 @@ from .LoginScreen import LoginScreen
 from .RegistrationScreen import RegistrationScreen
 from .SearchScreen import SearchScreen
 from .MenuScreen import MenuScreen
+from .NewDocScreen import NewDocScreen
 
 from .ThemeConfig import tc
 
@@ -35,11 +36,12 @@ class SearcherApp(MDApp):
         self.theme_cls.md_bg_color = self.theme_cls.backgroundColor
 
         sm = MDScreenManager()
-        sm.add_widget(StartScreen())
+        # sm.add_widget(StartScreen())
         sm.add_widget(IdleScreen())
         sm.add_widget(LoginScreen(self.table_user))
         sm.add_widget(RegistrationScreen(self.table_user))
         sm.add_widget(SearchScreen(self.table_archive, self.table_history))
         sm.add_widget(MenuScreen(self.table_archive))
+        sm.add_widget(NewDocScreen(self.table_archive))
 
         return sm

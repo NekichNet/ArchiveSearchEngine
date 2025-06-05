@@ -9,3 +9,6 @@ class ArchiveTable:
     def find(self, object_name: str):
         self.cursor.execute(f"SELECT * FROM ArchiveTable WHERE object_name REGEXP '.*{object_name}.*'")
         return self.cursor.fetchall()
+
+    def add(self, values: dict):
+        self.cursor.execute(f"INSERT INTO ArchiveTable ({', '.join(list(values.keys()))})", tuple([value for key, value in values]))

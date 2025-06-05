@@ -54,6 +54,9 @@ class SearchScreen(MDScreen):
         self.list_layout = MDFloatLayout(pos_hint={"center_x": 0.5, "center_y": 0.4})
         main_layout.add_widget(self.list_layout)
 
+    def search(self):
+        pass
+
     def back(self, *args):
         self.manager.current = 'Menu'
         return 0

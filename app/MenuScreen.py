@@ -77,6 +77,7 @@ class MenuScreen(MDScreen):
         return 0
 
     def add_doc(self, *args):
+        self.manager.current = 'NewDoc'
         return 0
 
     def inventory_list(self, *args):
