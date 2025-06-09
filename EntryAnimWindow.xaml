@@ -1,0 +1,23 @@
+﻿<Window x:Class="ArchiveSearchEngine.EntryAnimWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArchiveSearchEngine"
+        mc:Ignorable="d"
+        Title="EntryAnimWindow" Height="500" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <Image x:Name="BackgroundImage" Stretch="UniformToFill"/>
+        <Border Margin="40" Background="#B2FFFFFF">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="0.4*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Image Grid.RowSpan="2" Source="/sources/logo.png" Stretch="Uniform" Margin="20"/>
+                <TextBlock VerticalAlignment="Center" Grid.Row="1" FontStyle="Italic" FontWeight="Black" Foreground="#FF005AA0" Margin="100,0,100,0" Text="Приводим в движение нефть, чтобы она приводила в движение всё остальное" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>
