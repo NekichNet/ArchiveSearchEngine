@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ArchiveSearchEngine.Database
 {
-    class DatabaseConnection
+    public class DatabaseConnection
     {
+
     }
 }
