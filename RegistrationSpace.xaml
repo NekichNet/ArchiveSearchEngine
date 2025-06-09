@@ -1,0 +1,58 @@
+﻿<Page x:Class="ArchiveSearchEngine.RegistrationSpace"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ArchiveSearchEngine"
+      mc:Ignorable="d" 
+      d:DesignHeight="1080" d:DesignWidth="1920"
+      Title="RegistrationSpace">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.3*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Border  Grid.Column="1" Grid.Row="1" BorderThickness="0"  >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.3*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.3*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="0.25*"></RowDefinition>
+                    <RowDefinition Height="0.25*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.RowSpan="1" Grid.ColumnSpan="4" Grid.Row="1" Grid.Column="1"  Margin="10">
+                    <TextBlock Text="Логин" FontWeight="Bold"></TextBlock>
+                    <TextBox Name="LoginGUI"  Margin="0,0,0,20"></TextBox>
+                    <TextBlock Text="Пароль" FontWeight="Bold"></TextBlock>
+                    <PasswordBox Name="PasswordGUI" ></PasswordBox>
+                    <TextBlock Text="Повторение пароля" FontWeight="Bold"></TextBlock>
+                    <PasswordBox Name="PasswordRepeatGUI"></PasswordBox>
+                </StackPanel>
+                
+                <TextBlock TextWrapping="Wrap" FontWeight="Bold" Foreground="DarkRed" Name="ErrorGui" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2"></TextBlock>
+
+                <Button Click="BackToSignIn" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DenyButtonStyle}" Margin="10" Content="Отмена" ></Button>
+                <Button Click="SignUpANewUser" Grid.Row="3" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource AcceptButtonStyle}" Margin="10" Content="Зарегестрировать" ></Button>
+                <TextBlock Text="Регистрация" Grid.ColumnSpan="4" Grid.Column="1" VerticalAlignment="Center" FontSize="50" FontWeight="Bold"></TextBlock>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Page>
