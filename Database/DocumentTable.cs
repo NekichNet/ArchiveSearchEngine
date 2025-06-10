@@ -36,8 +36,7 @@ namespace ArchiveSearchEngine.Database
                 "struct_division TEXT NOT NULL," +
                 "gived_post TEXT NOT NULL," +
                 "gived_fullname TEXT NOT NULL," +
-                "achieved_post TEXT NOT NULL," +
-                "achieved_fullname TEXT NOT NULL," +
+                "achieved_id TEXT NOT NULL," +
                 "note TEXT)", _connection).ExecuteNonQuery();
         }
 

@@ -66,6 +66,26 @@ namespace ArchiveSearchEngine.Database
             }
         }
 
+        // Returns user by his id (throws an exception, if not exists)
+        public User GetUser(int id)
+        {
+            using (SqliteDataReader reader = new SqliteCommand(
+                $"SELECT * FROM UserTable WHERE id = '{id}'",
+                _connection).ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    return new User((string)reader["username"], (string)reader["fullname"],
+                        (string)reader["post"], (string)reader["struct_division"], Convert.ToInt32(reader["is_admin"]) == 1);
+                }
+                else
+                {
+                    throw new Exception($"Пользователь с id: {id} не найден");
+                }
+            }
+        }
+
         // Returns list of users, what have promt in their username or fullname
         public List<User> GetUsers(string promt)
         {
