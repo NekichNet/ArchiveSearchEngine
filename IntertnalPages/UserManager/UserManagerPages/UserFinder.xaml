@@ -5,10 +5,38 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1080" d:DesignWidth="1920"
       Title="UserFinder">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.6*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBox Margin="15" Grid.ColumnSpan="2"></TextBox>
+        <Border Grid.Column="2" Margin="15">
+            <TextBlock Text="Пользователи" FontWeight="Black" VerticalAlignment="Center"></TextBlock>
+        </Border>
+        <Border Margin="15" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
+            <ListBox Name="UsersFoundDisplay" Background="Transparent" BorderBrush="Transparent" Margin="15" MouseDoubleClick="SelectUserToChange">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Path=Fullname}" FontWeight="Black"></TextBlock>
+                                <TextBlock Text="{Binding Path=Username}" FontWeight="Bold" Foreground="#FF616161"></TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
         
     </Grid>
 </Page>

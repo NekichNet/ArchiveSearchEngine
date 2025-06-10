@@ -26,5 +26,13 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
             InitializeComponent();
             owner_ = owner;
         }
+
+        private void SelectUserToChange(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                owner_.ToChangeUsers();
+            }
+        }
     }
 }

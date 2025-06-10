@@ -20,6 +20,50 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
+                <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.25*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Margin="15" Grid.ColumnSpan="2">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Имя : " FontWeight="Bold"></TextBlock>
+                                <TextBlock Name="NameDisplay" Text="Имя"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Логин : " FontWeight="Bold"></TextBlock>
+                                <TextBlock Name="LoginDisplay" Text="Логин"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Пост : " FontWeight="Bold"></TextBlock>
+                                <TextBlock Name="PostDisplay" Text="Пост"></TextBlock>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Структное подразделение : " FontWeight="Bold"></TextBlock>
+                                <TextBlock Name="StructDivisionDisplay" Text="Структное подразделение" TextWrapping="Wrap"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Margin="15" Grid.Column="2">
+                            <Button Name="ChangeNameBTN" Content="Изменить"></Button>
+                            <Button Name="ChangeLoginBTN" Content="Изменить"></Button>
+                            <Button Name="ChangePostBTN" Content="Изменить"></Button>
+                            <Button Name="ChangeStructDivisionBTN" Content="Изменить"></Button>
+                        </StackPanel>
+                    </Grid>
+                    
+                </Border>
+                
+                
+
                 <Button Margin="15" Content="Назад" Click="Button_Click" Style="{StaticResource DenyButtonStyle}"></Button>
             </Grid>
         </Border>
