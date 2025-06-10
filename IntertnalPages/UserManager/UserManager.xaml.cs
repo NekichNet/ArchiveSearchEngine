@@ -20,13 +20,12 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager
     /// </summary>
     public partial class UserManager : Page
     {
-        List<Page> pages = new List<Page>();
+        List<UserSpace> pages = new List<UserSpace>();
         MainSpace owner_;
         public UserManager(MainSpace owner)
         {
             InitializeComponent();
-            pages.Add(new UserManagerPages.UserFinder(this));
-            pages.Add(new UserManagerPages.UserChanger(this));
+            pages.Add(new UserSpace("Поисковик", new UserManagerPages.UserFinder(this)));
             UserListManager.Navigate(pages[0]);
             owner_ = owner;
         }
@@ -36,6 +35,15 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager
         }
         public void ToChangeUsers()
         {
+            if (pages.Find(x => x.Title.Equals("Именятель")) != null)
+            {
+                pages.Add(new UserSpace("Именятель", new UserManagerPages.UserFinder(this)));
+            }
+            else
+            {
+                pages.RemoveAt(pages.Count - 1);
+                pages.Add(new UserSpace("Именятель", new UserManagerPages.UserFinder(this)));
+            }
             UserListManager.Navigate(pages[1]);
         }
     }
