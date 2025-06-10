@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using ArchiveSearchEngine.Database;
+using Microsoft.Data.Sqlite;
+using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -41,13 +44,24 @@ namespace ArchiveSearchEngine
             pages.Add(new MainSpace(this));
 
             EntryFrame.Navigate(pages[0]);
-            users.Add(new User("admin", "admin", 2));
+            users.Add(new User("admin", "Администратор", "Администратор", "Подразделение", true));
+
+            // Initializing database
+
+            bool db_exists = File.Exists("archive.db");
+
+            SqliteConnection Connection = new SqliteConnection("Data Source=archive.db;Password=htfdkshsrujdt");
+            Connection.Open();
+
+            UserTable userTable = new UserTable(Connection, !db_exists);
+            DocumentTable documentTable = new DocumentTable(Connection);
+            HistoryTable historyTable = new HistoryTable(Connection);
         }
 
 
-        public void TrySigningIn(string name, string password)
+        public void TrySigningIn(string username, string password)
         {
-            if (name.Trim().Length == 0)
+            if (username.Trim().Length == 0)
             {
                 throw new Exception("Поле ввода \"Имя\" пусто");
             }
@@ -56,10 +70,10 @@ namespace ArchiveSearchEngine
                 throw new Exception("Поле ввода \"Пароль\" пусто");
             }
 
-            if (users.Find(x => x.Name == name) != null)
+            if (users.Find(x => x.Username == username) != null)
             {
-                var user = users.Find(x => x.Name == name);
-                if (user.Password == password)
+                var user = users.Find(x => x.Username == username);
+                if () // TODO: Проверка пароля
                 {
                     LoggedUser = user;
                     ToSystem();
