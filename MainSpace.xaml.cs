@@ -1,4 +1,5 @@
-﻿using ArchiveSearchEngine.IntertnalPages;
+﻿using ArchiveSearchEngine.Database;
+using ArchiveSearchEngine.IntertnalPages;
 using ArchiveSearchEngine.IntertnalPages.UserManager;
 using System;
 using System.Collections.Generic;
@@ -27,9 +28,9 @@ namespace ArchiveSearchEngine
 
         public List<UserSpace> Spaces = new List<UserSpace>();
 
+        UserTable userTable_;
 
-
-        public MainSpace(MainWindow owner)
+        public MainSpace(MainWindow owner, UserTable userTable)
         {
             InitializeComponent();
             _owner = owner;
@@ -37,6 +38,8 @@ namespace ArchiveSearchEngine
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this)));
             Spaces.Add(new UserSpace("Создание документа", new AddDocs(this)));
             Spaces.Add(new UserSpace("Добавление документов", new DocumentCreation(this)));
+
+            userTable_ = userTable;
 
             SpacesListBox.ItemsSource = Spaces;
             IsVisibleChanged += (s, e) =>

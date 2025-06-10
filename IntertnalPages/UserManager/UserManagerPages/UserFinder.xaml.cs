@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,18 +22,25 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
     public partial class UserFinder : Page
     {
         UserManager owner_;
-        public UserFinder(UserManager owner)
+        UserTable userTable_;
+
+        public UserFinder(UserManager owner, UserTable userTable)
         {
             InitializeComponent();
             owner_ = owner;
+            userTable_ = userTable;
+            UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
         }
+        
 
         private void SelectUserToChange(object sender, MouseButtonEventArgs e)
         {
             try
             {
+                
                 owner_.ToChangeUsers();
             }
+            catch (Exception ex) { }
         }
     }
 }

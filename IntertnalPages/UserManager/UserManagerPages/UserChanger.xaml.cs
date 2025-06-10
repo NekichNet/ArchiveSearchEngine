@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,10 +22,12 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
     public partial class UserChanger : Page
     {
         UserManager owner_;
-        public UserChanger(UserManager owner)
+        UserTable userTable_;
+        public UserChanger(UserManager owner, UserTable userTable)
         {
             InitializeComponent();
             owner_ = owner;
+            userTable_ = userTable;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

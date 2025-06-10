@@ -37,9 +37,6 @@ namespace ArchiveSearchEngine
         {
             InitializeComponent();
 
-            pages.Add(new EntrySpace(this));
-            pages.Add(new RegistrationSpace(this));
-            pages.Add(new MainSpace(this));
 
             EntryFrame.Navigate(pages[0]);
 
@@ -53,6 +50,11 @@ namespace ArchiveSearchEngine
             _userTable = new UserTable(Connection, !db_exists);
             _documentTable = new DocumentTable(Connection);
             _historyTable = new HistoryTable(Connection);
+
+
+            pages.Add(new EntrySpace(this));
+            pages.Add(new RegistrationSpace(this));
+            pages.Add(new MainSpace(this, _userTable));
         }
 
 

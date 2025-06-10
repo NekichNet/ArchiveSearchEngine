@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,12 +23,14 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager
     {
         List<UserSpace> pages = new List<UserSpace>();
         MainSpace owner_;
-        public UserManager(MainSpace owner)
+        UserTable userTable_;
+        public UserManager(MainSpace owner, UserTable userTable)
         {
             InitializeComponent();
-            pages.Add(new UserSpace("Поисковик", new UserManagerPages.UserFinder(this)));
+            pages.Add(new UserSpace("Поисковик", new UserManagerPages.UserFinder(this, userTable)));
             UserListManager.Navigate(pages[0]);
             owner_ = owner;
+            userTable_ = userTable;
         }
         public void ToSearchUsers()
         {
@@ -37,12 +40,12 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager
         {
             if (pages.Find(x => x.Title.Equals("Именятель")) != null)
             {
-                pages.Add(new UserSpace("Именятель", new UserManagerPages.UserFinder(this)));
+                pages.Add(new UserSpace("Именятель", new UserManagerPages.UserChanger(this)));
             }
             else
             {
                 pages.RemoveAt(pages.Count - 1);
-                pages.Add(new UserSpace("Именятель", new UserManagerPages.UserFinder(this)));
+                pages.Add(new UserSpace("Именятель", new UserManagerPages.UserChanger(this)));
             }
             UserListManager.Navigate(pages[1]);
         }
