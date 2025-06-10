@@ -79,7 +79,7 @@ namespace ArchiveSearchEngine
         }
 
 
-        public void TrySignUp(string username, string password, string passwordRepeat, string fullname, string post, string struct_division, bool is_admin=false)
+        public void TrySignUp(string username, string fullname, string post, string struct_division, string password, string passwordRepeat, bool is_admin = false)
         {
             if (username.Trim().Length > 0 && password.Trim().Length > 0)
             {
