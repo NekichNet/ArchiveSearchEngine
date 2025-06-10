@@ -29,17 +29,8 @@ namespace ArchiveSearchEngine.Database
             // adding a default admin account, if database was recreated
             if (add_default_admin)
             {
-                using (SHA256 hash = SHA256.Create())
-                {
-                    new SqliteCommand($"INSERT INTO UserTable " +
-                    $"(username, password_hash, fullname, post, struct_division, is_admin) " +
-                    $"VALUES ('admin', " +
-                    $"{Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes("admin")))}, " +
-                    $"'Администратор по умолчанию', " +
-                    $"'Администратор по умолчанию', " +
-                    $"'Администратор по умолчанию', " +
-                    $"1)", _connection).ExecuteNonQuery();
-                }
+                NewUser(new User("admin", "Администратор по умолчанию", "Администратор по умолчанию",
+                    "Администратор по умолчанию", true), "admin");
             }
         }
 
@@ -55,11 +46,11 @@ namespace ArchiveSearchEngine.Database
             }
         }
 
-        // Only if user exists
+        // Returns user found by his username (throws an exception, if not exists)
         public User GetUser(string username)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM UserTable WHERE username == {username}",
+                $"SELECT * FROM UserTable WHERE username = {username}",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
@@ -73,6 +64,105 @@ namespace ArchiveSearchEngine.Database
                     throw new Exception($"Пользователь с username: {username} не найден");
                 }
             }
+        }
+
+        // Returns list of users, what have promt in their username or fullname
+        public List<User> GetUsers(string promt)
+        {
+            List<User> users = new List<User>();
+
+            using (SqliteDataReader reader = new SqliteCommand(
+                $"SELECT * FROM UserTable WHERE username LIKE {promt} OR fullname LIKE {promt}",
+                _connection).ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        users.Add(new User((string)reader["username"], (string)reader["fullname"],
+                        (string)reader["post"], (string)reader["struct_division"], (bool)reader["is_admin"]));
+                    }
+                }
+            }
+
+            return users;
+        }
+
+        // Returns list of all users in database
+        public List<User> GetUsers()
+        {
+            List<User> users = new List<User>();
+
+            using (SqliteDataReader reader = new SqliteCommand(
+                $"SELECT * FROM UserTable",
+                _connection).ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        users.Add(new User((string)reader["username"], (string)reader["fullname"],
+                        (string)reader["post"], (string)reader["struct_division"], (bool)reader["is_admin"]));
+                    }
+                }
+            }
+
+            return users;
+        }
+
+        // Changes [password_hash, fullname, post, struct_division] of user with (username == user.Username)
+        public void UpdateUser(User user, string password)
+        {
+            using (SHA256 hash = SHA256.Create())
+            {
+                new SqliteCommand($"UPDATE UserTable SET " +
+                    $"password_hash={Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)))}, " +
+                    $"fullname={user.Fullname}, " +
+                    $"post={user.Post}, " +
+                    $"struct_division={user.StructDivision} " +
+                    $"WHERE username = {user.Username}",
+                    _connection).ExecuteNonQuery();
+            }
+        }
+
+        // Returns true, if user with these username and password exists.
+        public bool CheckUser(string username, string password)
+        {
+            using (SqliteDataReader reader = new SqliteCommand(
+                $"SELECT password_hash FROM UserTable WHERE username = {username}",
+                _connection).ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    using (SHA256 hash = SHA256.Create())
+                    {
+                        reader.Read();
+                        if ((string)reader["password_hash"] ==
+                            Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password))))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+
+        // Returns true, if user with exact username exists in database
+        public bool UserExists(string username)
+        {
+            using (SqliteDataReader reader = new SqliteCommand(
+                $"SELECT username FROM UserTable WHERE username = {username}",
+                _connection).ExecuteReader())
+            {
+                return reader.HasRows;
+            }
+        }
+
+        // Deletes user with exact username
+        public void DeleteUser(string username)
+        {
+            new SqliteCommand($"DELETE FROM UserTable WHERE username = {username}", _connection).ExecuteNonQuery();
         }
     }
 }

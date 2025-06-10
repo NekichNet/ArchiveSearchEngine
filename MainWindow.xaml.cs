@@ -19,13 +19,11 @@ namespace ArchiveSearchEngine
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        private List<User> users = new List<User>();
-
         public User LoggedUser { get; set; }
 
-
-
+        private UserTable _userTable;
+        private DocumentTable _documentTable;
+        private HistoryTable _historyTable;
 
         private List<string> images = new List<string>
         {
@@ -44,7 +42,6 @@ namespace ArchiveSearchEngine
             pages.Add(new MainSpace(this));
 
             EntryFrame.Navigate(pages[0]);
-            users.Add(new User("admin", "Администратор", "Администратор", "Подразделение", true));
 
             // Initializing database
 
@@ -53,9 +50,9 @@ namespace ArchiveSearchEngine
             SqliteConnection Connection = new SqliteConnection("Data Source=archive.db;Password=htfdkshsrujdt");
             Connection.Open();
 
-            UserTable userTable = new UserTable(Connection, !db_exists);
-            DocumentTable documentTable = new DocumentTable(Connection);
-            HistoryTable historyTable = new HistoryTable(Connection);
+            _userTable = new UserTable(Connection, !db_exists);
+            _documentTable = new DocumentTable(Connection);
+            _historyTable = new HistoryTable(Connection);
         }
 
 
@@ -70,18 +67,10 @@ namespace ArchiveSearchEngine
                 throw new Exception("Поле ввода \"Пароль\" пусто");
             }
 
-            if (users.Find(x => x.Username == username) != null)
+            if (_userTable.CheckUser(username, password))
             {
-                var user = users.Find(x => x.Username == username);
-                if () // TODO: Проверка пароля
-                {
-                    LoggedUser = user;
-                    ToSystem();
-                }
-                else
-                {
-                    throw new Exception("Пользователя с таким именем и паролем не существует");
-                }
+                LoggedUser = _userTable.GetUser(username);
+                ToSystem();
             }
             else
             {
@@ -90,15 +79,15 @@ namespace ArchiveSearchEngine
         }
 
 
-        public void TrySignUp(string name, string password, string passwordRepeat)
+        public void TrySignUp(string username, string password, string passwordRepeat, string fullname, string post, string struct_division, bool is_admin=false)
         {
-            if (name.Trim().Length > 0 && password.Trim().Length > 0)
+            if (username.Trim().Length > 0 && password.Trim().Length > 0)
             {
-                if (users.Find(x => x.Name == name) == null)
+                if (!_userTable.UserExists(username))
                 {
                     if (password == passwordRepeat)
                     {
-                        users.Add(new User(name, password));
+                        _userTable.NewUser(new User(username, fullname, post, struct_division, is_admin), password);
                         ToSignIn();
                     }
                     else
