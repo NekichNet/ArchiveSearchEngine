@@ -37,7 +37,6 @@ namespace ArchiveSearchEngine
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this)));
             Spaces.Add(new UserSpace("Создание документа", new AddDocs(this)));
             Spaces.Add(new UserSpace("Добавление документов", new DocumentCreation(this)));
-            Spaces.Add(new UserSpace("Управление пользователями", new UserManager(this)));
 
             SpacesListBox.ItemsSource = Spaces;
             IsVisibleChanged += (s, e) =>
@@ -70,18 +69,23 @@ namespace ArchiveSearchEngine
 
             if (Spaces.Find(x => x.Title == "Управление пользователями") != null)
             {
-                Spaces.RemoveAt(Spaces.IndexOf(Spaces.Find(x => x.Title == "Управление пользователями")));
+                Spaces.RemoveAt(Spaces.Count - 1);
             }
-
-            if (_owner.LoggedUser.IsAdmin == true)
+            try
             {
-                Spaces.Add(new UserSpace("Управление пользователями", new UserManager(this)));
+                if (_owner.LoggedUser.IsAdmin)
+                {
+                    Spaces.Add(new UserSpace("Управление пользователями", new UserManager(this)));
+                }
             }
+            catch { }
             try
             {
                 Spaces.Add(new UserSpace("Аккаунт", new UserAccountPage(this, _owner.LoggedUser)));
             }catch { }
+            SpacesListBox.Items.Refresh();
             DisplayFrame.Navigate(Spaces[0].Page);
+
         }
     }
 }
