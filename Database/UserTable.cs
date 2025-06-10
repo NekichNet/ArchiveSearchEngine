@@ -40,9 +40,9 @@ namespace ArchiveSearchEngine.Database
             {
                 new SqliteCommand($"INSERT INTO UserTable " +
                     $"(username, password_hash, fullname, post, struct_division, is_admin) VALUES " +
-                    $"({user.Username}, {Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)))}, " +
-                    $"{user.Fullname}, {user.Post}, " +
-                    $"{user.StructDivision}, {user.IsAdmin})", _connection);
+                    $"('{user.Username}', '{Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)))}', " +
+                    $"'{user.Fullname}', '{user.Post}', " +
+                    $"'{user.StructDivision}', {(user.IsAdmin? 1 : 0)})", _connection).ExecuteNonQuery();
             }
         }
 
@@ -50,14 +50,14 @@ namespace ArchiveSearchEngine.Database
         public User GetUser(string username)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM UserTable WHERE username = {username}",
+                $"SELECT * FROM UserTable WHERE username = '{username}'",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
                 {
                     reader.Read();
                     return new User((string)reader["username"], (string)reader["fullname"],
-                        (string)reader["post"], (string)reader["struct_division"], (bool)reader["is_admin"]);
+                        (string)reader["post"], (string)reader["struct_division"], Convert.ToInt32(reader["is_admin"]) == 1);
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace ArchiveSearchEngine.Database
             List<User> users = new List<User>();
 
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM UserTable WHERE username LIKE {promt} OR fullname LIKE {promt}",
+                $"SELECT * FROM UserTable WHERE username LIKE '{promt}' OR fullname LIKE '{promt}'",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
@@ -80,7 +80,7 @@ namespace ArchiveSearchEngine.Database
                     while (reader.Read())
                     {
                         users.Add(new User((string)reader["username"], (string)reader["fullname"],
-                        (string)reader["post"], (string)reader["struct_division"], (bool)reader["is_admin"]));
+                        (string)reader["post"], (string)reader["struct_division"], Convert.ToInt32(reader["is_admin"]) == 1));
                     }
                 }
             }
@@ -102,7 +102,7 @@ namespace ArchiveSearchEngine.Database
                     while (reader.Read())
                     {
                         users.Add(new User((string)reader["username"], (string)reader["fullname"],
-                        (string)reader["post"], (string)reader["struct_division"], (bool)reader["is_admin"]));
+                        (string)reader["post"], (string)reader["struct_division"], Convert.ToInt32(reader["is_admin"]) == 1));
                     }
                 }
             }
@@ -129,7 +129,7 @@ namespace ArchiveSearchEngine.Database
         public bool CheckUser(string username, string password)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT password_hash FROM UserTable WHERE username = {username}",
+                $"SELECT password_hash FROM UserTable WHERE username = '{username}'",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
@@ -152,7 +152,7 @@ namespace ArchiveSearchEngine.Database
         public bool UserExists(string username)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT username FROM UserTable WHERE username = {username}",
+                $"SELECT username FROM UserTable WHERE username = '{username}'",
                 _connection).ExecuteReader())
             {
                 return reader.HasRows;
@@ -162,7 +162,7 @@ namespace ArchiveSearchEngine.Database
         // Deletes user with exact username
         public void DeleteUser(string username)
         {
-            new SqliteCommand($"DELETE FROM UserTable WHERE username = {username}", _connection).ExecuteNonQuery();
+            new SqliteCommand($"DELETE FROM UserTable WHERE username = '{username}'", _connection).ExecuteNonQuery();
         }
     }
 }
