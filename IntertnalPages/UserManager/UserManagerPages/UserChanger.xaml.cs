@@ -13,25 +13,23 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ArchiveSearchEngine.IntertnalPages
+namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
 {
     /// <summary>
-    /// Логика взаимодействия для UserAccountPage.xaml
+    /// Логика взаимодействия для UserChanger.xaml
     /// </summary>
-    public partial class UserAccountPage : Page
+    public partial class UserChanger : Page
     {
-        MainSpace owner_;
-        public UserAccountPage(MainSpace owner, User LoggedUser)
+        UserManager owner_;
+        public UserChanger(UserManager owner)
         {
             InitializeComponent();
-            this.owner_ = owner;
-            UserNameDisplay.Text = LoggedUser.Fullname;
-            
+            owner_ = owner;
         }
 
-        private void LogOut(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            owner_.Owner.ToSignIn();
+            owner_.ToSearchUsers();
         }
     }
 }

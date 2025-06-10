@@ -47,7 +47,7 @@ namespace ArchiveSearchEngine
 
             bool db_exists = File.Exists("archive.db");
 
-            SqliteConnection Connection = new SqliteConnection("Data Source=archive.db;Password=htfdkshsrujdt");
+            SqliteConnection Connection = new SqliteConnection("Data Source=archive.db");
             Connection.Open();
 
             _userTable = new UserTable(Connection, !db_exists);

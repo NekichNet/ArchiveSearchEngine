@@ -1,4 +1,5 @@
 ﻿using ArchiveSearchEngine.IntertnalPages;
+using ArchiveSearchEngine.IntertnalPages.UserManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace ArchiveSearchEngine
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this)));
             Spaces.Add(new UserSpace("Создание документа", new AddDocs(this)));
             Spaces.Add(new UserSpace("Добавление документов", new DocumentCreation(this)));
+            Spaces.Add(new UserSpace("Управление пользователями", new UserManager(this)));
 
             SpacesListBox.ItemsSource = Spaces;
             IsVisibleChanged += (s, e) =>
@@ -64,6 +66,16 @@ namespace ArchiveSearchEngine
             if (Spaces.Find(x=>x.Title == "Аккаунт") != null)
             {
                 Spaces.RemoveAt(Spaces.Count - 1);
+            }
+
+            if (Spaces.Find(x => x.Title == "Управление пользователями") != null)
+            {
+                Spaces.RemoveAt(Spaces.IndexOf(Spaces.Find(x => x.Title == "Управление пользователями")));
+            }
+
+            if (_owner.LoggedUser.IsAdmin == true)
+            {
+                Spaces.Add(new UserSpace("Управление пользователями", new UserManager(this)));
             }
             try
             {
