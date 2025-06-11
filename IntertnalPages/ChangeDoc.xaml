@@ -1,0 +1,122 @@
+﻿<Window x:Class="ArchiveSearchEngine.IntertnalPages.ChangeDoc"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArchiveSearchEngine.IntertnalPages"
+        mc:Ignorable="d"
+        Title="ChangeDoc" Height="1050" Width="1500" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+        <ColumnDefinition></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+        <RowDefinition Height="0.1*"></RowDefinition>
+        <RowDefinition></RowDefinition>
+        <RowDefinition Height="0.2*"></RowDefinition>
+        <RowDefinition Height="0.2*"></RowDefinition>
+    </Grid.RowDefinitions>
+
+    <TextBlock Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Black" >Изменение документа</TextBlock>
+
+    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="15">
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер регистрации объекта</TextBlock>
+        <TextBox Name="RegistrationObjectNumberGUI" Style="{StaticResource ResourceKey=DocTextBox}" Margin="0,0,0,10"></TextBox>
+        <Border Margin="0,0,0,10" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер тома</TextBlock>
+                <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="TomNumberGUI"></TextBox>
+
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер книги</TextBlock>
+                <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="BookNumberGUI"></TextBox>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Количество листов / дисков</TextBlock>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="AmountOfSheetsGUI"></TextBox>
+
+        <Border Margin="0,10,0,10" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата описи</TextBlock>
+                <DatePicker FontSize="20" Padding="0" Name="InventoryDateGUI"></DatePicker>
+
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}"  FontWeight="Bold">Номер описи</TextBlock>
+                <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="InventoryNumberGUI"></TextBox>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Код/индекс дела</TextBlock>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="DealIndexGUI"></TextBox>
+
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" Name="ObjectNameGUI" FontWeight="Bold">Наименование объекта</TextBlock>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+        <Border Margin="0,10,0,10" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" Name="RackGUI" FontWeight="Bold">Стеллаж</TextBlock>
+                <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" Name="ShelfGUI" FontWeight="Bold">Полка</TextBlock>
+                <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+    <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="2" Margin="15">
+        <Border Margin="0,10,0,10" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Срок хранения дела, по перечню</TextBlock>
+                <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="StoringTermGUI"></TextBox>
+
+
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата документов</TextBlock>
+                <DatePicker FontSize="20" Background="Transparent" Name="DocDateGUI" Padding="0" ></DatePicker>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дело № (валовый номер)</TextBlock>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="CaseNumberGUI"></TextBox>
+
+        <Border Margin="0,10,0,10" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер акта на уничтожение</TextBlock>
+                <TextBox Style="{StaticResource ResourceKey=DocTextBox}"  Name="DestroyActNumberGUI"></TextBox>
+
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата акта на уничтожение</TextBlock>
+                <DatePicker FontSize="20" Background="Transparent" Padding="0"  Name="DestroyActDateGUI" ></DatePicker>
+            </StackPanel>
+        </Border>
+
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Структурное подразделение</TextBlock>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="StructSubdivisionGUI"></TextBox>
+
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Должность сдавшего в архив</TextBlock>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}"  Name="PostGUI"></TextBox>
+
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">ФИО сдавшего в архив</TextBlock>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="FullnameGUI"></TextBox>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource DefaultTextStyle}" FontSize="20" FontWeight="Black" Text="Статус : "></TextBlock>
+                <TextBlock Name="DocStatus" Style="{StaticResource DefaultTextStyle}" FontSize="20" Text="Статус"></TextBlock>
+            </StackPanel>
+            <StackPanel Name="TakeReturnButtonSheet">
+                <Button Name="TakeDocButton" Click="TakeDocButton_Click" Content="Забрать" FontSize="20"></Button>
+                <Button Visibility="Collapsed" Name="ReturnDocButton" Click="ReturnDocButton_Click" Content="Вернуть" FontSize="20"></Button>
+            </StackPanel>
+        </StackPanel>
+
+    <StackPanel Margin="15" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Примечание</TextBlock>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}"  Name="AdditionGUI" AcceptsReturn="True" MaxHeight="230" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"></TextBox>
+    </StackPanel>
+
+    <Button FontSize="30" Name="AcceptAddition" Click="AcceptAddition_Click" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Сохранить" Margin="15" Grid.Row="3" Grid.Column="3"></Button>
+    <Button FontSize="30" Name="DeclineAddition" Click="DeclineAddition_Click" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Отменить" Margin="15" Grid.Row="3" Grid.Column="0"></Button>
+
+
+    </Grid>
+</Window>

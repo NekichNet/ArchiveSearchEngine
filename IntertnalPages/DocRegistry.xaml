@@ -70,7 +70,7 @@
                 <Button Margin="15" Content="Фильтр" FontSize="30" FontWeight="Black" Grid.Column="1"></Button>
                 
                 
-                <DataGrid Name="DocGrid"  Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" Style="{StaticResource ResourceKey=LargeTextDataGridStyle}" Background="Transparent" Margin="15" BorderThickness="0">
+                <DataGrid MouseDoubleClick="DocGrid_MouseDoubleClick" Name="DocGrid"  Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" Style="{StaticResource ResourceKey=LargeTextDataGridStyle}" Background="Transparent" Margin="15" BorderThickness="0">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Индекс" IsReadOnly="True" Binding="{Binding Path=ObjectIndex}" Width="0.45*"></DataGridTextColumn>
                         <DataGridTextColumn Header="Наименование" IsReadOnly="True" Binding="{Binding Path=ObjectName}" Width="4*"></DataGridTextColumn>
@@ -79,7 +79,7 @@
                         <DataGridTextColumn Header="Кол-во листов" IsReadOnly="True" Binding="{Binding Path=ContentQuantity}" Width="0.8*"></DataGridTextColumn>
                         <DataGridTextColumn Header="Срок хранения" IsReadOnly="True" Binding="{Binding Path=ExpiringIn}"  Width="1*"></DataGridTextColumn>
                         <DataGridTextColumn Header="Дата документов" IsReadOnly="True" Binding="{Binding Path=DocumentsDate, StringFormat='dd.MM.yyyy'}" Width="1*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Доступность"  IsReadOnly="True" Binding="{Binding Path=Available}" Width="0.8*"></DataGridTextColumn>
+                        <DataGridTextColumn Visibility="Hidden" Header="Доступность"  IsReadOnly="True" Binding="{Binding Path=Available}" Width="0.8*"></DataGridTextColumn>
                         <DataGridCheckBoxColumn Visibility="Hidden" Header="Доступность"  IsReadOnly="True" Binding="{Binding Path=Available, Mode=OneWay}" Width="0.8*"></DataGridCheckBoxColumn>
                     </DataGrid.Columns>
                     
