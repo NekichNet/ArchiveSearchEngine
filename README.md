@@ -1,5 +1,5 @@
 # ArchiveSearchEngine
 
-РџСЂРёР»РѕР¶РµРЅРёРµ СЃРґРµР»Р°РЅРѕ РЅР° .NET 8.0 WPF СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј Microsoft.Data.SQLite.
+Приложение сделано на .NET 8.0 WPF с использованием Microsoft.Data.SQLite.
 
-https://evstropov.kaiten.ru/space/602597/boards - Kaiten Kan-ban РґРѕСЃРєР° РґР»СЏ РѕС‚СЃР»РµР¶РёРІР°РЅРёСЏ РїСЂРѕРіСЂРµСЃСЃР° СЂР°Р·СЂР°Р±РѕС‚РєРё
+https://evstropov.kaiten.ru/space/602597/boards - Kaiten Kan-ban доска для отслеживания прогресса разработки# ArchiveSearchEngine
