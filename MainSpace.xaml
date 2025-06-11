@@ -23,7 +23,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border>
-                            <TextBlock Text="{Binding Path=Title}"></TextBlock>
+                            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="{Binding Path=Title}"></TextBlock>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

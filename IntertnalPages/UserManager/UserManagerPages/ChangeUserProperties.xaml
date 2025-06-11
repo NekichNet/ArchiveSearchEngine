@@ -23,15 +23,15 @@
         <DockPanel Background="White" Grid.ColumnSpan="4" Grid.RowSpan="4"></DockPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
-            <TextBlock Text="ФИО"></TextBlock>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="ФИО"></TextBlock>
             <TextBox Name="FullnameChange"></TextBox>
-            <TextBlock Text="Пост"></TextBlock>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Пост"></TextBlock>
             <TextBox Name="PostChange"></TextBox>
-            <TextBlock Text="Структное подразделение"></TextBlock>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Структное подразделение"></TextBlock>
             <TextBox Name="StructDivisionChange" Margin="0,0,0,20"></TextBox>
-            <TextBlock Text="Логин"></TextBlock>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Логин"></TextBlock>
             <TextBox Name="LoginChange"></TextBox>
-            <TextBlock Text="Пароль (Оставьте пустым, если не хотите изменять)"></TextBlock>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Пароль (Оставьте пустым, если не хотите изменять)"></TextBlock>
             <PasswordBox Name="PasswordChange"></PasswordBox>
         </StackPanel>
             
@@ -39,13 +39,13 @@
         <Viewbox  HorizontalAlignment="Left" Margin="15">
         <CheckBox  Name="ChangeIsAdmin" Checked="ChangeIsAdmin_Checked" Unchecked="ChangeIsAdmin_Unchecked" ></CheckBox>
         </Viewbox>
-        <TextBlock Text="Является ли пользователь администратором"></TextBlock>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Является ли пользователь администратором"></TextBlock>
         </StackPanel>
 
-        <TextBlock FontWeight="Black" Text="Пользователь" Grid.ColumnSpan="2" Grid.Column="1"></TextBlock>
+        <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Black" Text="Пользователь" Grid.ColumnSpan="2" Grid.Column="1"></TextBlock>
 
-        <Button Name="DenyButton" Click="DenyButton_Click" Grid.Column="1" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Отклонить изменения"></Button>
-        <Button Name="AcceptButton" Click="AcceptButton_Click" Grid.Column="2" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Подтвердить изменения"></Button>
+        <Button FontSize="30" Name="DenyButton" Click="DenyButton_Click" Grid.Column="1" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Отклонить изменения"></Button>
+        <Button FontSize="30" Name="AcceptButton" Click="AcceptButton_Click" Grid.Column="2" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Подтвердить изменения"></Button>
 
     </Grid>
 </Window>

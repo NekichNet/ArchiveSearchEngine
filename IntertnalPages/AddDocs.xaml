@@ -23,7 +23,7 @@
             <RowDefinition Height="0.2*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Black" >Документ</TextBlock>
+        <TextBlock Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Black" >Документ</TextBlock>
         
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="15">
             <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер регистрации объекта</TextBlock>
@@ -44,7 +44,7 @@
             <Border Margin="0,10,0,10" BorderThickness="1">
                 <StackPanel>
                     <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата описи</TextBlock>
-                    <DatePicker Padding="0" Name="InventoryDateGUI"></DatePicker>
+                    <DatePicker FontSize="20" Padding="0" Name="InventoryDateGUI"></DatePicker>
 
                     <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}"  FontWeight="Bold">Номер описи</TextBlock>
                     <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="InventoryNumberGUI"></TextBox>
@@ -74,7 +74,7 @@
 
             
                     <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата документов</TextBlock>
-                    <DatePicker Background="Transparent" Name="DocDateGUI" Padding="0" ></DatePicker>
+                    <DatePicker FontSize="20" Background="Transparent" Name="DocDateGUI" Padding="0" ></DatePicker>
                 </StackPanel>
             </Border>
 
@@ -87,7 +87,7 @@
                     <TextBox Style="{StaticResource ResourceKey=DocTextBox}"  Name="DestroyActNumberGUI"></TextBox>
 
                     <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата акта на уничтожение</TextBlock>
-                    <DatePicker Background="Transparent" Padding="0"  Name="DestroyActDateGUI" ></DatePicker>
+                    <DatePicker FontSize="20" Background="Transparent" Padding="0"  Name="DestroyActDateGUI" ></DatePicker>
                 </StackPanel>
             </Border>
 
@@ -106,8 +106,8 @@
             <TextBox Style="{StaticResource ResourceKey=DocTextBox}"  Name="AdditionGUI" AcceptsReturn="True" MaxHeight="230" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"></TextBox>
         </StackPanel>
 
-        <Button Name="AcceptAddition" Click="AcceptAddition_Click" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Добавить" Margin="15" Grid.Row="3" Grid.Column="3"></Button>
-        <Button Visibility="Hidden" Name="DeclineAddition" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Очистить" Margin="15" Grid.Row="3" Grid.Column="0"></Button>
+        <Button FontSize="30" Name="AcceptAddition" Click="AcceptAddition_Click" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Добавить" Margin="15" Grid.Row="3" Grid.Column="3"></Button>
+        <Button FontSize="30" Visibility="Hidden" Name="DeclineAddition" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Очистить" Margin="15" Grid.Row="3" Grid.Column="0"></Button>
 
 
     </Grid>

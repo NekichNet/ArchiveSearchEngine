@@ -35,7 +35,7 @@ namespace ArchiveSearchEngine
             InitializeComponent();
             _owner = owner;
 
-            Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this)));
+            Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, _documentTable)));
             Spaces.Add(new UserSpace("Создание документа", new AddDocs(this, _documentTable)));
             Spaces.Add(new UserSpace("Добавление документов", new DocumentCreation(this)));
 
