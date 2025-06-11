@@ -38,9 +38,23 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
             try
             {
                 
-                owner_.ToChangeUsers();
+                owner_.ToChangeUsers(UsersFoundDisplay.SelectedIndex+1);
             }
             catch (Exception ex) { }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (PromptLine.Text.Trim().Length == 0)
+            {
+                UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
+                UsersFoundDisplay.Items.Refresh();
+            }
+            else
+            {
+                UsersFoundDisplay.ItemsSource = userTable_.GetUsers(PromptLine.Text);
+                UsersFoundDisplay.Items.Refresh();
+            }
         }
     }
 }

@@ -78,7 +78,7 @@ namespace ArchiveSearchEngine
             {
                 if (_owner.LoggedUser.IsAdmin)
                 {
-                    Spaces.Add(new UserSpace("Управление пользователями", new UserManager(this)));
+                    Spaces.Add(new UserSpace("Управление пользователями", new UserManager(this, userTable_)));
                 }
             }
             catch { }

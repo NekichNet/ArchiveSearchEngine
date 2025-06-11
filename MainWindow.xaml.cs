@@ -38,7 +38,7 @@ namespace ArchiveSearchEngine
             InitializeComponent();
 
 
-            EntryFrame.Navigate(pages[0]);
+            
 
             // Initializing database
 
@@ -55,6 +55,7 @@ namespace ArchiveSearchEngine
             pages.Add(new EntrySpace(this));
             pages.Add(new RegistrationSpace(this));
             pages.Add(new MainSpace(this, _userTable));
+            EntryFrame.Navigate(pages[0]);
         }
 
 

@@ -28,26 +28,26 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager
         {
             InitializeComponent();
             pages.Add(new UserSpace("Поисковик", new UserManagerPages.UserFinder(this, userTable)));
-            UserListManager.Navigate(pages[0]);
+            UserListManager.Navigate(pages[0].Page);
             owner_ = owner;
             userTable_ = userTable;
         }
         public void ToSearchUsers()
         {
-            UserListManager.Navigate(pages[0]);
+            UserListManager.Navigate(pages[0].Page);
         }
-        public void ToChangeUsers()
+        public void ToChangeUsers(int index)
         {
-            if (pages.Find(x => x.Title.Equals("Именятель")) != null)
+            try
             {
-                pages.Add(new UserSpace("Именятель", new UserManagerPages.UserChanger(this)));
+                pages.RemoveAt(1);
             }
-            else
-            {
-                pages.RemoveAt(pages.Count - 1);
-                pages.Add(new UserSpace("Именятель", new UserManagerPages.UserChanger(this)));
-            }
-            UserListManager.Navigate(pages[1]);
+            catch { }
+            pages.Add(new UserSpace("Именятель", new UserManagerPages.UserChanger(this, userTable_, index)));
+            UserListManager.Navigate(pages[1].Page);
         }
+
+
+        
     }
 }

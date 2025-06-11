@@ -19,12 +19,12 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBox Margin="15" Grid.ColumnSpan="2"></TextBox>
+        <TextBox Margin="15" Grid.ColumnSpan="2" TextChanged="TextBox_TextChanged" Name="PromptLine"></TextBox>
         <Border Grid.Column="2" Margin="15">
             <TextBlock Text="Пользователи" FontWeight="Black" VerticalAlignment="Center"></TextBlock>
         </Border>
         <Border Margin="15" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
-            <ListBox Name="UsersFoundDisplay" Background="Transparent" BorderBrush="Transparent" Margin="15" MouseDoubleClick="SelectUserToChange">
+            <ListBox HorizontalContentAlignment="Stretch" Name="UsersFoundDisplay" Background="Transparent" BorderBrush="Transparent" Margin="15" MouseDoubleClick="SelectUserToChange">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border>
