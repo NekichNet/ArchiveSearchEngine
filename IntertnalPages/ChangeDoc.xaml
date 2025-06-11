@@ -101,7 +101,8 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Style="{StaticResource DefaultTextStyle}" FontSize="20" FontWeight="Black" Text="Статус : "></TextBlock>
-                <TextBlock Name="DocStatus" Style="{StaticResource DefaultTextStyle}" FontSize="20" Text="Статус"></TextBlock>
+                <TextBlock Name="DocStatus" Style="{StaticResource DefaultTextStyle}" FontSize="20" Text="Статус" Margin="0,0,15,0" VerticalAlignment="Center"></TextBlock>
+                <Button Name="AccountThatTookPreviewButton" Click="AccountThatTookPreviewButton_Click" Content="  click  " Padding="5" FontSize="20"></Button>
             </StackPanel>
             <StackPanel Name="TakeReturnButtonSheet">
                 <Button Name="TakeDocButton" Click="TakeDocButton_Click" Content="Забрать" FontSize="20"></Button>

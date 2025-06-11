@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ArchiveSearchEngine.Database
 {
@@ -27,8 +28,10 @@ namespace ArchiveSearchEngine.Database
         // Does nothing, if doc is not available
         public void TakeDocument(string username, int documentId)
         {
+            MessageBox.Show("Док взятие");
             if (IsDocumentAvailable(documentId))
             {
+                MessageBox.Show("Док взят");
                 new SqliteCommand($"INSERT INTO HistoryTable " +
                     $"(archive_id, username, datetime_taken) VALUES " +
                     $"({documentId}, '{username}', '{DateTime.Now}')", _connection).ExecuteNonQuery();
@@ -39,9 +42,10 @@ namespace ArchiveSearchEngine.Database
         public bool IsDocumentAvailable(int documentId)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT id FROM HistoryTable WHERE datetime_returned IS NULL AND id = {documentId}",
+                $"SELECT id FROM HistoryTable WHERE datetime_returned IS NULL AND id = '{documentId}'",
                 _connection).ExecuteReader())
             {
+                MessageBox.Show(!reader.HasRows ? "true" : "false");
                 return !reader.HasRows;
             }
         }
@@ -49,10 +53,12 @@ namespace ArchiveSearchEngine.Database
         // Do document available, whoever took this doc. Does nothing, if doc is already available
         public void ReturnDocument(int documentId)
         {
-            new SqliteCommand($"UPDATE HistoryTable SET " +
-                $"datetime_returned='{DateTime.Now}' WHERE" +
+            
+            int value = new SqliteCommand($"UPDATE HistoryTable SET " +
+                $"datetime_returned='{DateTime.Now}' WHERE " +
                 $"datetime_returned IS NULL AND archive_id = {documentId}",
                 _connection).ExecuteNonQuery();
+            MessageBox.Show($"{value}");
         }
 
         // Returns a username of user, who lastly took this doc (throws exception, if doc is available)

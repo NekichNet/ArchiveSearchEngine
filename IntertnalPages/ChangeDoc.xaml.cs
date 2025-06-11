@@ -24,6 +24,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         DocumentTable documentTable_;
         HistoryTable historyTable_;
         int index_;
+        Document doc_;
 
         public ChangeDoc(DocRegistry owner, DocumentTable documentTable, HistoryTable historyTable, int index)
         {
@@ -35,34 +36,46 @@ namespace ArchiveSearchEngine.IntertnalPages
 
             try
             {
-            Document doc = documentTable.GetDocument(index+1);
+                doc_ = documentTable.GetDocument(index+1);
 
             
 
-            RegistrationObjectNumberGUI.Text = doc.RegistrationNum;
-            TomNumberGUI.Text = doc.VolumeNum;
-            BookNumberGUI.Text = doc.BookNum;
-            AmountOfSheetsGUI.Text = $"{doc.ContentQuantity}";
-            InventoryDateGUI.DisplayDate = doc.InventoryDate;
-            InventoryDateGUI.Text = doc.InventoryDate.ToShortDateString();
-            InventoryNumberGUI.Text = doc.InventoryNum;
-            DealIndexGUI.Text = doc.ObjectIndex;
-            ObjectNameGUI.Text = doc.ObjectName;
-            RackGUI.Text = doc.Rack;
-            ShelfGUI.Text = doc.Shelf;
-            StoringTermGUI.Text = doc.ExpiringIn;
-            DocDateGUI.DisplayDate = doc.DocumentsDate;
-            DocDateGUI.Text = doc.DocumentsDate.ToShortDateString();
-            CaseNumberGUI.Text = doc.CaseNum;
-            DestroyActDateGUI.DisplayDate= doc.DestructActDate;
-            DestroyActDateGUI.Text= doc.DestructActDate.ToShortDateString();
-            StructSubdivisionGUI.Text = doc.StructDivision;
-            PostGUI.Text = doc.GivedPost;
-            FullnameGUI.Text = doc.GivedFullname;
+                RegistrationObjectNumberGUI.Text = doc_.RegistrationNum;
+                TomNumberGUI.Text = doc_.VolumeNum;
+                BookNumberGUI.Text = doc_.BookNum;
+                AmountOfSheetsGUI.Text = $"{doc_.ContentQuantity}";
+                InventoryDateGUI.DisplayDate = doc_.InventoryDate;
+                InventoryDateGUI.Text = doc_.InventoryDate.ToShortDateString();
+                InventoryNumberGUI.Text = doc_.InventoryNum;
+                DealIndexGUI.Text = doc_.ObjectIndex;
+                ObjectNameGUI.Text = doc_.ObjectName;
+                RackGUI.Text = doc_.Rack;
+                ShelfGUI.Text = doc_.Shelf;
+                StoringTermGUI.Text = doc_.ExpiringIn;
+                DocDateGUI.DisplayDate = doc_.DocumentsDate;
+                DocDateGUI.Text = doc_.DocumentsDate.ToShortDateString();
+                CaseNumberGUI.Text = doc_.CaseNum;
+                DestroyActDateGUI.DisplayDate= doc_.DestructActDate;
+                DestroyActDateGUI.Text= doc_.DestructActDate.ToShortDateString();
+                StructSubdivisionGUI.Text = doc_.StructDivision;
+                PostGUI.Text = doc_.GivedPost;
+                FullnameGUI.Text = doc_.GivedFullname;
 
-            if(doc.Available)
+                if (doc_.Available)
+                {
+                    TakeDocButton.Visibility = Visibility.Visible;
+                    ReturnDocButton.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    TakeDocButton.Visibility = Visibility.Collapsed;
+                    ReturnDocButton.Visibility = Visibility.Visible;
+                }
+                Refresh();
 
-            }catch {}
+
+            }
+            catch {}
         }
 
         private void AcceptAddition_Click(object sender, RoutedEventArgs e)
@@ -79,16 +92,46 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             TakeDocButton.Visibility = Visibility.Collapsed;
             ReturnDocButton.Visibility = Visibility.Visible;
+            historyTable_.TakeDocument(owner_._owner.Owner.LoggedUser.Username, index_);
+            Refresh();
         }
 
         private void ReturnDocButton_Click(object sender, RoutedEventArgs e)
         {
             TakeDocButton.Visibility = Visibility.Visible;
             ReturnDocButton.Visibility = Visibility.Collapsed;
+            historyTable_.ReturnDocument(index_);
+            Refresh();
         }
         private void Refresh()
         {
+            if (doc_.Available)
+            {
+                //MessageBox.Show("Доступен");
+                DocStatus.Text = "Доступен";
+                
+                AccountThatTookPreviewButton.Visibility = Visibility.Collapsed;
+                TakeReturnButtonSheet.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                DocStatus.Text = "Вне архива, забрал: ";
+                AccountThatTookPreviewButton.Content = historyTable_.UserWhoTook(index_);
+                AccountThatTookPreviewButton.Visibility = Visibility.Visible;
+                if (historyTable_.UserWhoTook(index_) == owner_._owner.Owner.LoggedUser.Username)
+                {
+                    TakeReturnButtonSheet.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    TakeReturnButtonSheet.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
 
+        private void AccountThatTookPreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(historyTable_.UserWhoTook(index_));
         }
     }
 }

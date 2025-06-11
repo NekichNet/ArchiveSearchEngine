@@ -21,7 +21,7 @@ namespace ArchiveSearchEngine.IntertnalPages
     /// </summary>
     public partial class DocRegistry : Page
     {
-        MainSpace _owner;
+        public MainSpace _owner;
         DocumentTable documentTable_;
         HistoryTable historyTable_;
         public DocRegistry(MainSpace owner, DocumentTable documentTable, HistoryTable historyTable)
