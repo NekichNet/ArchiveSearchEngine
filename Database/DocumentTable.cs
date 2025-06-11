@@ -1,4 +1,4 @@
-﻿//#define WordDocument Spire.Doc.Document
+﻿#define WordDocument Spire.Doc.Document
 
 using Microsoft.Data.Sqlite;
 using System.Security.Cryptography;
@@ -163,9 +163,9 @@ namespace ArchiveSearchEngine.Database
         }
 
         // Генерация описей четырёх видов
-        //public void ExportToWord()
-        //{
-        //    Spire.Doc.Document document = new Spire.Doc.Document();
-        //}
+        public void ExportToWord()
+        {
+            Spire.Doc.Document document = new Spire.Doc.Document();
+        }
     }
 }
