@@ -20,15 +20,15 @@
         </Grid.RowDefinitions>
 
         <TextBox Margin="15" Grid.ColumnSpan="2" TextChanged="TextBox_TextChanged" Name="PromptLine"></TextBox>
-        <Button Click="AddUser_Click" Grid.Column="2" Margin="15" Content="Добавить" FontWeight="Black"> </Button>
+        <Button FontSize="30" Click="AddUser_Click" Grid.Column="2" Margin="15" Content="Добавить" FontWeight="Black"> </Button>
         <Border Margin="15" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
             <ListBox HorizontalContentAlignment="Stretch" Name="UsersFoundDisplay" Background="Transparent" BorderBrush="Transparent" Margin="15" MouseDoubleClick="SelectUserToChange">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border>
                             <StackPanel>
-                                <TextBlock Text="{Binding Path=Fullname}" FontWeight="Black"></TextBlock>
-                                <TextBlock Text="{Binding Path=Username}" FontWeight="Bold" Foreground="#FF616161"></TextBlock>
+                                <TextBlock Style="{StaticResource DefaultTextStyle}" Text="{Binding Path=Fullname}" FontWeight="Black"></TextBlock>
+                                <TextBlock Style="{StaticResource DefaultTextStyle}" Text="{Binding Path=Username}" FontWeight="Bold" Foreground="#FF616161"></TextBlock>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

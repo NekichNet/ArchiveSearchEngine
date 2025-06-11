@@ -5,10 +5,85 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArchiveSearchEngine.IntertnalPages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1080" d:DesignWidth="1920"
       Title="DocRegistry">
 
+    <Page.Resources>
+        <Style x:Key="LargeTextDataGridStyle" TargetType="DataGrid">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="15"/>
+
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="FontSize" Value="20"/>
+                        <Setter Property="Padding" Value="10"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DataGridCell">
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <ContentPresenter VerticalAlignment="Center"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="20"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="Padding" Value="10"/>
+                        <Setter Property="Height" Value="60"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="FontSize" Value="20"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
     <Grid>
-        
+        <Border Grid.Row="1" Background="White">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.1*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.15*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBox Margin="15" Background="AliceBlue"></TextBox>
+                
+                <Button Margin="15" Content="Фильтр" FontSize="30" FontWeight="Black" Grid.Column="1"></Button>
+                
+                
+                <DataGrid Name="DocGrid"  Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" Style="{StaticResource ResourceKey=LargeTextDataGridStyle}" Background="Transparent" Margin="15" BorderThickness="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Индекс" Binding="{Binding Path=ObjectIndex}" Width="0.45*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding Path=ObjectName}" Width="4*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="№ Тома" Binding="{Binding Path=VolumeNum}" Width="0.5*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="№ Книги" Binding="{Binding Path=BookNum}" Width="0.6*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Кол-во листов" Binding="{Binding Path=ContentQuantity}" Width="0.8*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Срок хранения" Binding="{Binding Path=ExpiringIn}"  Width="1*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Дата документов" Binding="{Binding Path=DocumentsDate, StringFormat='dd.MM.yyyy'}" Width="1*"></DataGridTextColumn>
+                        <DataGridCheckBoxColumn Header="Доступность" Binding="{Binding Path=IsAvailable}" Width="0.8*"></DataGridCheckBoxColumn>
+                    </DataGrid.Columns>
+                    
+                </DataGrid>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

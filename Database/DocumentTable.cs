@@ -79,14 +79,14 @@ namespace ArchiveSearchEngine.Database
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    return new Document((int)reader["id"], (string)reader["registration_num"],
+                    return new Document(Convert.ToInt32(reader["id"]), (string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
-                        (int)reader["content_quantity"], (DateTime)reader["inventory_date"],
+                        Convert.ToInt32(reader["content_quantity"]), Convert.ToDateTime(reader["inventory_date"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
-                        (string)reader["expiring_in"], (DateTime)reader["documents_date"],
+                        (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
                         (string)reader["case_num"], (string)reader["destruct_act_num"],
-                        (DateTime)reader["destruct_act_date"], (string)reader["struct_division"],
+                        Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
                         (string)reader["achieved_username"], (string)reader["note"]);
                 }
@@ -110,14 +110,14 @@ namespace ArchiveSearchEngine.Database
                 {
                     while (reader.Read())
                     {
-                        documents.Add(new Document((int)reader["id"], (string)reader["registration_num"],
+                        documents.Add(new Document(Convert.ToInt32(reader["id"]), (string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
-                        (int)reader["content_quantity"], (DateTime)reader["inventory_date"],
+                        Convert.ToInt32(reader["content_quantity"]), Convert.ToDateTime(reader["inventory_date"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
-                        (string)reader["expiring_in"], (DateTime)reader["documents_date"],
+                        (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
                         (string)reader["case_num"], (string)reader["destruct_act_num"],
-                        (DateTime)reader["destruct_act_date"], (string)reader["struct_division"],
+                        Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
                         (string)reader["achieved_username"], (string)reader["note"]));
                     }

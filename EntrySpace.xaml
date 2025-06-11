@@ -25,13 +25,13 @@
 
         <Border Name="Border1"  Grid.Column="2" Grid.RowSpan="4" BorderThickness="0"  Margin="10"></Border>
         <StackPanel Grid.Row="1" Grid.Column="2" Margin="20">
-            <TextBlock Text="Логин" FontFamily="Arial"></TextBlock>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Логин" FontFamily="Arial"></TextBlock>
             <TextBox Name="LoginGUI"></TextBox>
-            <TextBlock Text="Пароль" FontFamily="Arial"></TextBlock>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Пароль" FontFamily="Arial"></TextBlock>
             <PasswordBox Name="PasswordGUI"></PasswordBox>
         </StackPanel>
 
-        <TextBlock TextWrapping="Wrap" FontWeight="Bold" Foreground="DarkRed" Name="ErrorGui" Grid.Column="2" Grid.Row="2"></TextBlock>
+        <TextBlock Style="{StaticResource DefaultTextStyle}" TextWrapping="Wrap" FontWeight="Bold" Foreground="DarkRed" Name="ErrorGui" Grid.Column="2" Grid.Row="2"></TextBlock>
 
         <Button Click="SignIn" Style="{StaticResource ResourceKey=RoundedSignInButtonStyle}" Margin="20" Grid.Column="2" Grid.Row="3" Content="Войти" FontSize="70" ></Button>
         <Button Click="SignUp" Style="{StaticResource ResourceKey=RoundedRegistrationButtonStyle}" Margin="10" Grid.Column="2" Grid.Row="4"  Content="Регистрация" FontSize="70"></Button>

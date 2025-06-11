@@ -15,7 +15,7 @@
                     <RowDefinition Height="0.4*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Image Grid.RowSpan="2" Source="/sources/logo.png" Stretch="Uniform" Margin="20"/>
-                <TextBlock VerticalAlignment="Center" Grid.Row="1" FontStyle="Italic" FontWeight="Black" Foreground="#FF005AA0" Margin="100,0,100,0" Text="Приводим в движение нефть, чтобы она приводила в движение всё остальное" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
+                <TextBlock Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Center" Grid.Row="1" FontStyle="Italic" FontWeight="Black" Foreground="#FF005AA0" Margin="100,0,100,0" Text="Приводим в движение нефть, чтобы она приводила в движение всё остальное" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>
             </Grid>
         </Border>
 

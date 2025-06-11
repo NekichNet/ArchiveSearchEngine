@@ -142,7 +142,7 @@ Padding="{TemplateBinding Padding}">
         </Style>
 
 
-        <Style TargetType="TextBlock">
+        <Style TargetType="TextBlock" x:Key="DefaultTextStyle">
             <Setter Property="FontSize" Value="30"></Setter>
             <Setter Property="HorizontalAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="0,10,0,10"></Setter>

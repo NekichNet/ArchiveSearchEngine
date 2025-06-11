@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,10 +22,12 @@ namespace ArchiveSearchEngine.IntertnalPages
     public partial class DocRegistry : Page
     {
         MainSpace _owner;
-        public DocRegistry(MainSpace owner)
+        DocumentTable documentTable_;
+        public DocRegistry(MainSpace owner, DocumentTable documentTable)
         {
             _owner = owner;
             InitializeComponent();
+            DocGrid.ItemsSource = documentTable.GetDocuments();
         }
     }
 }

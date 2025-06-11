@@ -25,7 +25,18 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             InitializeComponent();
             this.owner_ = owner;
-            UserNameDisplay.Text = LoggedUser.Fullname;
+            FullnameDisplay.Text = LoggedUser.Fullname;
+            UserNameDisplay.Text = LoggedUser.Username;
+            PostDisplay.Text = LoggedUser.Post;
+            StructDivisionDisplay.Text = LoggedUser.StructDivision;
+            if (LoggedUser.IsAdmin)
+            {
+                isAdminDisplay.Text = "Администратор";
+            }
+            else
+            {
+                isAdminDisplay.Text = "Пользователь";
+            }
             
         }
 
