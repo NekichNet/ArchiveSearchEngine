@@ -40,17 +40,27 @@ namespace ArchiveSearchEngine.Database
                 "note TEXT)", _connection).ExecuteNonQuery();
         }
 
-        public void NewUser(User user, string password)
-        {
-            using (SHA256 hash = SHA256.Create())
-            {
-                new SqliteCommand($"INSERT INTO DocumentTable " +
-                    $"(username, password_hash, fullname, post, struct_division, is_admin) VALUES " +
-                    $"({user.Username}, {Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)))}, " +
-                    $"{user.Fullname}, {user.Post}, " +
-                    $"{user.StructDivision}, {user.IsAdmin})", _connection);
-            }
-        }
+        //public Document NewDocument(string registrationNum,
+        //    string volumeNum, string bookNum,
+        //    int contentQuantity,
+        //    DateOnly inventoryDate, string inventoryNum,
+        //    string objectIndex, string objectName,
+        //    int rack, int shelf, string expiringIn,
+        //    DateOnly documentsDate, string caseNum,
+        //    string destructActNum, DateOnly destructActDate,
+        //    string structDivision,
+        //    string givedPost, string givedFullname,
+        //    string achievedUsername, string note)
+        //{
+        //    using (SHA256 hash = SHA256.Create())
+        //    {
+        //        new SqliteCommand($"INSERT INTO DocumentTable " +
+        //            $"(username, password_hash, fullname, post, struct_division, is_admin) VALUES " +
+        //            $"({user.Username}, {Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)))}, " +
+        //            $"{user.Fullname}, {user.Post}, " +
+        //            $"{user.StructDivision}, {user.IsAdmin})", _connection);
+        //    }
+        //}
 
         // Returns user found by his username (throws an exception, if not exists)
         public User GetUser(string username)

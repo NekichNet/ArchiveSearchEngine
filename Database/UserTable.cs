@@ -124,6 +124,20 @@ namespace ArchiveSearchEngine.Database
             }
         }
 
+        // Changes [fullname, post, struct_division] of user with exact username
+        public void UpdateUser(User user)
+        {
+            using (SHA256 hash = SHA256.Create())
+            {
+                new SqliteCommand($"UPDATE UserTable SET " +
+                    $"fullname={user.Fullname}, " +
+                    $"post={user.Post}, " +
+                    $"struct_division={user.StructDivision} " +
+                    $"WHERE username = {user.Username}",
+                    _connection).ExecuteNonQuery();
+            }
+        }
+
         // Returns true, if user with these username and password exists.
         public bool CheckUser(string username, string password)
         {

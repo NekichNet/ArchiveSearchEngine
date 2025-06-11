@@ -8,7 +8,8 @@ namespace ArchiveSearchEngine
 {
     public class Document
     {
-        public Document(string registrationNum,
+        public Document(int id,
+            string registrationNum,
             string volumeNum, string bookNum,
             int contentQuantity,
             DateOnly inventoryDate, string inventoryNum,
@@ -18,8 +19,9 @@ namespace ArchiveSearchEngine
             string destructActNum, DateOnly destructActDate,
             string structDivision,
             string givedPost, string givedFullname,
-            int achievedId, string note)
+            string achievedUsername, string note)
         {
+            Id = id;
             RegistrationNum = registrationNum;
             VolumeNum = volumeNum;
             BookNum = bookNum;
@@ -38,9 +40,11 @@ namespace ArchiveSearchEngine
             StructDivision = structDivision;
             GivedPost = givedPost;
             GivedFullname = givedFullname;
-            AchievedId = achievedId;
+            AchievedUsername = achievedUsername;
             Note = note;
         }
+
+        public int Id { get; }
 
         public string RegistrationNum { get; set; } // 1 Номер регистрации объекта
         public string VolumeNum { get; set; } // 2 Номер тома
@@ -68,7 +72,7 @@ namespace ArchiveSearchEngine
         public string GivedPost { get; set; } // 17 Должность сдавшего в архив
         public string GivedFullname { get; set; } // 18 ФИО сдавшего в архив
 
-        public int AchievedId { get; set; } // id пользователя в базе данных, принявшего документ со стороны архива
+        public string AchievedUsername { get; set; } // username того, кто принял документ со стороны архива
 
         public string Note { get; set; } // 27 Примечание
     }
