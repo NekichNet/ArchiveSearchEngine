@@ -39,7 +39,7 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
             try
             {
                 
-                owner_.ToChangeUsers(UsersFoundDisplay.SelectedIndex+1);
+                owner_.ToChangeUsers(UsersFoundDisplay.SelectedIndex);
             }
             catch (Exception ex) { }
         }

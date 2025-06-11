@@ -53,8 +53,6 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
 
        
         public void ChangeUser(string name, string post, string structDivision, string username, string password) {
-            try
-            {
                 var user = userTable_.GetUsers()[index_];
                 user.Username = username;
                 user.Fullname = name;
@@ -70,8 +68,6 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
                 }
 
                 RefreshInfo();
-            }
-            catch { }
         }
 
     
