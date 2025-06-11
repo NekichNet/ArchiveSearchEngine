@@ -55,6 +55,7 @@
 
 
                         <Button Name="ChangeNamePostEtc" Click="ChangeNamePostEtc_Click" Grid.Column="3" Grid.Row="3" Margin="15" Content="Изменить" Style="{StaticResource ResourceKey=RoundedSignInButtonStyle}"></Button>
+                        <Button Name="DeleteUser" Click="DeleteUser_Click" Grid.Column="0" Grid.Row="3" Margin="15" Content="Удалить" Style="{StaticResource ResourceKey=DenyButtonStyle}"></Button>
                         
 
 

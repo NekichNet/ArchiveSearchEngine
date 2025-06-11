@@ -1,11 +1,11 @@
-﻿<Window x:Class="ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages.ChangeUserProperties"
+﻿<Window x:Class="ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages.AddNewUser"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages"
         mc:Ignorable="d"
-        Title="ChangeUserProperties" Height="900" Width="1200" ResizeMode="NoResize" WindowStyle="None" WindowState="Normal" WindowStartupLocation="CenterScreen">
+        Title="AddUser" Height="900" Width="1200" ResizeMode="NoResize" WindowStyle="None" WindowState="Normal" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.4*"></ColumnDefinition>
@@ -31,21 +31,21 @@
             <TextBox Name="StructDivisionChange" Margin="0,0,0,20"></TextBox>
             <TextBlock Text="Логин"></TextBlock>
             <TextBox Name="LoginChange"></TextBox>
-            <TextBlock Text="Пароль (Оставьте пустым, если не хотите изменять)"></TextBlock>
+            <TextBlock Text="Пароль"></TextBlock>
             <PasswordBox Name="PasswordChange"></PasswordBox>
         </StackPanel>
-            
-        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Name="ShowChangeAdmin"> 
-        <Viewbox  HorizontalAlignment="Left" Margin="15">
-        <CheckBox  Name="ChangeIsAdmin" Checked="ChangeIsAdmin_Checked" Unchecked="ChangeIsAdmin_Unchecked" ></CheckBox>
-        </Viewbox>
-        <TextBlock Text="Является ли пользователь администратором"></TextBlock>
+
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Name="ShowChangeAdmin">
+            <Viewbox  HorizontalAlignment="Left" Margin="15">
+                <CheckBox  Name="ChangeIsAdmin" ></CheckBox>
+            </Viewbox>
+            <TextBlock Text="Является ли пользователь администратором"></TextBlock>
         </StackPanel>
 
-        <TextBlock FontWeight="Black" Text="Пользователь" Grid.ColumnSpan="2" Grid.Column="1"></TextBlock>
+        <TextBlock FontWeight="Black" Text="Добавление пользователя" Grid.ColumnSpan="2" Grid.Column="1"></TextBlock>
 
-        <Button Name="DenyButton" Click="DenyButton_Click" Grid.Column="1" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Отклонить изменения"></Button>
-        <Button Name="AcceptButton" Click="AcceptButton_Click" Grid.Column="2" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Подтвердить изменения"></Button>
+        <Button Name="DenyButton" Click="DenyButton_Click" Grid.Column="1" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Отклонить"></Button>
+        <Button Name="AcceptButton" Click="AcceptButton_Click" Grid.Column="2" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Добавить пользователя"></Button>
 
     </Grid>
 </Window>

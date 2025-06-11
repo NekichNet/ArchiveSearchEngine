@@ -5,10 +5,90 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArchiveSearchEngine.IntertnalPages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1080" d:DesignWidth="1920"
       Title="AddDocs">
 
     <Grid>
-        <TextBlock>Создание документа</TextBlock>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Black" >Документ</TextBlock>
+        
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="15">
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер регистрации объекта</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Margin="0,0,0,10"></TextBox>
+            <Border Margin="0,0,0,10">
+                <StackPanel>
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер тома</TextBlock>
+                <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер книги</TextBlock>
+                <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Количество листов / дисков</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата описи</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер описи</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Код/индекс дела</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Наименование объекта</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Стеллаж</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="2" Margin="15">
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Полка</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Срок хранения дела, по перечню</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата документов</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дело № (валовый номер)</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Номер акта на уничтожение</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата акта на уничтожение</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Структурное подразделение</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Должность сдавшего в архив</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">ФИО сдавшего в архив</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Примечание</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+
+
+
+        </StackPanel>
+        
+        
     </Grid>
 </Page>

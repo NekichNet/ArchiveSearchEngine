@@ -22,7 +22,7 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager
     public partial class UserManager : Page
     {
         List<UserSpace> pages = new List<UserSpace>();
-        MainSpace owner_;
+        public MainSpace owner_;
         UserTable userTable_;
         public UserManager(MainSpace owner, UserTable userTable)
         {

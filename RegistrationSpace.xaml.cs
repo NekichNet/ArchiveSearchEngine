@@ -37,7 +37,13 @@ namespace ArchiveSearchEngine
         {
             try
             {
-                _owner.TrySignUp(LoginGUI.Text, NameGui.Text, PostGUI.Text, StructDivisionGUI.Text, PasswordGUI.Password, PasswordRepeatGUI.Password);
+                _owner.TrySignUp(LoginGUI.Text, NameGui.Text, PostGUI.Text, 
+                    StructDivisionGUI.Text, PasswordGUI.Password, PasswordRepeatGUI.Password);
+                LoginGUI.Text = "";
+                NameGui.Text = "";
+                PostGUI.Text = "";
+                StructDivisionGUI.Text = "";
+
             }
             catch (Exception ex) 
             {

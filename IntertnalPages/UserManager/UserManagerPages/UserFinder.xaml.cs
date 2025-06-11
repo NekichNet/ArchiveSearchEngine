@@ -31,6 +31,15 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
             owner_ = owner;
             userTable_ = userTable;
             UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
+
+            IsVisibleChanged += (s, e) =>
+            {
+                if (IsVisible)
+                {
+                    UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
+                    UsersFoundDisplay.Items.Refresh();
+                }
+            };
         }
         
 
@@ -56,6 +65,12 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
                 UsersFoundDisplay.ItemsSource = userTable_.GetUsers(PromptLine.Text);
                 UsersFoundDisplay.Items.Refresh();
             }
+        }
+
+        private void AddUser_Click(object sender, RoutedEventArgs e)
+        {
+            var addUserWindow = new AddNewUser(this, userTable_);
+            addUserWindow.ShowDialog();
         }
     }
 }

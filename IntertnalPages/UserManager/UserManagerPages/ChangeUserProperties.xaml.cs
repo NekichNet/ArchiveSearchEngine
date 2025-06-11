@@ -20,7 +20,8 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
     public partial class ChangeUserProperties : Window
     {
         User user_;
-        UserChanger owner_;
+        public UserChanger owner_;
+        bool UserIsAdmin;
         public ChangeUserProperties(UserChanger owner, User user)
         {
             InitializeComponent();
@@ -28,7 +29,13 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
             PostChange.Text = user.Post;
             StructDivisionChange.Text = user.StructDivision;
             LoginChange.Text = user.Username;
+            ChangeIsAdmin.IsChecked = user.IsAdmin;
+            UserIsAdmin = user.IsAdmin;
             owner_ = owner;
+            if(owner.owner_.owner_.Owner.LoggedUser.Username == user.Username)
+            {
+                ShowChangeAdmin.Visibility = Visibility.Hidden;
+            }
         }
 
         private void DenyButton_Click(object sender, RoutedEventArgs e)
@@ -38,8 +45,19 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            owner_.ChangeUser(FullnameChange.Text, PostChange.Text, StructDivisionChange.Text, LoginChange.Text, PasswordChange.Text);
+            owner_.ChangeUser(FullnameChange.Text, PostChange.Text, StructDivisionChange.Text, LoginChange.Text, PasswordChange.Password, UserIsAdmin);
+            
             this.Close();
+        }
+
+        private void ChangeIsAdmin_Checked(object sender, RoutedEventArgs e)
+        {
+            UserIsAdmin = true;
+        }
+
+        private void ChangeIsAdmin_Unchecked(object sender, RoutedEventArgs e)
+        {
+            UserIsAdmin = false;
         }
     }
 }

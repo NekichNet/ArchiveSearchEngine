@@ -82,18 +82,25 @@ namespace ArchiveSearchEngine
 
         public void TrySignUp(string username, string fullname, string post, string struct_division, string password, string passwordRepeat, bool is_admin = false)
         {
-            if (username.Trim().Length > 0 && password.Trim().Length > 0)
+            if (username.Trim().Length > 0)
             {
                 if (!_userTable.UserExists(username))
                 {
-                    if (password == passwordRepeat)
+                    if (password.Trim().Length >= 5)
                     {
-                        _userTable.NewUser(new User(username, fullname, post, struct_division, is_admin), password);
-                        ToSignIn();
+                        if (password == passwordRepeat)
+                        {
+                            _userTable.NewUser(new User(username, fullname, post, struct_division, is_admin), password);
+                            ToSignIn();
+                        }
+                        else
+                        {
+                            throw new Exception("Пароли не совпадают");
+                        }
                     }
                     else
                     {
-                        throw new Exception("Пароли не совпадают");
+                        throw new Exception("Поле \"Пароль\" должно содержать хотя бы пять символов");
                     }
                 }
                 else
@@ -103,7 +110,7 @@ namespace ArchiveSearchEngine
             }
             else
             {
-                throw new Exception("Поле имени/пароля пусто");
+                throw new Exception("Поле имени пусто");
             }
         }
 

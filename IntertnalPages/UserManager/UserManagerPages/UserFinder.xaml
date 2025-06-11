@@ -20,9 +20,7 @@
         </Grid.RowDefinitions>
 
         <TextBox Margin="15" Grid.ColumnSpan="2" TextChanged="TextBox_TextChanged" Name="PromptLine"></TextBox>
-        <Border Grid.Column="2" Margin="15">
-            <TextBlock Text="Пользователи" FontWeight="Black" VerticalAlignment="Center"></TextBlock>
-        </Border>
+        <Button Click="AddUser_Click" Grid.Column="2" Margin="15" Content="Добавить" FontWeight="Black"> </Button>
         <Border Margin="15" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2">
             <ListBox HorizontalContentAlignment="Stretch" Name="UsersFoundDisplay" Background="Transparent" BorderBrush="Transparent" Margin="15" MouseDoubleClick="SelectUserToChange">
                 <ListBox.ItemTemplate>

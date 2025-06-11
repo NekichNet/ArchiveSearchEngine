@@ -12,7 +12,7 @@ namespace ArchiveSearchEngine
         public string Fullname { get; set; }
         public string Post { get; set; }
         public string StructDivision { get; set; }
-        public bool IsAdmin { get; }
+        public bool IsAdmin { get; set; }
 
         public User(string username, string fullname, string post, string structDivision, bool isAdmin)
         {

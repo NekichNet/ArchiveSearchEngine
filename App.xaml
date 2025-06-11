@@ -168,6 +168,41 @@ Padding="{TemplateBinding Padding}">
             </Setter>
         </Style>
 
+        
+
+
+
+
+        <Style TargetType="TextBlock" x:Key="DocTextBlock">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        </Style>
+
+
+
+        <Style TargetType="TextBox" x:Key="DocTextBox">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border 
+         CornerRadius="5" 
+         Background="#D8F0F8FF"
+         BorderBrush="#330000FF"
+         BorderThickness="1"
+         Padding="2">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+                
+            </Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+        </Style>
+        
+
         <Style TargetType="PasswordBox">
             <Setter Property="FontSize" Value="30"></Setter>
             <Setter Property="BorderBrush" Value="Transparent"></Setter>
