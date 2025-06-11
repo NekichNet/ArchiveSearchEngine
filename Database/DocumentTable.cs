@@ -43,11 +43,11 @@ namespace ArchiveSearchEngine.Database
         public void NewDocument(string registrationNum,
             string volumeNum, string bookNum,
             int contentQuantity,
-            DateOnly inventoryDate, string inventoryNum,
+            DateTime inventoryDate, string inventoryNum,
             string objectIndex, string objectName,
             string rack, string shelf, string expiringIn,
-            DateOnly documentsDate, string caseNum,
-            string destructActNum, DateOnly destructActDate,
+            DateTime documentsDate, string caseNum,
+            string destructActNum, DateTime destructActDate,
             string structDivision,
             string givedPost, string givedFullname,
             string achievedUsername, string note)
@@ -58,11 +58,11 @@ namespace ArchiveSearchEngine.Database
                 $"rack, shelf, expiring_in, documents_date, case_num," +
                 $"destruct_act_num, destruct_act_date, struct_division," +
                 $"gived_post, gived_fullname, achieved_username, note) VALUES " +
-                $"('{registrationNum}', '{volumeNum}', '{bookNum}', {contentQuantity}, " +
-                $"'{inventoryDate}', '{inventoryNum}', '{objectIndex}', '{objectName}', " +
-                $"'{rack}', '{shelf}', '{expiringIn}', '{documentsDate}', '{caseNum}', " +
-                $"'{destructActNum}', '{destructActDate}', '{structDivision}', " +
-                $"'{givedPost}', '{givedFullname}', '{achievedUsername}', '{note}')",
+                $"('{registrationNum.Replace("'", "")}', '{volumeNum.Replace("'", "")}', '{bookNum.Replace("'", "")}', {contentQuantity}, " +
+                $"'{inventoryDate}', '{inventoryNum.Replace("'", "")}', '{objectIndex.Replace("'", "")}', '{objectName.Replace("'", "")}', " +
+                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate}', '{caseNum.Replace("'", "")}', " +
+                $"'{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
+                $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', '{achievedUsername}', '{note.Replace("'", "")}')",
                 _connection).ExecuteNonQuery();
         }
 
@@ -78,12 +78,12 @@ namespace ArchiveSearchEngine.Database
                     reader.Read();
                     return new Document((int)reader["id"], (string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
-                        (int)reader["content_quantity"], (DateOnly)reader["inventory_date"],
+                        (int)reader["content_quantity"], (DateTime)reader["inventory_date"],
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
-                        (string)reader["expiring_in"], (DateOnly)reader["documents_date"],
+                        (string)reader["expiring_in"], (DateTime)reader["documents_date"],
                         (string)reader["case_num"], (string)reader["destruct_act_num"],
-                        (DateOnly)reader["destruct_act_date"], (string)reader["struct_division"],
+                        (DateTime)reader["destruct_act_date"], (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
                         (string)reader["achieved_username"], (string)reader["note"]);
                 }
@@ -109,12 +109,12 @@ namespace ArchiveSearchEngine.Database
                     {
                         documents.Add(new Document((int)reader["id"], (string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
-                        (int)reader["content_quantity"], (DateOnly)reader["inventory_date"],
+                        (int)reader["content_quantity"], (DateTime)reader["inventory_date"],
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
-                        (string)reader["expiring_in"], (DateOnly)reader["documents_date"],
+                        (string)reader["expiring_in"], (DateTime)reader["documents_date"],
                         (string)reader["case_num"], (string)reader["destruct_act_num"],
-                        (DateOnly)reader["destruct_act_date"], (string)reader["struct_division"],
+                        (DateTime)reader["destruct_act_date"], (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
                         (string)reader["achieved_username"], (string)reader["note"]));
                     }
@@ -129,25 +129,25 @@ namespace ArchiveSearchEngine.Database
         {
             new SqliteCommand($"UPDATE DocumentTable SET " +
 
-                $"registration_num={doc.RegistrationNum}, " +
-                $"volume_num={doc.VolumeNum}, " +
-                $"book_num={doc.BookNum}, " +
+                $"registration_num={doc.RegistrationNum.Replace("'", "")}, " +
+                $"volume_num={doc.VolumeNum.Replace("'", "")}, " +
+                $"book_num={doc.BookNum.Replace("'", "")}, " +
                 $"content_quantity={doc.ContentQuantity}, " +
                 $"inventory_date={doc.InventoryDate}, " +
-                $"inventory_num={doc.InventoryNum}, " +
-                $"object_index={doc.ObjectIndex}, " +
-                $"object_name={doc.ObjectName}, " +
-                $"rack={doc.Rack}, " +
-                $"shelf={doc.Shelf}, " +
-                $"expiring_in={doc.ExpiringIn}, " +
+                $"inventory_num={doc.InventoryNum.Replace("'", "")}, " +
+                $"object_index={doc.ObjectIndex.Replace("'", "")}, " +
+                $"object_name={doc.ObjectName.Replace("'", "")}, " +
+                $"rack={doc.Rack.Replace("'", "")}, " +
+                $"shelf={doc.Shelf.Replace("'", "")}, " +
+                $"expiring_in={doc.ExpiringIn.Replace("'", "")}, " +
                 $"documents_date={doc.DocumentsDate}, " +
-                $"case_num={doc.CaseNum}, " +
-                $"destruct_act_num={doc.DestructActNum}, " +
+                $"case_num={doc.CaseNum.Replace("'", "")}, " +
+                $"destruct_act_num={doc.DestructActNum.Replace("'", "")}, " +
                 $"destruct_act_date={doc.DestructActDate}, " +
-                $"struct_division={doc.StructDivision}, " +
-                $"gived_post={doc.GivedPost}, " +
-                $"gived_fullname={doc.GivedFullname}, " +
-                $"note={doc.Note}, " +
+                $"struct_division={doc.StructDivision.Replace("'", "")}, " +
+                $"gived_post={doc.GivedPost.Replace("'", "")}, " +
+                $"gived_fullname={doc.GivedFullname.Replace("'", "")}, " +
+                $"note={doc.Note.Replace("'", "")}, " +
 
                 $"WHERE id = {doc.Id}",
                 _connection).ExecuteNonQuery();

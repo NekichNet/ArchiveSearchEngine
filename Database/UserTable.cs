@@ -35,6 +35,12 @@ namespace ArchiveSearchEngine.Database
 
         public void NewUser(User user, string password)
         {
+            user.Username = user.Username.Replace("'", "");
+            user.Fullname = user.Fullname.Replace("'", "");
+            user.Post = user.Post.Replace("'", "");
+            user.StructDivision = user.StructDivision.Replace("'", "");
+            password = password.Replace("'", "");
+
             using (SHA256 hash = SHA256.Create())
             {
                 new SqliteCommand($"INSERT INTO UserTable " +
@@ -48,6 +54,7 @@ namespace ArchiveSearchEngine.Database
         // Returns user found by his username (throws an exception, if not exists)
         public User GetUser(string username)
         {
+            username = username.Replace("'", "");
             using (SqliteDataReader reader = new SqliteCommand(
                 $"SELECT * FROM UserTable WHERE username = '{username}'",
                 _connection).ExecuteReader())
@@ -112,6 +119,12 @@ namespace ArchiveSearchEngine.Database
         // Changes [password_hash, fullname, post, struct_division] of user with exact username
         public void UpdateUser(User user, string password)
         {
+            user.Username = user.Username.Replace("'", "");
+            user.Fullname = user.Fullname.Replace("'", "");
+            user.Post = user.Post.Replace("'", "");
+            user.StructDivision = user.StructDivision.Replace("'", "");
+            password = password.Replace("'", "");
+
             using (SHA256 hash = SHA256.Create())
             {
                 new SqliteCommand($"UPDATE UserTable SET " +
@@ -127,15 +140,17 @@ namespace ArchiveSearchEngine.Database
         // Changes [fullname, post, struct_division] of user with exact username
         public void UpdateUser(User user)
         {
-            using (SHA256 hash = SHA256.Create())
-            {
-                new SqliteCommand($"UPDATE UserTable SET " +
-                    $"fullname='{user.Fullname}', " +
-                    $"post='{user.Post}', " +
-                    $"struct_division='{user.StructDivision}' " +
-                    $"WHERE username = '{user.Username}'",
-                    _connection).ExecuteNonQuery();
-            }
+            user.Username = user.Username.Replace("'", "");
+            user.Fullname = user.Fullname.Replace("'", "");
+            user.Post = user.Post.Replace("'", "");
+            user.StructDivision = user.StructDivision.Replace("'", "");
+
+            new SqliteCommand($"UPDATE UserTable SET " +
+                $"fullname='{user.Fullname}', " +
+                $"post='{user.Post}', " +
+                $"struct_division='{user.StructDivision}' " +
+                $"WHERE username = '{user.Username}'",
+                _connection).ExecuteNonQuery();
         }
 
         // Returns true, if user with these username and password exists.
@@ -164,6 +179,8 @@ namespace ArchiveSearchEngine.Database
         // Returns true, if user with exact username exists in database
         public bool UserExists(string username)
         {
+            username = username.Replace("'", "");
+
             using (SqliteDataReader reader = new SqliteCommand(
                 $"SELECT username FROM UserTable WHERE username = '{username}'",
                 _connection).ExecuteReader())
@@ -175,6 +192,8 @@ namespace ArchiveSearchEngine.Database
         // Deletes user with exact username
         public void DeleteUser(string username)
         {
+            username = username.Replace("'", "");
+
             new SqliteCommand($"DELETE FROM UserTable WHERE username = '{username}'", _connection).ExecuteNonQuery();
         }
     }
