@@ -43,11 +43,11 @@ namespace ArchiveSearchEngine.Database
         public void NewDocument(string registrationNum,
             string volumeNum, string bookNum,
             int contentQuantity,
-            DateOnly inventoryDate, string inventoryNum,
+            DateTime inventoryDate, string inventoryNum,
             string objectIndex, string objectName,
             string rack, string shelf, string expiringIn,
-            DateOnly documentsDate, string caseNum,
-            string destructActNum, DateOnly destructActDate,
+            DateTime documentsDate, string caseNum,
+            string destructActNum, DateTime destructActDate,
             string structDivision,
             string givedPost, string givedFullname,
             string achievedUsername, string note)
@@ -78,12 +78,12 @@ namespace ArchiveSearchEngine.Database
                     reader.Read();
                     return new Document((int)reader["id"], (string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
-                        (int)reader["content_quantity"], (DateOnly)reader["inventory_date"],
+                        (int)reader["content_quantity"], (DateTime)reader["inventory_date"],
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
-                        (string)reader["expiring_in"], (DateOnly)reader["documents_date"],
+                        (string)reader["expiring_in"], (DateTime)reader["documents_date"],
                         (string)reader["case_num"], (string)reader["destruct_act_num"],
-                        (DateOnly)reader["destruct_act_date"], (string)reader["struct_division"],
+                        (DateTime)reader["destruct_act_date"], (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
                         (string)reader["achieved_username"], (string)reader["note"]);
                 }
@@ -109,12 +109,12 @@ namespace ArchiveSearchEngine.Database
                     {
                         documents.Add(new Document((int)reader["id"], (string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
-                        (int)reader["content_quantity"], (DateOnly)reader["inventory_date"],
+                        (int)reader["content_quantity"], (DateTime)reader["inventory_date"],
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
-                        (string)reader["expiring_in"], (DateOnly)reader["documents_date"],
+                        (string)reader["expiring_in"], (DateTime)reader["documents_date"],
                         (string)reader["case_num"], (string)reader["destruct_act_num"],
-                        (DateOnly)reader["destruct_act_date"], (string)reader["struct_division"],
+                        (DateTime)reader["destruct_act_date"], (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
                         (string)reader["achieved_username"], (string)reader["note"]));
                     }

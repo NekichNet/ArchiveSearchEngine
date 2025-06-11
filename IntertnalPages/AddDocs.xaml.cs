@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,10 +22,38 @@ namespace ArchiveSearchEngine.IntertnalPages
     public partial class AddDocs : Page
     {
         MainSpace _owner;
-        public AddDocs(MainSpace owner)
+        DocumentTable _table;
+        public AddDocs(MainSpace owner, DocumentTable _documentTable)
         {
             _owner = owner;
             InitializeComponent();
+            _table = _documentTable;
+        }
+
+        public void AddDock()
+        {
+            try
+            {
+                _table.NewDocument(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
+                    (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
+                    ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
+                    (DateTime)DestroyActDateGUI.SelectedDate, StructSubdivisionGUI.Text, PostGUI.Text, FullnameGUI.Text, _owner.Owner.LoggedUser.Username,
+                    AdditionGUI.Text);
+                MessageBox.Show("Документ был успешно добавлен");
+            }
+            catch (Exception exception)
+            {
+                MessageBoxResult messageBoxResult = MessageBox.Show("Возможно вы внесли не все параметры\nХотите увидеть более подробный отчёт?","Возникла ошибка", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (messageBoxResult == MessageBoxResult.Yes)
+                {
+                    MessageBox.Show(exception.Message, "Ошибка");
+                }
+            }
+        }
+
+        private void AcceptAddition_Click(object sender, RoutedEventArgs e)
+        {
+            AddDock();
         }
     }
 }

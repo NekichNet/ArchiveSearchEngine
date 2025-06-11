@@ -30,13 +30,13 @@ namespace ArchiveSearchEngine
 
         UserTable userTable_;
 
-        public MainSpace(MainWindow owner, UserTable userTable)
+        public MainSpace(MainWindow owner, UserTable userTable, DocumentTable _documentTable)
         {
             InitializeComponent();
             _owner = owner;
 
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this)));
-            Spaces.Add(new UserSpace("Создание документа", new AddDocs(this)));
+            Spaces.Add(new UserSpace("Создание документа", new AddDocs(this, _documentTable)));
             Spaces.Add(new UserSpace("Добавление документов", new DocumentCreation(this)));
 
             userTable_ = userTable;

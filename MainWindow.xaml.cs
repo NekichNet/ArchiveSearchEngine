@@ -54,7 +54,7 @@ namespace ArchiveSearchEngine
 
             pages.Add(new EntrySpace(this));
             pages.Add(new RegistrationSpace(this));
-            pages.Add(new MainSpace(this, _userTable));
+            pages.Add(new MainSpace(this, _userTable, _documentTable));
             EntryFrame.Navigate(pages[0]);
         }
 
