@@ -38,6 +38,8 @@ namespace ArchiveSearchEngine.Database
                 "gived_post TEXT NOT NULL," +
                 "gived_fullname TEXT NOT NULL," +
                 "achieved_username TEXT NOT NULL," +
+                "taken_username TEXT," +
+                "taken_datetime TEXT," +
                 "note TEXT)", _connection).ExecuteNonQuery();
         }
 
@@ -150,8 +152,37 @@ namespace ArchiveSearchEngine.Database
                 $"gived_fullname={doc.GivedFullname.Replace("'", "")}, " +
                 $"note={doc.Note.Replace("'", "")}, " +
 
-                $"WHERE id = {doc.Id}",
+                $"WHERE id = {doc.Id}", _connection).ExecuteNonQuery();
+        }
+
+        public void TakeDocument(int documentId, string username)
+        {
+            new SqliteCommand($"UPDATE DocumentTable SET taken_username={username}, taken_datetime={DateTime.Now} WHERE id = {documentId}",
                 _connection).ExecuteNonQuery();
+        }
+
+        public void ReturnDocument(int documentId)
+        {
+            new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE id = {documentId}",
+                _connection).ExecuteNonQuery();
+        }
+
+        public string UserWhoTook(int documentId)
+        {
+            using (SqliteDataReader reader = new SqliteCommand(
+                $"SELECT taken_username FROM DocumentTable WHERE id = {documentId} LIMIT = 1",
+                _connection).ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    return reader.GetString(0);
+                }
+                else
+                {
+                    throw new Exception($"Не существует документа с id: {documentId}");
+                }
+            }
         }
 
         // Deletes document with exact id

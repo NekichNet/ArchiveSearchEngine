@@ -55,7 +55,7 @@ namespace ArchiveSearchEngine.Database
         {
             
             int value = new SqliteCommand($"UPDATE HistoryTable SET " +
-                $"datetime_returned='{DateTime.Now}'" +
+                $"datetime_returned='{DateTime.Now}', " +
                 $"is_returned=1 WHERE " +
                 $"is_returned = 0 AND archive_id = {documentId}",
                 _connection).ExecuteNonQuery();

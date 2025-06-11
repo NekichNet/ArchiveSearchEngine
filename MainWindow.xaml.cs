@@ -46,13 +46,13 @@ namespace ArchiveSearchEngine
 
             _userTable = new UserTable(Connection, !db_exists);
             _documentTable = new DocumentTable(Connection);
-            _historyTable = new HistoryTable(Connection);
+            //_historyTable = new HistoryTable(Connection);
 
-            Document.Table = _historyTable;
+            //Document.Table = _historyTable;
 
             pages.Add(new EntrySpace(this));
             pages.Add(new RegistrationSpace(this));
-            pages.Add(new MainSpace(this, _userTable, _documentTable, _historyTable));
+            pages.Add(new MainSpace(this, _userTable, _documentTable)); // , _historyTable
             EntryFrame.Navigate(pages[0]);
         }
 

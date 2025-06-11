@@ -22,16 +22,16 @@ namespace ArchiveSearchEngine.IntertnalPages
     {
         DocRegistry owner_;
         DocumentTable documentTable_;
-        HistoryTable historyTable_;
+        //HistoryTable historyTable_;
         int index_;
         Document doc_;
 
-        public ChangeDoc(DocRegistry owner, DocumentTable documentTable, HistoryTable historyTable, int index)
+        public ChangeDoc(DocRegistry owner, DocumentTable documentTable, int index) // , HistoryTable historyTable
         {
             InitializeComponent();
             owner_ = owner;
             documentTable_ = documentTable;
-            historyTable_ = historyTable;
+            //historyTable_ = historyTable;
             index_ = index;
 
             try
@@ -92,7 +92,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             TakeDocButton.Visibility = Visibility.Collapsed;
             ReturnDocButton.Visibility = Visibility.Visible;
-            historyTable_.TakeDocument(owner_._owner.Owner.LoggedUser.Username, index_);
+            documentTable_.TakeDocument(index_, owner_._owner.Owner.LoggedUser.Username);
             Refresh();
         }
 
@@ -100,7 +100,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             TakeDocButton.Visibility = Visibility.Visible;
             ReturnDocButton.Visibility = Visibility.Collapsed;
-            historyTable_.ReturnDocument(index_);
+            documentTable_.ReturnDocument(index_);
             Refresh();
         }
         private void Refresh()

@@ -23,19 +23,19 @@ namespace ArchiveSearchEngine.IntertnalPages
     {
         public MainSpace _owner;
         DocumentTable documentTable_;
-        HistoryTable historyTable_;
-        public DocRegistry(MainSpace owner, DocumentTable documentTable, HistoryTable historyTable)
+        //HistoryTable historyTable_;
+        public DocRegistry(MainSpace owner, DocumentTable documentTable) // , HistoryTable historyTable
         {
             _owner = owner;
             InitializeComponent();
             DocGrid.ItemsSource = documentTable.GetDocuments();
             documentTable_ = documentTable;
-            historyTable_ = historyTable;
+            //historyTable_ = historyTable;
         }
 
         private void DocGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var ChangeDockWin = new ChangeDoc(this, documentTable_, historyTable_, DocGrid.SelectedIndex);
+            var ChangeDockWin = new ChangeDoc(this, documentTable_, DocGrid.SelectedIndex); // , historyTable_
             ChangeDockWin.ShowDialog();
         }
     }
