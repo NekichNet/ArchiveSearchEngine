@@ -42,11 +42,18 @@ namespace ArchiveSearchEngine.Database
         public bool IsDocumentAvailable(int documentId)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT id FROM HistoryTable WHERE datetime_returned IS NULL AND id = '{documentId}'",
+                $"SELECT id FROM HistoryTable WHERE datetime_returned IS NULL AND archive_id = '{documentId}' ORDER BY id DESC LIMIT 1",
                 _connection).ExecuteReader())
             {
-                MessageBox.Show(!reader.HasRows ? "true" : "false");
-                return !reader.HasRows;
+                try
+                {
+                    reader.Read();
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    return true;
+                }
             }
         }
 
