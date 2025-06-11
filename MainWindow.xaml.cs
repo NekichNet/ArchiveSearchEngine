@@ -58,7 +58,6 @@ namespace ArchiveSearchEngine
             EntryFrame.Navigate(pages[0]);
         }
 
-
         public void TrySigningIn(string username, string password)
         {
             if (username.Trim().Length == 0)
@@ -80,7 +79,6 @@ namespace ArchiveSearchEngine
                 throw new Exception("Пользователя с таким именем и паролем не существует");
             }
         }
-
 
         public void TrySignUp(string username, string fullname, string post, string struct_division, string password, string passwordRepeat, bool is_admin = false)
         {

@@ -17,7 +17,7 @@ namespace ArchiveSearchEngine.Database
             new SqliteCommand("CREATE TABLE IF NOT EXISTS HistoryTable (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "archive_id INTEGER NOT NULL," +
-                "user_id INTEGER NOT NULL," +
+                "username TEXT NOT NULL," +
                 "date_taken DATE NOT NULL," +
                 "time_taken TIME NOT NULL," +
                 "date_returned DATE," +

@@ -18,8 +18,7 @@ namespace ArchiveSearchEngine.Database
             _connection = connection;
 
             new SqliteCommand("CREATE TABLE IF NOT EXISTS UserTable (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "username TEXT NOT NULL," +
+                "username TEXT PRIMARY KEY NOT NULL," +
                 "password_hash TEXT NOT NULL," +
                 "fullname TEXT NOT NULL," +
                 "post TEXT NOT NULL," +
@@ -42,7 +41,7 @@ namespace ArchiveSearchEngine.Database
                     $"(username, password_hash, fullname, post, struct_division, is_admin) VALUES " +
                     $"('{user.Username}', '{Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)))}', " +
                     $"'{user.Fullname}', '{user.Post}', " +
-                    $"'{user.StructDivision}', {(user.IsAdmin? 1 : 0)})", _connection).ExecuteNonQuery();
+                    $"'{user.StructDivision}', {(user.IsAdmin ? 1 : 0)})", _connection).ExecuteNonQuery();
             }
         }
 
@@ -62,26 +61,6 @@ namespace ArchiveSearchEngine.Database
                 else
                 {
                     throw new Exception($"Пользователь с username: {username} не найден");
-                }
-            }
-        }
-
-        // Returns user by his id (throws an exception, if not exists)
-        public User GetUser(int id)
-        {
-            using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM UserTable WHERE id = '{id}'",
-                _connection).ExecuteReader())
-            {
-                if (reader.HasRows)
-                {
-                    reader.Read();
-                    return new User((string)reader["username"], (string)reader["fullname"],
-                        (string)reader["post"], (string)reader["struct_division"], Convert.ToInt32(reader["is_admin"]) == 1);
-                }
-                else
-                {
-                    throw new Exception($"Пользователь с id: {id} не найден");
                 }
             }
         }
@@ -130,7 +109,7 @@ namespace ArchiveSearchEngine.Database
             return users;
         }
 
-        // Changes [password_hash, fullname, post, struct_division] of user with (username == user.Username)
+        // Changes [password_hash, fullname, post, struct_division] of user with exact username
         public void UpdateUser(User user, string password)
         {
             using (SHA256 hash = SHA256.Create())
