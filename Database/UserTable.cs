@@ -115,11 +115,11 @@ namespace ArchiveSearchEngine.Database
             using (SHA256 hash = SHA256.Create())
             {
                 new SqliteCommand($"UPDATE UserTable SET " +
-                    $"password_hash={Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)))}, " +
-                    $"fullname={user.Fullname}, " +
-                    $"post={user.Post}, " +
-                    $"struct_division={user.StructDivision} " +
-                    $"WHERE username = {user.Username}",
+                    $"password_hash='{Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)))}', " +
+                    $"fullname='{user.Fullname}', " +
+                    $"post='{user.Post}', " +
+                    $"struct_division='{user.StructDivision}' " +
+                    $"WHERE username = '{user.Username}'",
                     _connection).ExecuteNonQuery();
             }
         }
@@ -130,10 +130,10 @@ namespace ArchiveSearchEngine.Database
             using (SHA256 hash = SHA256.Create())
             {
                 new SqliteCommand($"UPDATE UserTable SET " +
-                    $"fullname={user.Fullname}, " +
-                    $"post={user.Post}, " +
-                    $"struct_division={user.StructDivision} " +
-                    $"WHERE username = {user.Username}",
+                    $"fullname='{user.Fullname}', " +
+                    $"post='{user.Post}', " +
+                    $"struct_division='{user.StructDivision}' " +
+                    $"WHERE username = '{user.Username}'",
                     _connection).ExecuteNonQuery();
             }
         }
