@@ -17,11 +17,12 @@ namespace ArchiveSearchEngine.Database
             _connection = connection;
 
             new SqliteCommand("CREATE TABLE IF NOT EXISTS HistoryTable (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "archive_id INTEGER NOT NULL," +
-                "username TEXT NOT NULL," +
-                "datetime_taken TEXT NOT NULL," +
-                "datetime_returned TEXT)", _connection).ExecuteNonQuery();
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "archive_id INTEGER NOT NULL, " +
+                "username TEXT NOT NULL, " +
+                "datetime_taken TEXT NOT NULL, " +
+                "datetime_returned TEXT NOT NULL, " +
+                "is_returned INTEGER NOT NULL)", _connection).ExecuteNonQuery();
         }
 
         // Adding a row in HistoryTable, pointing at user, taken document and current datetime.
@@ -33,8 +34,8 @@ namespace ArchiveSearchEngine.Database
             {
                 MessageBox.Show("Док взят");
                 new SqliteCommand($"INSERT INTO HistoryTable " +
-                    $"(archive_id, username, datetime_taken) VALUES " +
-                    $"({documentId}, '{username}', '{DateTime.Now}')", _connection).ExecuteNonQuery();
+                    $"(archive_id, username, datetime_taken, datetime_returned, is_returned) VALUES " +
+                    $"({documentId}, '{username}', '{DateTime.Now}', {DateTime.Now}, 0)", _connection).ExecuteNonQuery();
             }
         }
 
@@ -42,18 +43,15 @@ namespace ArchiveSearchEngine.Database
         public bool IsDocumentAvailable(int documentId)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT id FROM HistoryTable WHERE datetime_returned IS NULL AND archive_id = '{documentId}' ORDER BY id DESC LIMIT 1",
+                $"SELECT is_returned FROM HistoryTable WHERE archive_id = '{documentId}' ORDER BY id DESC LIMIT 1",
                 _connection).ExecuteReader())
             {
-                try
+                if (reader.HasRows)
                 {
                     reader.Read();
-                    return false;
+                    return Convert.ToInt32(reader["is_returned"]) == 1;
                 }
-                catch (Exception ex)
-                {
-                    return true;
-                }
+                else { return true; }
             }
         }
 
@@ -62,8 +60,9 @@ namespace ArchiveSearchEngine.Database
         {
             
             int value = new SqliteCommand($"UPDATE HistoryTable SET " +
-                $"datetime_returned='{DateTime.Now}' WHERE " +
-                $"datetime_returned IS NULL AND archive_id = {documentId}",
+                $"datetime_returned='{DateTime.Now}'" +
+                $"is_returned=1 WHERE " +
+                $"is_returned = 0 AND archive_id = {documentId}",
                 _connection).ExecuteNonQuery();
             MessageBox.Show($"{value}");
         }
@@ -73,7 +72,7 @@ namespace ArchiveSearchEngine.Database
         {
             using (SqliteDataReader reader = new SqliteCommand(
                 $"SELECT username FROM HistoryTable WHERE " +
-                $"datetime_returned IS NULL AND archive_id = {documentId} " +
+                $"is_returned = 0 AND archive_id = {documentId} " +
                 $"ORDER BY id DESC LIMIT 1",
                 _connection).ExecuteReader())
             {
