@@ -1,10 +1,13 @@
-﻿using Microsoft.Data.Sqlite;
+﻿//#define WordDocument Spire.Doc.Document
+
+using Microsoft.Data.Sqlite;
 using System.Security.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spire.Doc;
 
 namespace ArchiveSearchEngine.Database
 {
@@ -158,5 +161,11 @@ namespace ArchiveSearchEngine.Database
         {
             new SqliteCommand($"DELETE FROM UserDocument WHERE id = {id}", _connection).ExecuteNonQuery();
         }
+
+        // Генерация описей четырёх видов
+        //public void ExportToWord()
+        //{
+        //    Spire.Doc.Document document = new Spire.Doc.Document();
+        //}
     }
 }

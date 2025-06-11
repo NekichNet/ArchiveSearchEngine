@@ -51,6 +51,7 @@ namespace ArchiveSearchEngine
             _documentTable = new DocumentTable(Connection);
             _historyTable = new HistoryTable(Connection);
 
+            Document.Table = _historyTable;
 
             pages.Add(new EntrySpace(this));
             pages.Add(new RegistrationSpace(this));

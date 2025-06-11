@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ArchiveSearchEngine.Database
 {
-    class HistoryTable
+    public class HistoryTable
     {
         private SqliteConnection _connection;
 

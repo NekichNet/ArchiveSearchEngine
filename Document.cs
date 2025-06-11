@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,6 +44,7 @@ namespace ArchiveSearchEngine
             AchievedUsername = achievedUsername;
             Note = note;
         }
+        static public HistoryTable Table { get; set; }
 
         public int Id { get; } // Id документа в базе данных
 
@@ -73,6 +75,8 @@ namespace ArchiveSearchEngine
         public string GivedFullname { get; set; } // 18 ФИО сдавшего в архив
 
         public string Note { get; set; } // 27 Примечание
+
+        public bool Available { get { return Table.IsDocumentAvailable(Id); } }
 
         public string AchievedUsername { get; } // username того, кто принял документ со стороны архива
     }
