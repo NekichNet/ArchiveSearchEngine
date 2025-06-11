@@ -23,6 +23,7 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
     {
         UserManager owner_;
         UserTable userTable_;
+        
 
         public UserFinder(UserManager owner, UserTable userTable)
         {

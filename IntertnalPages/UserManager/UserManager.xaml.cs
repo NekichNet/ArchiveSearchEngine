@@ -43,7 +43,7 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager
                 pages.RemoveAt(1);
             }
             catch { }
-            pages.Add(new UserSpace("Именятель", new UserManagerPages.UserChanger(this, userTable_, index)));
+            pages.Add(new UserSpace("Изменятель", new UserManagerPages.UserChanger(this, userTable_, index)));
             UserListManager.Navigate(pages[1].Page);
         }
 

@@ -37,10 +37,11 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
 
         public void RefreshInfo()
         {
-            NameDisplay.Text = userTable_.GetUser(index_).Fullname;
-            LoginDisplay.Text = userTable_.GetUser(index_).Username;
-            PostDisplay.Text = userTable_.GetUser(index_).Post;
-            StructDivisionDisplay.Text = userTable_.GetUser(index_).StructDivision;
+            var user = userTable_.GetUsers()[index_];
+            NameDisplay.Text = userTable_.GetUser(user.Username).Fullname;
+            LoginDisplay.Text = userTable_.GetUser(user.Username).Username;
+            PostDisplay.Text = userTable_.GetUser(user.Username).Post;
+            StructDivisionDisplay.Text = userTable_.GetUser(user.Username).StructDivision;
         }
 
 
@@ -54,11 +55,20 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
         public void ChangeUser(string name, string post, string structDivision, string username, string password) {
             try
             {
-                userTable_.GetUser(index_).Fullname = name;
-                userTable_.GetUser(index_).Post = post;
-                userTable_.GetUser(index_).StructDivision = structDivision;
-                userTable_.GetUser(index_).Username = username;
-                //userTable_.GetUser(index_).password = password;
+                var user = userTable_.GetUsers()[index_];
+                user.Username = username;
+                user.Fullname = name;
+                user.Post = post;
+                user.StructDivision = structDivision;
+
+                if (password.Trim().Count() > 0) {
+                    userTable_.UpdateUser(user, password);
+                }
+                else
+                {
+                    userTable_.UpdateUser(user);
+                }
+
                 RefreshInfo();
             }
             catch { }
@@ -67,7 +77,7 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
     
         private void ChangeNamePostEtc_Click(object sender, RoutedEventArgs e)
         {
-            var window = new ChangeUserProperties(this, userTable_.GetUser(index_));
+            var window = new ChangeUserProperties(this, userTable_.GetUser(userTable_.GetUsers()[index_].Username));
             window.ShowDialog();
         }
     }
