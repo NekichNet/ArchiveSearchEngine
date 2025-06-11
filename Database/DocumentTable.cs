@@ -26,8 +26,8 @@ namespace ArchiveSearchEngine.Database
                 "inventory_num TEXT," +
                 "object_index TEXT NOT NULL," +
                 "object_name TEXT NOT NULL," +
-                "rack INTEGER NOT NULL," +
-                "shelf INTEGER NOT NULL," +
+                "rack TEXT NOT NULL," +
+                "shelf TEXT NOT NULL," +
                 "expiring_in TEXT NOT NULL," +
                 "documents_date DATE NOT NULL," +
                 "case_num TEXT NOT NULL," +
@@ -45,138 +45,118 @@ namespace ArchiveSearchEngine.Database
             int contentQuantity,
             DateOnly inventoryDate, string inventoryNum,
             string objectIndex, string objectName,
-            int rack, int shelf, string expiringIn,
+            string rack, string shelf, string expiringIn,
             DateOnly documentsDate, string caseNum,
             string destructActNum, DateOnly destructActDate,
             string structDivision,
             string givedPost, string givedFullname,
             string achievedUsername, string note)
         {
-            using (SHA256 hash = SHA256.Create())
-            {
-                new SqliteCommand($"INSERT INTO DocumentTable " +
-                    $"() VALUES " +
-                    $"()", _connection);
-            }
+            new SqliteCommand($"INSERT INTO DocumentTable " +
+                $"(registration_num, volume_num, book_num, content_quantity, " +
+                $"inventory_date, inventory_num, object_index, object_name," +
+                $"rack, shelf, expiring_in, documents_date, case_num," +
+                $"destruct_act_num, destruct_act_date, struct_division," +
+                $"gived_post, gived_fullname, achieved_username, note) VALUES " +
+                $"('{registrationNum}', '{volumeNum}', '{bookNum}', {contentQuantity}, " +
+                $"'{inventoryDate}', '{inventoryNum}', '{objectIndex}', '{objectName}', " +
+                $"'{rack}', '{shelf}', '{expiringIn}', '{documentsDate}', '{caseNum}', " +
+                $"'{destructActNum}', '{destructActDate}', '{structDivision}', " +
+                $"'{givedPost}', '{givedFullname}', '{achievedUsername}', '{note}')",
+                _connection).ExecuteNonQuery();
         }
 
-        // Returns user found by his username (throws an exception, if not exists)
-        public User GetUser(string username)
+        // Returns document found by his id (throws an exception, if not exists)
+        public Document GetDocument(int id)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM UserTable WHERE username = {username}",
+                $"SELECT * FROM DocumentTable WHERE id = {id}",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    return new User((string)reader["username"], (string)reader["fullname"],
-                        (string)reader["post"], (string)reader["struct_division"], (bool)reader["is_admin"]);
+                    return new Document((int)reader["id"], (string)reader["registration_num"],
+                        (string)reader["volume_num"], (string)reader["book_num"],
+                        (int)reader["content_quantity"], (DateOnly)reader["inventory_date"],
+                        (string)reader["inventory_num"], (string)reader["object_index"],
+                        (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
+                        (string)reader["expiring_in"], (DateOnly)reader["documents_date"],
+                        (string)reader["case_num"], (string)reader["destruct_act_num"],
+                        (DateOnly)reader["destruct_act_date"], (string)reader["struct_division"],
+                        (string)reader["gived_post"], (string)reader["gived_fullname"],
+                        (string)reader["achieved_username"], (string)reader["note"]);
                 }
                 else
                 {
-                    throw new Exception($"Пользователь с username: {username} не найден");
+                    throw new Exception($"Документ с id: {id} не найден");
                 }
             }
         }
 
-        // Returns list of users, what have promt in their username or fullname
-        public List<User> GetUsers(string promt)
+        // Returns list of all documents in database
+        public List<Document> GetDocuments()
         {
-            List<User> users = new List<User>();
+            List<Document> documents = new List<Document>();
 
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM UserTable WHERE username LIKE {promt} OR fullname LIKE {promt}",
+                $"SELECT * FROM DocumentTable",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        users.Add(new User((string)reader["username"], (string)reader["fullname"],
-                        (string)reader["post"], (string)reader["struct_division"], (bool)reader["is_admin"]));
+                        documents.Add(new Document((int)reader["id"], (string)reader["registration_num"],
+                        (string)reader["volume_num"], (string)reader["book_num"],
+                        (int)reader["content_quantity"], (DateOnly)reader["inventory_date"],
+                        (string)reader["inventory_num"], (string)reader["object_index"],
+                        (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
+                        (string)reader["expiring_in"], (DateOnly)reader["documents_date"],
+                        (string)reader["case_num"], (string)reader["destruct_act_num"],
+                        (DateOnly)reader["destruct_act_date"], (string)reader["struct_division"],
+                        (string)reader["gived_post"], (string)reader["gived_fullname"],
+                        (string)reader["achieved_username"], (string)reader["note"]));
                     }
                 }
             }
 
-            return users;
+            return documents;
         }
 
-        // Returns list of all users in database
-        public List<User> GetUsers()
+        // Updates document info in database, found by his id
+        public void UpdateDocument(Document doc)
         {
-            List<User> users = new List<User>();
+            new SqliteCommand($"UPDATE DocumentTable SET " +
 
-            using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM UserTable",
-                _connection).ExecuteReader())
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        users.Add(new User((string)reader["username"], (string)reader["fullname"],
-                        (string)reader["post"], (string)reader["struct_division"], (bool)reader["is_admin"]));
-                    }
-                }
-            }
+                $"registration_num={doc.RegistrationNum}, " +
+                $"volume_num={doc.VolumeNum}, " +
+                $"book_num={doc.BookNum}, " +
+                $"content_quantity={doc.ContentQuantity}, " +
+                $"inventory_date={doc.InventoryDate}, " +
+                $"inventory_num={doc.InventoryNum}, " +
+                $"object_index={doc.ObjectIndex}, " +
+                $"object_name={doc.ObjectName}, " +
+                $"rack={doc.Rack}, " +
+                $"shelf={doc.Shelf}, " +
+                $"expiring_in={doc.ExpiringIn}, " +
+                $"documents_date={doc.DocumentsDate}, " +
+                $"case_num={doc.CaseNum}, " +
+                $"destruct_act_num={doc.DestructActNum}, " +
+                $"destruct_act_date={doc.DestructActDate}, " +
+                $"struct_division={doc.StructDivision}, " +
+                $"gived_post={doc.GivedPost}, " +
+                $"gived_fullname={doc.GivedFullname}, " +
+                $"note={doc.Note}, " +
 
-            return users;
+                $"WHERE id = {doc.Id}",
+                _connection).ExecuteNonQuery();
         }
 
-        // Changes [password_hash, fullname, post, struct_division] of user with (username == user.Username)
-        public void UpdateUser(User user, string password)
+        // Deletes document with exact id
+        public void DeleteDocument(int id)
         {
-            using (SHA256 hash = SHA256.Create())
-            {
-                new SqliteCommand($"UPDATE UserTable SET " +
-                    $"password_hash={Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)))}, " +
-                    $"fullname={user.Fullname}, " +
-                    $"post={user.Post}, " +
-                    $"struct_division={user.StructDivision} " +
-                    $"WHERE username = {user.Username}",
-                    _connection).ExecuteNonQuery();
-            }
-        }
-
-        // Returns true, if user with these username and password exists.
-        public bool CheckUser(string username, string password)
-        {
-            using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT password_hash FROM UserTable WHERE username = {username}",
-                _connection).ExecuteReader())
-            {
-                if (reader.HasRows)
-                {
-                    using (SHA256 hash = SHA256.Create())
-                    {
-                        reader.Read();
-                        if ((string)reader["password_hash"] ==
-                            Convert.ToHexString(hash.ComputeHash(Encoding.UTF8.GetBytes(password))))
-                        {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-        }
-
-        // Returns true, if user with exact username exists in database
-        public bool UserExists(string username)
-        {
-            using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT username FROM UserTable WHERE username = {username}",
-                _connection).ExecuteReader())
-            {
-                return reader.HasRows;
-            }
-        }
-
-        // Deletes user with exact username
-        public void DeleteUser(string username)
-        {
-            new SqliteCommand($"DELETE FROM UserTable WHERE username = {username}", _connection).ExecuteNonQuery();
+            new SqliteCommand($"DELETE FROM UserDocument WHERE id = {id}", _connection).ExecuteNonQuery();
         }
     }
 }

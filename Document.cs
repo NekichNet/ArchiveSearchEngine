@@ -14,7 +14,7 @@ namespace ArchiveSearchEngine
             int contentQuantity,
             DateOnly inventoryDate, string inventoryNum,
             string objectIndex, string objectName,
-            int rack, int shelf, string expiringIn,
+            string rack, string shelf, string expiringIn,
             DateOnly documentsDate, string caseNum,
             string destructActNum, DateOnly destructActDate,
             string structDivision,
@@ -44,7 +44,7 @@ namespace ArchiveSearchEngine
             Note = note;
         }
 
-        public int Id { get; }
+        public int Id { get; } // Id документа в базе данных
 
         public string RegistrationNum { get; set; } // 1 Номер регистрации объекта
         public string VolumeNum { get; set; } // 2 Номер тома
@@ -57,8 +57,8 @@ namespace ArchiveSearchEngine
         public string ObjectIndex { get; set; } // 7 Код/индекс дела
         public string ObjectName { get; set; } // 8 Наименование объекта
 
-        public int Rack { get; set; } // 9 Стеллаж
-        public int Shelf { get; set; } // 10 Полка
+        public string Rack { get; set; } // 9 Стеллаж
+        public string Shelf { get; set; } // 10 Полка
 
         public string ExpiringIn { get; set; } // 11 Срок хранения дела, по перечню
         public DateOnly DocumentsDate { get; set; } // 12 Дата документов
@@ -72,8 +72,8 @@ namespace ArchiveSearchEngine
         public string GivedPost { get; set; } // 17 Должность сдавшего в архив
         public string GivedFullname { get; set; } // 18 ФИО сдавшего в архив
 
-        public string AchievedUsername { get; set; } // username того, кто принял документ со стороны архива
-
         public string Note { get; set; } // 27 Примечание
+
+        public string AchievedUsername { get; } // username того, кто принял документ со стороны архива
     }
 }
