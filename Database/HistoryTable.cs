@@ -35,7 +35,7 @@ namespace ArchiveSearchEngine.Database
                 MessageBox.Show("Док взят");
                 new SqliteCommand($"INSERT INTO HistoryTable " +
                     $"(archive_id, username, datetime_taken, datetime_returned, is_returned) VALUES " +
-                    $"({documentId}, '{username}', '{DateTime.Now}', {DateTime.Now}, 0)", _connection).ExecuteNonQuery();
+                    $"({documentId}, '{username}', '{DateTime.Now}', '{DateTime.Now}', 0)", _connection).ExecuteNonQuery();
             }
         }
 
@@ -43,15 +43,10 @@ namespace ArchiveSearchEngine.Database
         public bool IsDocumentAvailable(int documentId)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT is_returned FROM HistoryTable WHERE archive_id = '{documentId}' ORDER BY id DESC LIMIT 1",
+                $"SELECT id FROM HistoryTable WHERE archive_id = '{documentId}' AND is_returned = 0 ORDER BY id DESC LIMIT 1",
                 _connection).ExecuteReader())
             {
-                if (reader.HasRows)
-                {
-                    reader.Read();
-                    return Convert.ToInt32(reader["is_returned"]) == 1;
-                }
-                else { return true; }
+                return !reader.HasRows;
             }
         }
 
