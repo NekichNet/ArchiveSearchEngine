@@ -76,7 +76,7 @@ namespace ArchiveSearchEngine
 
         public string Note { get; set; } // 27 Примечание
 
-        public string Available { get { return Table.IsDocumentAvailable(Id) ? "Доступен" : "Недоступен"; } }
+        public bool Available { get { return Table.IsDocumentAvailable(Id); } }
 
         public string AchievedUsername { get; } // username того, кто принял документ со стороны архива
     }

@@ -160,10 +160,11 @@ namespace ArchiveSearchEngine.Database
             new SqliteCommand($"DELETE FROM UserDocument WHERE id = {id}", _connection).ExecuteNonQuery();
         }
 
-        // Генерация описей четырёх видов
+        // ToDo: Генерация описей четырёх видов
         //public void ExportToWord()
         //{
         //    Spire.Doc.Document document = new Spire.Doc.Document();
+        //    Section section = document.AddSection();
         //}
     }
 }

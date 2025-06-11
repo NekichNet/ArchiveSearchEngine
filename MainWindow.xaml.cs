@@ -37,9 +37,6 @@ namespace ArchiveSearchEngine
         {
             InitializeComponent();
 
-
-            
-
             // Initializing database
 
             bool db_exists = File.Exists("archive.db");
