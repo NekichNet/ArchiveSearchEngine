@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spire.Doc;
+using System.Windows;
 
 namespace ArchiveSearchEngine.Database
 {
@@ -157,30 +158,32 @@ namespace ArchiveSearchEngine.Database
 
         public void TakeDocument(int documentId, string username)
         {
-            new SqliteCommand($"UPDATE DocumentTable SET taken_username='{username}', taken_datetime='{DateTime.Now}' WHERE id = {documentId}",
+            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username='{username}', taken_datetime='{DateTime.Now}' WHERE id = {documentId}",
                 _connection).ExecuteNonQuery();
+            MessageBox.Show($"TakeDocument: {cmd}, documentId: {documentId}, username: {username}");
         }
 
         public void ReturnDocument(int documentId)
         {
-            new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE id = {documentId}",
+            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE id = {documentId}",
                 _connection).ExecuteNonQuery();
+            MessageBox.Show($"ReturnDocument: {cmd}, documentId: {documentId}");
         }
 
         public string UserWhoTook(int documentId)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT taken_username FROM DocumentTable WHERE id = {documentId} LIMIT = 1",
+                $"SELECT taken_username FROM DocumentTable WHERE id = {documentId} AND NOT taken_username IS NULL LIMIT 1",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    return reader.GetString(0);
+                    return (string)reader["taken_username"];
                 }
                 else
                 {
-                    throw new Exception($"Не существует документа с id: {documentId}");
+                    throw new Exception($"Не существует документа с id: {documentId}, либо документ доступен к выдаче");
                 }
             }
         }
@@ -191,6 +194,7 @@ namespace ArchiveSearchEngine.Database
                 $"SELECT taken_username FROM DocumentTable WHERE id={documentId} AND taken_username IS NULL LIMIT 1",
                 _connection).ExecuteReader())
             {
+                MessageBox.Show($"IsAvailable reader.HasRows: {reader.HasRows}, doc_id: {documentId}");
                 return reader.HasRows;
             }
         }
