@@ -136,5 +136,21 @@ namespace ArchiveSearchEngine.IntertnalPages
             var previewUser = new UserPreview(documentTable_.UserWhoTook(doc_.Id), userTable_);
             previewUser.ShowDialog();
         }
+
+        private void Number_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            string tempText = e.Text;
+            e.Handled = !(int.TryParse(e.Text, out _) && e.Text.Replace(" ", "") == tempText);
+        }
+
+        private void Number_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = e.Key == Key.Space || ((e.Key == Key.Delete || e.Key == Key.Back) && (sender as TextBox).Text.Length == 1);
+        }
+
+        private void Number_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (Convert.ToInt32((sender as TextBox).Text) < 0) e.Handled = true;
+        }
     }
 }

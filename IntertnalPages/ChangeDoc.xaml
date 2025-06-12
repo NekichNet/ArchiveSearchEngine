@@ -39,7 +39,7 @@
         </Border>
 
         <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Количество листов / дисков</TextBlock>
-        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="AmountOfSheetsGUI"></TextBox>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Text="1" Name="AmountOfSheetsGUI" PreviewKeyDown="Number_PreviewKeyDown" PreviewTextInput="Number_PreviewTextInput" TextChanged="Number_TextChanged"></TextBox>
 
         <Border Margin="0,10,0,10" BorderThickness="1">
             <StackPanel>
