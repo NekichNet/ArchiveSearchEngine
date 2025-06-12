@@ -185,6 +185,16 @@ namespace ArchiveSearchEngine.Database
             }
         }
 
+        public bool IsAvailable(int documentId)
+        {
+            using (SqliteDataReader reader = new SqliteCommand(
+                $"SELECT taken_username FROM DocumentTable WHERE id = {documentId} AND taken_username IS NULL LIMIT = 1",
+                _connection).ExecuteReader())
+            {
+                return reader.HasRows;
+            }
+        }
+
         // Deletes document with exact id
         public void DeleteDocument(int id)
         {

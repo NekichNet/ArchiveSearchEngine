@@ -44,7 +44,7 @@ namespace ArchiveSearchEngine
             AchievedUsername = achievedUsername;
             Note = note;
         }
-        static public HistoryTable Table { get; set; }
+        static public DocumentTable Table { get; set; }
 
         public int Id { get; } // Id документа в базе данных
 
@@ -76,7 +76,7 @@ namespace ArchiveSearchEngine
 
         public string Note { get; set; } // 27 Примечание
 
-        public bool Available { get { return Table.IsDocumentAvailable(Id); } }
+        public bool Available { get { return Table.IsAvailable(Id); } }
 
         public string AchievedUsername { get; } // username того, кто принял документ со стороны архива
     }
