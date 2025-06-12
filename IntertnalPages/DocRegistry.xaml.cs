@@ -24,15 +24,15 @@ namespace ArchiveSearchEngine.IntertnalPages
         public MainSpace _owner;
         DocumentTable documentTable_;
         List<Document> documents_;
-        //HistoryTable historyTable_;
-        public DocRegistry(MainSpace owner, DocumentTable documentTable) // , HistoryTable historyTable
+        UserTable userTable_;
+        public DocRegistry(MainSpace owner, DocumentTable documentTable, UserTable userTable)
         {
             _owner = owner;
             InitializeComponent();
             documents_ = documentTable.GetDocuments(0);
             DocGrid.ItemsSource = documents_; 
             documentTable_ = documentTable;
-            //historyTable_ = historyTable;
+            userTable_ = userTable;
 
             IsVisibleChanged += (s, e) =>
             {
@@ -50,7 +50,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void DocGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var ChangeDockWin = new ChangeDoc(this, documentTable_, documents_[DocGrid.SelectedIndex]); // , historyTable_
+            var ChangeDockWin = new ChangeDoc(this, documentTable_, documents_[DocGrid.SelectedIndex], userTable_); // , historyTable_
             ChangeDockWin.ShowDialog();
         }
     }

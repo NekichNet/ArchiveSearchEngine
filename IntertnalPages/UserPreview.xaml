@@ -1,0 +1,48 @@
+﻿<Window x:Class="ArchiveSearchEngine.IntertnalPages.UserPreview"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ArchiveSearchEngine.IntertnalPages"
+        mc:Ignorable="d"
+        Title="UserPreview" Height="600" Width="1200" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.15*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.15*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.2*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Grid.ColumnSpan="15" Grid.RowSpan="15" Background="White"></StackPanel>
+        <Button Click="ButtonCloseWindowClick" Style="{StaticResource ResourceKey=DenyButtonStyle}" Margin="15" Content="X" FontSize="30"></Button>
+
+        <TextBlock Text="Пользователь" FontSize="40" Grid.Column="1" Style="{StaticResource DefaultTextStyle}" FontWeight="Black"></TextBlock>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="25" Text="ФИО : " FontWeight="Bold" Style="{StaticResource DefaultTextStyle}"></TextBlock>
+                <TextBlock TextWrapping="Wrap" MaxWidth="600" Name="FullnameDisplay" FontSize="25" Text="ФИО" Style="{StaticResource DefaultTextStyle}"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="25" Text="Логин : " FontWeight="Bold" Style="{StaticResource DefaultTextStyle}"></TextBlock>
+                <TextBlock TextWrapping="Wrap" MaxWidth="600" Name="UsernameDisplay" FontSize="25" Text="Логин" Style="{StaticResource DefaultTextStyle}"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="25" Text="Пост : " FontWeight="Bold" Style="{StaticResource DefaultTextStyle}"></TextBlock>
+                <TextBlock TextWrapping="Wrap" MaxWidth="600" Name="PostDisplay" FontSize="25" Text="Пост" Style="{StaticResource DefaultTextStyle}"></TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="25" Text="Структурное подразделение : " FontWeight="Bold" Style="{StaticResource DefaultTextStyle}"></TextBlock>
+                <TextBlock TextWrapping="Wrap" MaxWidth="600" Name="StructDivisionDisplay" FontSize="25" Text="Структурное подразделение" Style="{StaticResource DefaultTextStyle}"></TextBlock>
+
+            </StackPanel>
+        </StackPanel>
+        <TextBlock Name="UserIsAdminDisplay"  Grid.Row="2" Grid.Column="1" FontSize="30" Text="Аккаунт администратора" FontWeight="Bold" Style="{StaticResource DefaultTextStyle}"></TextBlock>
+
+    </Grid>
+</Window>

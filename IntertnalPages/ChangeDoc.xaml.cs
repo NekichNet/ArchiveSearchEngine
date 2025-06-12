@@ -24,13 +24,14 @@ namespace ArchiveSearchEngine.IntertnalPages
         DocumentTable documentTable_;
         //HistoryTable historyTable_;
         Document doc_;
+        UserTable userTable_;
 
-        public ChangeDoc(DocRegistry owner, DocumentTable documentTable, Document doc) // , HistoryTable historyTable
+        public ChangeDoc(DocRegistry owner, DocumentTable documentTable, Document doc, UserTable userTable)
         {
             InitializeComponent();
             owner_ = owner;
             documentTable_ = documentTable;
-            //historyTable_ = historyTable;
+            userTable_ = userTable;
 
             try
             {
@@ -132,7 +133,8 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void AccountThatTookPreviewButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(documentTable_.UserWhoTook(doc_.Id));
+            var previewUser = new UserPreview(documentTable_.UserWhoTook(doc_.Id), userTable_);
+            previewUser.ShowDialog();
         }
     }
 }
