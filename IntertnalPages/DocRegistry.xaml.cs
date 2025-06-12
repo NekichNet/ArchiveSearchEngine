@@ -28,7 +28,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             _owner = owner;
             InitializeComponent();
-            DocGrid.ItemsSource = documentTable.GetDocuments();
+            DocGrid.ItemsSource = documentTable.GetDocuments(1);
             documentTable_ = documentTable;
             //historyTable_ = historyTable;
 

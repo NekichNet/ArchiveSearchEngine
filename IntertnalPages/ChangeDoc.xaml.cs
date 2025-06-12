@@ -26,19 +26,18 @@ namespace ArchiveSearchEngine.IntertnalPages
         int index_;
         Document doc_;
 
-        public ChangeDoc(DocRegistry owner, DocumentTable documentTable, int index) // , HistoryTable historyTable
+        public ChangeDoc(DocRegistry owner, DocumentTable documentTable, Document doc) // , HistoryTable historyTable
         {
             InitializeComponent();
             owner_ = owner;
             documentTable_ = documentTable;
             //historyTable_ = historyTable;
-            index_ = index;
 
             try
             {
-                doc_ = documentTable.GetDocument(index+1);
 
-            
+                doc_ = doc;
+
 
                 RegistrationObjectNumberGUI.Text = doc_.RegistrationNum;
                 TomNumberGUI.Text = doc_.VolumeNum;
