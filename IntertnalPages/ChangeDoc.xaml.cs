@@ -101,6 +101,8 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             TakeDocButton.Visibility = Visibility.Visible;
             ReturnDocButton.Visibility = Visibility.Collapsed;
+
+            MessageBox.Show($"{index_}");
             documentTable_.ReturnDocument(index_);
             Refresh();
         }
@@ -109,6 +111,7 @@ namespace ArchiveSearchEngine.IntertnalPages
             if (doc_.Available)
             {
                 //MessageBox.Show("Доступен");
+                
                 DocStatus.Text = "Доступен";
                 
                 AccountThatTookPreviewButton.Visibility = Visibility.Collapsed;
@@ -116,6 +119,8 @@ namespace ArchiveSearchEngine.IntertnalPages
             }
             else
             {
+
+                //MessageBox.Show("не Доступен");
                 DocStatus.Text = "Вне архива, забрал: ";
                 AccountThatTookPreviewButton.Content = documentTable_.UserWhoTook(index_);
                 AccountThatTookPreviewButton.Visibility = Visibility.Visible;

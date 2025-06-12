@@ -31,6 +31,14 @@ namespace ArchiveSearchEngine.IntertnalPages
             DocGrid.ItemsSource = documentTable.GetDocuments();
             documentTable_ = documentTable;
             //historyTable_ = historyTable;
+
+            IsVisibleChanged += (s, e) =>
+            {
+                if (IsVisible)
+                {
+                    DocGrid.Items.Refresh();
+                }
+            };
         }
 
         private void DocGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
