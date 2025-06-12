@@ -116,9 +116,9 @@ namespace ArchiveSearchEngine.IntertnalPages
             else
             {
                 DocStatus.Text = "Вне архива, забрал: ";
-                AccountThatTookPreviewButton.Content = historyTable_.UserWhoTook(index_);
+                AccountThatTookPreviewButton.Content = documentTable_.UserWhoTook(index_);
                 AccountThatTookPreviewButton.Visibility = Visibility.Visible;
-                if (historyTable_.UserWhoTook(index_) == owner_._owner.Owner.LoggedUser.Username)
+                if (documentTable_.UserWhoTook(index_) == owner_._owner.Owner.LoggedUser.Username)
                 {
                     TakeReturnButtonSheet.Visibility = Visibility.Visible;
                 }
@@ -131,7 +131,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void AccountThatTookPreviewButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(historyTable_.UserWhoTook(index_));
+            MessageBox.Show(documentTable_.UserWhoTook(index_));
         }
     }
 }
