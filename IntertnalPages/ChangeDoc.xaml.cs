@@ -62,6 +62,8 @@ namespace ArchiveSearchEngine.IntertnalPages
                 FullnameGUI.Text = doc_.GivedFullname;
                 AdditionGUI.Text = doc_.Note;
 
+                AccountThatFirstAddedPreviewButton.Content = userTable.GetUser(doc_.AchievedUsername).Fullname;
+
                 if (doc_.Available)
                 {
                     TakeDocButton.Visibility = Visibility.Visible;
@@ -81,7 +83,19 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void AcceptAddition_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                Document updatedDoc = new Document(doc_.Id, RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
+                    (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
+                    ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
+                    (DateTime)DestroyActDateGUI.SelectedDate, StructSubdivisionGUI.Text, PostGUI.Text, FullnameGUI.Text, doc_.AchievedUsername,
+                    AdditionGUI.Text);
 
+                documentTable_.UpdateDocument(updatedDoc);
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void DeclineAddition_Click(object sender, RoutedEventArgs e)
@@ -117,9 +131,18 @@ namespace ArchiveSearchEngine.IntertnalPages
             }
             else
             {
-                DocStatus.Text = "Вне архива, забрал: ";
                 AccountThatTookPreviewButton.Content = documentTable_.UserWhoTook(doc_.Id);
-                AccountThatTookPreviewButton.Visibility = Visibility.Visible;
+                if (owner_._owner.Owner.LoggedUser.Username != documentTable_.UserWhoTook(doc_.Id))
+                {
+                    DocStatus.Text = "Вне архива, забрал: ";
+                    AccountThatTookPreviewButton.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    DocStatus.Text = "Вне архива, вы забрали этот документ";
+                    AccountThatTookPreviewButton.Visibility = Visibility.Collapsed;
+                }
+
                 if (documentTable_.UserWhoTook(doc_.Id) == owner_._owner.Owner.LoggedUser.Username)
                 {
                     TakeReturnButtonSheet.Visibility = Visibility.Visible;
@@ -151,6 +174,12 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void Number_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (Convert.ToInt32((sender as TextBox).Text) < 0) e.Handled = true;
+        }
+
+        private void AccountThatFirstAddedPreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            var previewUser = new UserPreview(doc_.AchievedUsername, userTable_);
+            previewUser.ShowDialog();
         }
     }
 }
