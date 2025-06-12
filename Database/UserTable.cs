@@ -78,7 +78,7 @@ namespace ArchiveSearchEngine.Database
             List<User> users = new List<User>();
 
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM UserTable WHERE username LIKE '{promt}' OR fullname LIKE '{promt}'",
+                $"SELECT * FROM UserTable WHERE username LIKE '%{promt}%' OR fullname LIKE '%{promt}%'",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)

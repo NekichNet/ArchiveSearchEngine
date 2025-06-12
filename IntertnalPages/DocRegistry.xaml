@@ -74,9 +74,13 @@
                 <Button Margin="15" Content="Фильтр" FontSize="30" Grid.RowSpan="2" FontWeight="Black" Grid.Column="4"></Button>
 
 
-                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" FontSize="20" FontWeight="Bold" Margin="0,15,0,15">Лево</Button>
-                <TextBox Grid.Row="0"  Grid.RowSpan="2" VerticalContentAlignment="Bottom"  Grid.Column="2" Margin="0,15,0,15" HorizontalContentAlignment="Center">1</TextBox>
-                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" FontSize="20" FontWeight="Bold" Margin="0,15,0,15">Право</Button>
+                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" FontSize="20" FontWeight="Bold" Margin="0,15,0,15" Click="PrevPage">
+                    <Image Source="/sources/arrow-left-thick-custom.png"></Image>
+                </Button>
+                <TextBox Name="CounterBox" Grid.Row="0" Grid.RowSpan="2" VerticalContentAlignment="Bottom"  Grid.Column="2" Margin="0,15,0,15" HorizontalContentAlignment="Center" PreviewKeyDown="CounterBox_PreviewKeyDown" PreviewTextInput="CounterBox_PreviewTextInput" TextChanged="CounterBox_TextChanged">1</TextBox>
+                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" FontSize="20" FontWeight="Bold" Margin="0,15,0,15" Click="NextPage">
+                    <Image Source="/sources/arrow-right-thick-custom.png"></Image>
+                </Button>
                 <TextBlock Text="Страница" Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Top" FontSize="20" FontWeight="Black" Grid.ColumnSpan="3" Grid.Column="1"></TextBlock>
                 
                 

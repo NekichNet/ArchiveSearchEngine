@@ -23,7 +23,6 @@ namespace ArchiveSearchEngine
 
         private UserTable _userTable;
         private DocumentTable _documentTable;
-        private HistoryTable _historyTable;
 
         private List<string> images = new List<string>
         {
@@ -46,13 +45,12 @@ namespace ArchiveSearchEngine
 
             _userTable = new UserTable(Connection, !db_exists);
             _documentTable = new DocumentTable(Connection);
-            //_historyTable = new HistoryTable(Connection);
 
             Document.Table = _documentTable;
 
             pages.Add(new EntrySpace(this));
             pages.Add(new RegistrationSpace(this));
-            pages.Add(new MainSpace(this, _userTable, _documentTable)); // , _historyTable
+            pages.Add(new MainSpace(this, _userTable, _documentTable));
             EntryFrame.Navigate(pages[0]);
         }
 
