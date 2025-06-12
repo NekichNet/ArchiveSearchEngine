@@ -53,15 +53,15 @@
         <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Код/индекс дела</TextBlock>
         <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="DealIndexGUI"></TextBox>
 
-        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" Name="ObjectNameGUI" FontWeight="Bold">Наименование объекта</TextBlock>
-        <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+        <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}"  FontWeight="Bold">Наименование объекта</TextBlock>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="ObjectNameGUI"></TextBox>
         <Border Margin="0,10,0,10" BorderThickness="1">
             <StackPanel>
-                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" Name="RackGUI" FontWeight="Bold">Стеллаж</TextBlock>
-                <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}"  FontWeight="Bold">Стеллаж</TextBlock>
+                    <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="RackGUI"></TextBox>
 
-                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" Name="ShelfGUI" FontWeight="Bold">Полка</TextBlock>
-                <TextBox Style="{StaticResource ResourceKey=DocTextBox}"></TextBox>
+                <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}"  FontWeight="Bold">Полка</TextBlock>
+                    <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="ShelfGUI"></TextBox>
             </StackPanel>
         </Border>
     </StackPanel>

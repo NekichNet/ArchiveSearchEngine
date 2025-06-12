@@ -60,6 +60,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 StructSubdivisionGUI.Text = doc_.StructDivision;
                 PostGUI.Text = doc_.GivedPost;
                 FullnameGUI.Text = doc_.GivedFullname;
+                AdditionGUI.Text = doc_.Note;
 
                 if (doc_.Available)
                 {
