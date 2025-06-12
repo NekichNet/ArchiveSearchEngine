@@ -22,6 +22,7 @@
         <RowDefinition Height="0.2*"></RowDefinition>
     </Grid.RowDefinitions>
 
+        <StackPanel Grid.ColumnSpan="15" Grid.RowSpan="15" Background="GhostWhite"></StackPanel>
     <TextBlock Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" FontWeight="Black" >Изменение документа</TextBlock>
 
     <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="15">
