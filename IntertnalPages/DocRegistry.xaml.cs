@@ -23,12 +23,14 @@ namespace ArchiveSearchEngine.IntertnalPages
     {
         public MainSpace _owner;
         DocumentTable documentTable_;
+        List<Document> documents_;
         //HistoryTable historyTable_;
         public DocRegistry(MainSpace owner, DocumentTable documentTable) // , HistoryTable historyTable
         {
             _owner = owner;
             InitializeComponent();
-            DocGrid.ItemsSource = documentTable.GetDocuments(1);
+            documents_ = documentTable.GetDocuments(0);
+            DocGrid.ItemsSource = documents_; 
             documentTable_ = documentTable;
             //historyTable_ = historyTable;
 
@@ -41,9 +43,14 @@ namespace ArchiveSearchEngine.IntertnalPages
             };
         }
 
+        private void ChangePage(int page)
+        {
+            documents_ = documentTable_.GetDocuments(page);
+        }
+
         private void DocGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var ChangeDockWin = new ChangeDoc(this, documentTable_, DocGrid.SelectedIndex); // , historyTable_
+            var ChangeDockWin = new ChangeDoc(this, documentTable_, documents_[DocGrid.SelectedIndex]); // , historyTable_
             ChangeDockWin.ShowDialog();
         }
     }

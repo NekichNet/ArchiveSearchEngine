@@ -190,14 +190,14 @@ namespace ArchiveSearchEngine.Database
         {
             int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username='{username}', taken_datetime='{DateTime.Now}' WHERE id = {documentId}",
                 _connection).ExecuteNonQuery();
-            MessageBox.Show($"TakeDocument: {cmd}, documentId: {documentId}, username: {username}");
+            //MessageBox.Show($"TakeDocument: {cmd}, documentId: {documentId}, username: {username}");
         }
 
         public void ReturnDocument(int documentId)
         {
             int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE id = {documentId}",
                 _connection).ExecuteNonQuery();
-            MessageBox.Show($"ReturnDocument: {cmd}, documentId: {documentId}");
+            //MessageBox.Show($"ReturnDocument: {cmd}, documentId: {documentId}");
         }
 
         public string UserWhoTook(int documentId)
@@ -224,7 +224,7 @@ namespace ArchiveSearchEngine.Database
                 $"SELECT taken_username FROM DocumentTable WHERE id={documentId} AND taken_username IS NULL LIMIT 1",
                 _connection).ExecuteReader())
             {
-                MessageBox.Show($"IsAvailable reader.HasRows: {reader.HasRows}, doc_id: {documentId}");
+                //MessageBox.Show($"IsAvailable reader.HasRows: {reader.HasRows}, doc_id: {documentId}");
                 return reader.HasRows;
             }
         }

@@ -57,20 +57,32 @@
         <Border Grid.Row="1" Background="White">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.1*"></RowDefinition>
+                    <RowDefinition Height="0.05*"></RowDefinition>
+                    <RowDefinition Height="0.07*"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition Width="0.15*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.12*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Margin="15" Background="AliceBlue"></TextBox>
+                <TextBox Margin="15" Background="AliceBlue" Grid.RowSpan="2"></TextBox>
                 
-                <Button Margin="15" Content="Фильтр" FontSize="30" FontWeight="Black" Grid.Column="1"></Button>
+                <Button Margin="15" Content="Фильтр" FontSize="30" Grid.RowSpan="2" FontWeight="Black" Grid.Column="4"></Button>
+
+
+                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" FontSize="20" FontWeight="Bold" Margin="0,15,0,15">Лево</Button>
+                <TextBox Grid.Row="0"  Grid.RowSpan="2" VerticalContentAlignment="Bottom"  Grid.Column="2" Margin="0,15,0,15" HorizontalContentAlignment="Center">1</TextBox>
+                <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" FontSize="20" FontWeight="Bold" Margin="0,15,0,15">Право</Button>
+                <TextBlock Text="Страница" Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Top" FontSize="20" FontWeight="Black" Grid.ColumnSpan="3" Grid.Column="1"></TextBlock>
                 
                 
-                <DataGrid MouseDoubleClick="DocGrid_MouseDoubleClick" Name="DocGrid"  Grid.Row="1" Grid.ColumnSpan="2" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" Style="{StaticResource ResourceKey=LargeTextDataGridStyle}" Background="Transparent" Margin="15" BorderThickness="0">
+                
+                
+                <DataGrid MouseDoubleClick="DocGrid_MouseDoubleClick" Name="DocGrid"  Grid.Row="2" Grid.ColumnSpan="5" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" Style="{StaticResource ResourceKey=LargeTextDataGridStyle}" Background="Transparent" Margin="15" BorderThickness="0">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Индекс" IsReadOnly="True" Binding="{Binding Path=ObjectIndex}" Width="0.45*"></DataGridTextColumn>
                         <DataGridTextColumn Header="Наименование" IsReadOnly="True" Binding="{Binding Path=ObjectName}" Width="4*"></DataGridTextColumn>

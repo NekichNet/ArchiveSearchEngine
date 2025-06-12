@@ -29,10 +29,10 @@ namespace ArchiveSearchEngine.Database
         // Does nothing, if doc is not available
         public void TakeDocument(string username, int documentId)
         {
-            MessageBox.Show("Док взятие");
+            //MessageBox.Show("Док взятие");
             if (IsDocumentAvailable(documentId))
             {
-                MessageBox.Show("Док взят");
+                //MessageBox.Show("Док взят");
                 new SqliteCommand($"INSERT INTO HistoryTable " +
                     $"(archive_id, username, datetime_taken, datetime_returned, is_returned) VALUES " +
                     $"({documentId}, '{username}', '{DateTime.Now}', '{DateTime.Now}', 0)", _connection).ExecuteNonQuery();
@@ -59,7 +59,7 @@ namespace ArchiveSearchEngine.Database
                 $"is_returned=1 WHERE " +
                 $"is_returned = 0 AND archive_id = {documentId}",
                 _connection).ExecuteNonQuery();
-            MessageBox.Show($"{value}");
+            //MessageBox.Show($"{value}");
         }
 
         // Returns a username of user, who lastly took this doc (throws exception, if doc is available)

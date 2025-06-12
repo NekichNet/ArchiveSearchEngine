@@ -23,7 +23,6 @@ namespace ArchiveSearchEngine.IntertnalPages
         DocRegistry owner_;
         DocumentTable documentTable_;
         //HistoryTable historyTable_;
-        int index_;
         Document doc_;
 
         public ChangeDoc(DocRegistry owner, DocumentTable documentTable, Document doc) // , HistoryTable historyTable
@@ -56,6 +55,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 CaseNumberGUI.Text = doc_.CaseNum;
                 DestroyActDateGUI.DisplayDate= doc_.DestructActDate;
                 DestroyActDateGUI.Text= doc_.DestructActDate.ToShortDateString();
+                DestroyActNumberGUI.Text = doc_.DestructActNum;
                 StructSubdivisionGUI.Text = doc_.StructDivision;
                 PostGUI.Text = doc_.GivedPost;
                 FullnameGUI.Text = doc_.GivedFullname;
@@ -92,7 +92,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             TakeDocButton.Visibility = Visibility.Collapsed;
             ReturnDocButton.Visibility = Visibility.Visible;
-            documentTable_.TakeDocument(index_, owner_._owner.Owner.LoggedUser.Username);
+            documentTable_.TakeDocument(doc_.Id, owner_._owner.Owner.LoggedUser.Username);
             Refresh();
         }
 
@@ -101,15 +101,13 @@ namespace ArchiveSearchEngine.IntertnalPages
             TakeDocButton.Visibility = Visibility.Visible;
             ReturnDocButton.Visibility = Visibility.Collapsed;
 
-            MessageBox.Show($"{index_}");
-            documentTable_.ReturnDocument(index_);
+            documentTable_.ReturnDocument(doc_.Id);
             Refresh();
         }
         private void Refresh()
         {
             if (doc_.Available)
             {
-                //MessageBox.Show("Доступен");
                 
                 DocStatus.Text = "Доступен";
                 
@@ -118,12 +116,10 @@ namespace ArchiveSearchEngine.IntertnalPages
             }
             else
             {
-
-                //MessageBox.Show("не Доступен");
                 DocStatus.Text = "Вне архива, забрал: ";
-                AccountThatTookPreviewButton.Content = documentTable_.UserWhoTook(index_);
+                AccountThatTookPreviewButton.Content = documentTable_.UserWhoTook(doc_.Id);
                 AccountThatTookPreviewButton.Visibility = Visibility.Visible;
-                if (documentTable_.UserWhoTook(index_) == owner_._owner.Owner.LoggedUser.Username)
+                if (documentTable_.UserWhoTook(doc_.Id) == owner_._owner.Owner.LoggedUser.Username)
                 {
                     TakeReturnButtonSheet.Visibility = Visibility.Visible;
                 }
@@ -136,7 +132,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void AccountThatTookPreviewButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(documentTable_.UserWhoTook(index_));
+            MessageBox.Show(documentTable_.UserWhoTook(doc_.Id));
         }
     }
 }
