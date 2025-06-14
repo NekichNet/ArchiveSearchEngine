@@ -57,9 +57,6 @@ namespace ArchiveSearchEngine.IntertnalPages
                 DestroyActDateGUI.DisplayDate= doc_.DestructActDate;
                 DestroyActDateGUI.Text= doc_.DestructActDate.ToShortDateString();
                 DestroyActNumberGUI.Text = doc_.DestructActNum;
-                StructSubdivisionGUI.Text = doc_.StructDivision;
-                PostGUI.Text = doc_.GivedPost;
-                FullnameGUI.Text = doc_.GivedFullname;
                 AdditionGUI.Text = doc_.Note;
 
                 AccountThatFirstAddedPreviewButton.Content = userTable.GetUser(doc_.AchievedUsername).Fullname;
@@ -88,7 +85,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 Document updatedDoc = new Document(doc_.Id, RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
                     (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
                     ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
-                    (DateTime)DestroyActDateGUI.SelectedDate, StructSubdivisionGUI.Text, PostGUI.Text, FullnameGUI.Text, doc_.AchievedUsername,
+                    (DateTime)DestroyActDateGUI.SelectedDate, doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.AchievedUsername,
                     AdditionGUI.Text);
 
                 documentTable_.UpdateDocument(updatedDoc);

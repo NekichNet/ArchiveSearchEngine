@@ -48,7 +48,7 @@ namespace ArchiveSearchEngine
 
             Document.Table = _documentTable;
 
-            pages.Add(new EntrySpace(this));
+            pages.Add(new EntrySpace(this, _userTable));
             pages.Add(new RegistrationSpace(this));
             pages.Add(new MainSpace(this, _userTable, _documentTable));
             EntryFrame.Navigate(pages[0]);

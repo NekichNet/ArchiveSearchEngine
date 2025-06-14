@@ -23,21 +23,27 @@ namespace ArchiveSearchEngine.IntertnalPages
     {
         MainSpace _owner;
         DocumentTable _table;
-        public AddDocs(MainSpace owner, DocumentTable _documentTable)
+        int selectedUserIndex = 0;
+        UserTable _userTable;
+        public AddDocs(MainSpace owner, DocumentTable _documentTable, UserTable userTable)
         {
             _owner = owner;
             InitializeComponent();
             _table = _documentTable;
+            FullnameSearchGUI.ItemsSource = userTable.GetUsers().Select(x => x.Fullname);
+            _userTable = userTable;
+            StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "ЛС", "Постоянно"};
         }
 
         public void AddDock()
         {
             try
             {
+                User user = _userTable.GetUsers()[selectedUserIndex];
                 _table.NewDocument(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
                     (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
-                    ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
-                    (DateTime)DestroyActDateGUI.SelectedDate, StructSubdivisionGUI.Text, PostGUI.Text, FullnameGUI.Text, _owner.Owner.LoggedUser.Username,
+                    ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
+                    (DateTime)DestroyActDateGUI.SelectedDate, user.StructDivision, user.Post, user.Fullname, _owner.Owner.LoggedUser.Username,
                     AdditionGUI.Text);
                 MessageBox.Show("Документ был успешно добавлен");
             }
@@ -49,6 +55,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                     MessageBox.Show(exception.Message, "Ошибка");
                 }
             }
+
         }
 
         private void AcceptAddition_Click(object sender, RoutedEventArgs e)
@@ -70,6 +77,11 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void Number_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (Convert.ToInt32((sender as TextBox).Text) < 0) e.Handled = true;
+        }
+
+        private void FullnameSearchGUI_Selected(object sender, RoutedEventArgs e)
+        {
+            selectedUserIndex = FullnameSearchGUI.SelectedIndex;
         }
     }
 }

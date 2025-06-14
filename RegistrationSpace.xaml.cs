@@ -24,7 +24,15 @@ namespace ArchiveSearchEngine
         public RegistrationSpace(MainWindow owner)
         {
             _owner = owner;
-            InitializeComponent();
+            InitializeComponent(); 
+            
+            IsVisibleChanged += (s, e) =>
+            {
+                if (IsVisible)
+                {
+                    ReOpen();
+                }
+            };
         }
 
         private void BackToSignIn(object sender, RoutedEventArgs e)
@@ -53,6 +61,14 @@ namespace ArchiveSearchEngine
 
         private void ErrorOut(string message) {
             ErrorGui.Text = message;
+        }
+        private void ReOpen()
+        {
+            LoginGUI.Text = "";
+            PostGUI.Text = "";
+            NameGui.Text = "";
+            StructDivisionGUI.Text = "";
+            ErrorGui.Text = "";
         }
     }
 }
