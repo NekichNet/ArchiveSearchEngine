@@ -19,27 +19,27 @@ namespace ArchiveSearchEngine.Database
             _connection = connection;
 
             new SqliteCommand("CREATE TABLE IF NOT EXISTS DocumentTable (" +
-                "registration_num PRIMARY KEY TEXT NOT NULL," +
-                "volume_num TEXT NOT NULL," +
-                "book_num TEXT NOT NULL," +
-                "content_quantity INTEGER NOT NULL," +
-                "inventory_date DATE," +
-                "inventory_num TEXT," +
-                "object_index TEXT NOT NULL," +
-                "object_name TEXT NOT NULL," +
-                "rack TEXT NOT NULL," +
-                "shelf TEXT NOT NULL," +
-                "expiring_in TEXT NOT NULL," +
-                "documents_date DATE NOT NULL," +
-                "case_num TEXT NOT NULL," +
-                "destruct_act_num TEXT," +
-                "destruct_act_date DATE," +
-                "struct_division TEXT NOT NULL," +
-                "gived_post TEXT NOT NULL," +
-                "gived_fullname TEXT NOT NULL," +
-                "achieved_username TEXT NOT NULL," +
-                "taken_username TEXT," +
-                "taken_datetime TEXT," +
+                "registration_num TEXT PRIMARY KEY NOT NULL, " +
+                "volume_num TEXT, " +
+                "book_num TEXT, " +
+                "content_quantity INTEGER NOT NULL, " +
+                "inventory_date DATE, " +
+                "inventory_num TEXT, " +
+                "object_index TEXT NOT NULL, " +
+                "object_name TEXT NOT NULL, " +
+                "rack TEXT NOT NULL, " +
+                "shelf TEXT NOT NULL, " +
+                "expiring_in TEXT NOT NULL, " +
+                "documents_date DATE NOT NULL, " +
+                "case_num TEXT NOT NULL, " +
+                "destruct_act_num TEXT, " +
+                "destruct_act_date DATE, " +
+                "struct_division TEXT NOT NULL, " +
+                "gived_post TEXT NOT NULL, " +
+                "gived_fullname TEXT NOT NULL, " +
+                "achieved_username TEXT NOT NULL, " +
+                "taken_username TEXT, " +
+                "taken_datetime TEXT, " +
                 "note TEXT)", _connection).ExecuteNonQuery();
         }
 
@@ -136,6 +136,8 @@ namespace ArchiveSearchEngine.Database
         public List<Document> GetDocuments(int page, DocumentFilter filter)
         {
             List<Document> documents = new List<Document>();
+
+            if (page < 1) { throw new Exception("Непредвиденная ошибка: страница меньше единицы"); }
 
             string query = $"SELECT * FROM DocumentTable LIMIT 30 OFFSET {page * 30}";
 

@@ -18,11 +18,11 @@ namespace ArchiveSearchEngine.Database
             _connection = connection;
 
             new SqliteCommand("CREATE TABLE IF NOT EXISTS UserTable (" +
-                "username TEXT PRIMARY KEY NOT NULL," +
-                "password_hash TEXT NOT NULL," +
-                "fullname TEXT NOT NULL," +
-                "post TEXT NOT NULL," +
-                "struct_division TEXT NOT NULL," +
+                "username TEXT PRIMARY KEY NOT NULL, " +
+                "password_hash TEXT NOT NULL, " +
+                "fullname TEXT NOT NULL, " +
+                "post TEXT NOT NULL, " +
+                "struct_division TEXT NOT NULL, " +
                 "is_admin INTEGER NOT NULL)", _connection).ExecuteNonQuery();
 
             // adding a default admin account, if database was recreated

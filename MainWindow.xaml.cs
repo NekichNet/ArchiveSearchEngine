@@ -21,8 +21,9 @@ namespace ArchiveSearchEngine
     {
         public User LoggedUser { get; set; }
 
-        private UserTable _userTable;
         private DocumentTable _documentTable;
+        private UserTable _userTable;
+        private NonUserTable _nonUserTable;
 
         private List<string> images = new List<string>
         {
@@ -45,6 +46,7 @@ namespace ArchiveSearchEngine
 
             _userTable = new UserTable(Connection, !db_exists);
             _documentTable = new DocumentTable(Connection);
+            _nonUserTable = new NonUserTable(Connection);
 
             Document.Table = _documentTable;
 

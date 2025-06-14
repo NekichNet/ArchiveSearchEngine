@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ArchiveSearchEngine.IntertnalPages
 {
@@ -26,11 +27,13 @@ namespace ArchiveSearchEngine.IntertnalPages
         List<Document> documents_;
         private int page_;
         UserTable userTable_;
+        private DocumentFilter filter_;
         public DocRegistry(MainSpace owner, DocumentTable documentTable, UserTable userTable)
         {
             _owner = owner;
             InitializeComponent();
-            documents_ = documentTable.GetDocuments(0, new DocumentFilter());
+            filter_ = new DocumentFilter();
+            documents_ = documentTable.GetDocuments(0, filter_);
             DocGrid.ItemsSource = documents_; 
             documentTable_ = documentTable;
             userTable_ = userTable;
@@ -43,12 +46,30 @@ namespace ArchiveSearchEngine.IntertnalPages
                 }
             };
         }
-     
+
+        // Preprocessing pagechanging only by Counterbox and '<-' '->' buttons.
+        // If it's going to become empty, makes no effect and returns false
+        private bool ChangePage(int newPage)
+        {
+            if (newPage < 1) { return false; }
+            List<Document> newDocuments = documentTable_.GetDocuments(page_, filter_);
+            if (newDocuments.Count > 0)
+            {
+                page_ = newPage;
+                documents_ = newDocuments;
+                DocGrid.Items.Refresh();
+                return true;
+            }
+            return false;
+        }
+        
+        // Processing '->' button press
         private void NextPage(object sender, RoutedEventArgs e)
         {
             CounterBox.Text = Convert.ToString(page_ + 1);
         }
 
+        // Processing '<-' button press
         private void PrevPage(object sender, RoutedEventArgs e)
         {
             CounterBox.Text = Convert.ToString(page_ - 1);
@@ -63,8 +84,10 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void CounterBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             int value = Convert.ToInt32((sender as TextBox).Text);
-            if (value > 0) page_ = value;
-            else (sender as TextBox).Text = Convert.ToString(page_);
+            if (!ChangePage(value))
+            {
+                (sender as TextBox).Text = Convert.ToString(page_);
+            }
         }
 
         private void CounterBox_PreviewKeyDown(object sender, KeyEventArgs e)
