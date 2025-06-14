@@ -37,6 +37,7 @@ namespace ArchiveSearchEngine.IntertnalPages
             DocGrid.ItemsSource = documents_; 
             documentTable_ = documentTable;
             userTable_ = userTable;
+            page_ = 1;
 
             IsVisibleChanged += (s, e) =>
             {
@@ -51,8 +52,9 @@ namespace ArchiveSearchEngine.IntertnalPages
         // If it's going to become empty, makes no effect and returns false
         private bool ChangePage(int newPage)
         {
+            if (newPage == page_) { return true; }
             if (newPage < 1) { return false; }
-            List<Document> newDocuments = documentTable_.GetDocuments(page_, filter_);
+            List<Document> newDocuments = documentTable_.GetDocuments(page_ - 1, filter_);
             if (newDocuments.Count > 0)
             {
                 page_ = newPage;
