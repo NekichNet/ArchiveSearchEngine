@@ -128,7 +128,15 @@ namespace ArchiveSearchEngine
             EntryFrame.Navigate(pages[2]);
         }
 
-        
+
+        private void Quit(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Вы собираетесь закрыть программу", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            if (messageBoxResult == MessageBoxResult.OK)
+            {
+                this.Close();
+            }
+        }
 
 
 

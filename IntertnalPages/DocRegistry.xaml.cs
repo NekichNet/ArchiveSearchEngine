@@ -52,17 +52,21 @@ namespace ArchiveSearchEngine.IntertnalPages
         // If it's going to become empty, makes no effect and returns false
         private bool ChangePage(int newPage)
         {
-            if (newPage == page_) { return true; }
-            if (newPage < 1) { return false; }
-            List<Document> newDocuments = documentTable_.GetDocuments(page_ - 1, filter_);
-            if (newDocuments.Count > 0)
+            try
             {
-                page_ = newPage;
-                documents_ = newDocuments;
-                DocGrid.Items.Refresh();
-                return true;
+                if (newPage == page_) { return true; }
+                if (newPage < 1) { return false; }
+                List<Document> newDocuments = documentTable_.GetDocuments(page_ - 1, filter_);
+                if (newDocuments.Count > 0)
+                {
+                    page_ = newPage;
+                    documents_ = newDocuments;
+                    DocGrid.Items.Refresh();
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch (NullReferenceException ex) { return true; }
         }
         
         // Processing '->' button press

@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArchiveSearchEngine"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized">
+        Title="MainWindow" Height="1080" Width="1920" WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
@@ -16,7 +17,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         
-        <Image Grid.RowSpan="2" Grid.ColumnSpan="2" Stretch="UniformToFill" Source="/sources/background1.png" />
+        <Image Grid.RowSpan="3" Grid.ColumnSpan="2" Stretch="UniformToFill" Source="/sources/background1.png" />
 
         <Rectangle Margin="40" RadiusX="10" RadiusY="10">
             <Rectangle.Fill>
@@ -27,9 +28,11 @@
             </Rectangle.Effect>
         </Rectangle>
 
-        <Frame Grid.RowSpan="2" Grid.ColumnSpan="2" x:Name="EntryFrame" NavigationUIVisibility="Hidden"></Frame>
+        <Frame Grid.RowSpan="3" Grid.ColumnSpan="2" x:Name="EntryFrame" NavigationUIVisibility="Hidden"></Frame>
         <Border Grid.Row="3" Margin="10">
             <Image Margin="10" Source="/sources/logo.png"/>
         </Border>
+
+        <Button Margin="10" Content="Закрыть программу" FontSize="30" Style="{StaticResource DenyButtonStyle}" Click="Quit"></Button>
     </Grid>
 </Window>

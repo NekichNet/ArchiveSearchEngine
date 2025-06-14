@@ -14,22 +14,23 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
             <RowDefinition Height="5*"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Border Margin="10">
+        <Border Grid.Row="1" Margin="10">
             <ListBox Background="Transparent" BorderBrush="Transparent" Name="SpacesListBox" HorizontalContentAlignment="Stretch" SelectionChanged="SpacesListBox_GotFocus">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border>
-                            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="{Binding Path=Title}"></TextBlock>
+                            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="{Binding Path=Title}" TextWrapping="Wrap" MaxWidth="450"></TextBlock>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Border>
-        <Border Margin="10" Grid.Column="1" Grid.RowSpan="2">
+        <Border Margin="10" Grid.Column="1" Grid.RowSpan="3">
             <Frame x:Name="DisplayFrame"></Frame>
         </Border>
         

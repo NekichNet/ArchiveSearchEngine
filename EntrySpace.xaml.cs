@@ -61,5 +61,6 @@ namespace ArchiveSearchEngine
             LoginSearchGUI.Text = "";
             ErrorGui.Text = "";
         }
+
     }
 }
