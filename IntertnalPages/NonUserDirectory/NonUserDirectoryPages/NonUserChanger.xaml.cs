@@ -39,9 +39,9 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
         public void RefreshInfo()
         {
             var user = nonUserTable_.GetUnits()[index_];
-            NameDisplay.Text = nonUserTable_.GetUnits(user.Id).Fullname;
-            PostDisplay.Text = nonUserTable_.GetUnits(user.Id).Post;
-            StructDivisionDisplay.Text = nonUserTable_.GetUnits(user.Id).StructDivision;
+            NameDisplay.Text = nonUserTable_.GetUnit(user.Id).Fullname;
+            PostDisplay.Text = nonUserTable_.GetUnit(user.Id).Post;
+            StructDivisionDisplay.Text = nonUserTable_.GetUnit(user.Id).StructDivision;
         }
 
 
@@ -75,15 +75,6 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
             MessageBoxResult notifWindow = MessageBox.Show("Вы собираетесь удалить этого пользователя,\nподтвердить удаление?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (notifWindow == MessageBoxResult.Yes)
             {
-                if (userTable_.GetUsers()[index_].IsAdmin)
-                {
-                    MessageBoxResult notifWindow2 = MessageBox.Show("Вы собираетесь удалить администратора.\nЭто перманентно, его больше нельзя будет вернуть", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                    if (notifWindow2 == MessageBoxResult.Yes)
-                    {
-                        userTable_.DeleteUser(userTable_.GetUsers()[index_].Username);
-                        owner_.ToSearchUsers();
-                    }
-                }
                 else
                 {
                     userTable_.DeleteUser(userTable_.GetUsers()[index_].Username);
