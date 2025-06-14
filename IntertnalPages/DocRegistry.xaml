@@ -89,7 +89,7 @@
                 <DataGrid MouseDoubleClick="DocGrid_MouseDoubleClick" Name="DocGrid"  Grid.Row="2" Grid.ColumnSpan="5" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" Style="{StaticResource ResourceKey=LargeTextDataGridStyle}" Background="Transparent" Margin="15" BorderThickness="0">
 
                     <DataGrid.ContextMenu>
-                        <ContextMenu>
+                        <ContextMenu Name="ContextMenuDocGrid" ContextMenuOpening="ContextMenu_ContextMenuOpening">
                             <MenuItem Click="CopyRegistrationNumberToClipboard" Header="Копировать регистрационный номер в буфер обмена"/>
                             <MenuItem Click="CreateDocByPreset" Header="Создать новый документ по шаблону"/>
                         </ContextMenu>

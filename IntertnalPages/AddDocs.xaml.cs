@@ -101,7 +101,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 ObjectNameGUI.Text = docAsPreset.ObjectName;
                 RackGUI.Text = docAsPreset.Rack;
                 ShelfGUI.Text = docAsPreset.Shelf;
-                StoringTermGUI.Text = docAsPreset.ExpiringIn;
+                StoringTermComboGUI.Text = docAsPreset.ExpiringIn;
                 DocDateGUI.DisplayDate = docAsPreset.DocumentsDate;
                 DocDateGUI.Text = docAsPreset.DocumentsDate.ToShortDateString();
                 CaseNumberGUI.Text = docAsPreset.CaseNum;
@@ -109,6 +109,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 DestroyActDateGUI.Text = docAsPreset.DestructActDate.ToShortDateString();
                 DestroyActNumberGUI.Text = docAsPreset.DestructActNum;
                 AdditionGUI.Text = docAsPreset.Note;
+                FullnameSearchGUI.Text = docAsPreset.GivedFullname;
             }
             catch (Exception ex)
             {

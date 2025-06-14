@@ -88,7 +88,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                     (DateTime)DestroyActDateGUI.SelectedDate, doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.AchievedUsername,
                     AdditionGUI.Text);
 
-                documentTable_.UpdateDocument(updatedDoc);
+                documentTable_.UpdateDocument(updatedDoc, doc_.RegistrationNum);
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);

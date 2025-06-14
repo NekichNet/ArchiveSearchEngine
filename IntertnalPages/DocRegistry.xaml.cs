@@ -99,18 +99,30 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void DocGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var ChangeDockWin = new ChangeDoc(this, documentTable_, documents_[DocGrid.SelectedIndex], userTable_); // , historyTable_
-            ChangeDockWin.ShowDialog();
+            try
+            {
+                var ChangeDockWin = new ChangeDoc(this, documentTable_, documents_[DocGrid.SelectedIndex], userTable_);
+                ChangeDockWin.ShowDialog();
+            } catch { }
         }
 
         private void CreateDocByPreset(object sender, RoutedEventArgs e)
         {
             _owner.CreateDocByPreset(documents_[DocGrid.SelectedIndex]);
         }
-
+        
         private void CopyRegistrationNumberToClipboard(object sender, RoutedEventArgs e)
         {
             Clipboard.SetText(documents_[DocGrid.SelectedIndex].RegistrationNum);
         }
+
+        private void ContextMenu_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (DocGrid.SelectedItem == null) {
+                e.Handled = true;
+                return;
+            }
+        }
+
     }
 }

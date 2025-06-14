@@ -91,8 +91,9 @@ namespace ArchiveSearchEngine
 
         }
         public void CreateDocByPreset(Document doc) {
-            var CreationPage = Spaces.OfType<AddDocs>().FirstOrDefault();
+            var CreationPage = Spaces.Select(x=>x.Page).OfType<AddDocs>().FirstOrDefault();
             if (CreationPage != null) {
+                DisplayFrame.Navigate(Spaces[1].Page);
                 CreationPage.SetPresetValues(doc);
             }
         }
