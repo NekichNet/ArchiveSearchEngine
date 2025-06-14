@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spire.Doc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,5 +30,11 @@ namespace ArchiveSearchEngine.Database
         public string ContentQuantity { get; set; } // 4 Количество страниц / дисков
         public string ExpiringIn { get; set; } // 11 Срок хранения дела
         public string DocumentsDate { get; set; } // 12 Дата документов
+
+        public bool FilterEnabled { get {
+                return ObjectIndex.Length + ObjectName.Length + VolumeNum.Length + BookNum.Length + ContentQuantity.Length + ExpiringIn.Length + DocumentsDate.Length > 0;
+            }
+        }
+
     }
 }

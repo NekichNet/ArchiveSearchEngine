@@ -137,9 +137,20 @@ namespace ArchiveSearchEngine.Database
         {
             List<Document> documents = new List<Document>();
 
-            using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM DocumentTable LIMIT 30 OFFSET {page * 30}",
-                _connection).ExecuteReader())
+            string query = $"SELECT * FROM DocumentTable LIMIT 30 OFFSET {page * 30}";
+
+            if (filter.FilterEnabled) {
+                query += " WHERE";
+                if (filter.ObjectIndex != "") { query += $" object_index = '{filter.ObjectIndex}'"; }
+                if (filter.ObjectName != "") { query += $" object_name LIKE '%{filter.ObjectName}%'"; }
+                if (filter.VolumeNum != "") { query += $" volume_num = '{filter.VolumeNum}'"; }
+                if (filter.BookNum != "") { query += $" book_num = '{filter.BookNum}'"; }
+                if (filter.ContentQuantity != "") { query += $" content_quantity = {filter.ContentQuantity}"; }
+                if (filter.ExpiringIn != "") { query += $" expiring_in = '{filter.ExpiringIn}'"; }
+                if (filter.DocumentsDate != "") { query += $" documents_date = '{filter.DocumentsDate}'"; }
+            }
+
+            using (SqliteDataReader reader = new SqliteCommand(query, _connection).ExecuteReader())
             {
                 if (reader.HasRows)
                 {
@@ -175,32 +186,38 @@ namespace ArchiveSearchEngine.Database
             }
         }
 
-        // Updates document info in database, found by his id
-        public void UpdateDocument(Document doc)
+        // Updates document info in database, found by his id.
+        // Returns false, if doc.RegistrationNum is already claimed
+        public bool UpdateDocument(Document doc, string oldRegistrationNum)
         {
-            new SqliteCommand($"UPDATE DocumentTable SET " +
+            if (doc.RegistrationNum != oldRegistrationNum && DocumentExists(doc.RegistrationNum))
+            {
+                new SqliteCommand($"UPDATE DocumentTable SET " +
 
-                $"registration_num={doc.RegistrationNum.Replace("'", "")}, " +
-                $"volume_num={doc.VolumeNum.Replace("'", "")}, " +
-                $"book_num={doc.BookNum.Replace("'", "")}, " +
-                $"content_quantity={doc.ContentQuantity}, " +
-                $"inventory_date={doc.InventoryDate}, " +
-                $"inventory_num={doc.InventoryNum.Replace("'", "")}, " +
-                $"object_index={doc.ObjectIndex.Replace("'", "")}, " +
-                $"object_name={doc.ObjectName.Replace("'", "")}, " +
-                $"rack={doc.Rack.Replace("'", "")}, " +
-                $"shelf={doc.Shelf.Replace("'", "")}, " +
-                $"expiring_in={doc.ExpiringIn.Replace("'", "")}, " +
-                $"documents_date={doc.DocumentsDate}, " +
-                $"case_num={doc.CaseNum.Replace("'", "")}, " +
-                $"destruct_act_num={doc.DestructActNum.Replace("'", "")}, " +
-                $"destruct_act_date={doc.DestructActDate}, " +
-                $"struct_division={doc.StructDivision.Replace("'", "")}, " +
-                $"gived_post={doc.GivedPost.Replace("'", "")}, " +
-                $"gived_fullname={doc.GivedFullname.Replace("'", "")}, " +
-                $"note={doc.Note.Replace("'", "")}, " +
+                    $"registration_num={doc.RegistrationNum.Replace("'", "")}, " +
+                    $"volume_num={doc.VolumeNum.Replace("'", "")}, " +
+                    $"book_num={doc.BookNum.Replace("'", "")}, " +
+                    $"content_quantity={doc.ContentQuantity}, " +
+                    $"inventory_date={doc.InventoryDate}, " +
+                    $"inventory_num={doc.InventoryNum.Replace("'", "")}, " +
+                    $"object_index={doc.ObjectIndex.Replace("'", "")}, " +
+                    $"object_name={doc.ObjectName.Replace("'", "")}, " +
+                    $"rack={doc.Rack.Replace("'", "")}, " +
+                    $"shelf={doc.Shelf.Replace("'", "")}, " +
+                    $"expiring_in={doc.ExpiringIn.Replace("'", "")}, " +
+                    $"documents_date={doc.DocumentsDate}, " +
+                    $"case_num={doc.CaseNum.Replace("'", "")}, " +
+                    $"destruct_act_num={doc.DestructActNum.Replace("'", "")}, " +
+                    $"destruct_act_date={doc.DestructActDate}, " +
+                    $"struct_division={doc.StructDivision.Replace("'", "")}, " +
+                    $"gived_post={doc.GivedPost.Replace("'", "")}, " +
+                    $"gived_fullname={doc.GivedFullname.Replace("'", "")}, " +
+                    $"note={doc.Note.Replace("'", "")}, " +
 
-                $"WHERE registration_num = {doc.RegistrationNum}", _connection).ExecuteNonQuery();
+                    $"WHERE registration_num = {oldRegistrationNum}", _connection).ExecuteNonQuery();
+                return true;
+            }
+            return false;
         }
 
         public void TakeDocument(string registrationNum, string username)
