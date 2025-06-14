@@ -52,7 +52,7 @@ namespace ArchiveSearchEngine
 
             pages.Add(new EntrySpace(this, _userTable));
             pages.Add(new RegistrationSpace(this));
-            pages.Add(new MainSpace(this, _userTable, _documentTable));
+            pages.Add(new MainSpace(this, _userTable, _documentTable, _nonUserTable));
             EntryFrame.Navigate(pages[0]);
         }
 

@@ -24,14 +24,14 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory
     {
         List<UserSpace> pages = new List<UserSpace>();
         public MainSpace owner_;
-        UserTable userTable_;
-        public NonUserDirectory(MainSpace owner, UserTable userTable)
+        NonUserTable nonUserTable_;
+        public NonUserDirectory(MainSpace owner, NonUserTable nonUserTable)
         {
             InitializeComponent();
-            pages.Add(new UserSpace("Поисковик", new NonUserDirectoryPages.NonUserFinder(this, userTable)));
+            pages.Add(new UserSpace("Поисковик", new NonUserDirectoryPages.NonUserFinder(this, nonUserTable)));
             UserListManager.Navigate(pages[0].Page);
             owner_ = owner;
-            userTable_ = userTable;
+            nonUserTable_ = nonUserTable;
         }
         public void ToSearchUsers()
         {
@@ -44,7 +44,7 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory
                 pages.RemoveAt(1);
             }
             catch { }
-            pages.Add(new UserSpace("Изменятель", new NonUserDirectoryPages.NonUserChanger(this, userTable_, index)));
+            pages.Add(new UserSpace("Изменятель", new NonUserDirectoryPages.NonUserChanger(this, nonUserTable_, index)));
             UserListManager.Navigate(pages[1].Page);
         }
 

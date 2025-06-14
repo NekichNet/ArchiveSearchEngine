@@ -22,18 +22,13 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
         User user_;
         public NonUserChanger owner_;
         bool UserIsAdmin;
-        public ChangeNonUserProperties(NonUserChanger owner, User user)
+        public ChangeNonUserProperties(NonUserChanger owner, NonUser user)
         {
             InitializeComponent();
             FullnameChange.Text = user.Fullname;
             PostChange.Text = user.Post;
             StructDivisionChange.Text = user.StructDivision;
-            UserIsAdmin = user.IsAdmin;
             owner_ = owner;
-            if(owner.owner_.owner_.Owner.LoggedUser.Username == user.Username)
-            {
-                ShowChangeAdmin.Visibility = Visibility.Hidden;
-            }
         }
 
         private void DenyButton_Click(object sender, RoutedEventArgs e)
@@ -43,19 +38,9 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            //owner_.ChangeUser(FullnameChange.Text, PostChange.Text, StructDivisionChange.Text, LoginChange.Text, PasswordChange.Password, UserIsAdmin);
+            owner_.ChangeUser(FullnameChange.Text, PostChange.Text, StructDivisionChange.Text);
             
             this.Close();
-        }
-
-        private void ChangeIsAdmin_Checked(object sender, RoutedEventArgs e)
-        {
-            UserIsAdmin = true;
-        }
-
-        private void ChangeIsAdmin_Unchecked(object sender, RoutedEventArgs e)
-        {
-            UserIsAdmin = false;
         }
     }
 }

@@ -22,21 +22,21 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
     public partial class NonUserFinder : Page
     {
         NonUserDirectory owner_;
-        UserTable userTable_;
+        NonUserTable nonUserTable_;
         
 
-        public NonUserFinder(NonUserDirectory owner, UserTable userTable)
+        public NonUserFinder(NonUserDirectory owner, NonUserTable nonUserTable)
         {
             InitializeComponent();
             owner_ = owner;
-            userTable_ = userTable;
-            UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
+            nonUserTable_ = nonUserTable;
+            UsersFoundDisplay.ItemsSource = nonUserTable_.GetUnits();
 
             IsVisibleChanged += (s, e) =>
             {
                 if (IsVisible)
                 {
-                    UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
+                    UsersFoundDisplay.ItemsSource = nonUserTable_.GetUnits();
                     UsersFoundDisplay.Items.Refresh();
                 }
             };
@@ -57,19 +57,19 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
         {
             if (PromptLine.Text.Trim().Length == 0)
             {
-                UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
+                UsersFoundDisplay.ItemsSource = nonUserTable_.GetUnits();
                 UsersFoundDisplay.Items.Refresh();
             }
             else
             {
-                UsersFoundDisplay.ItemsSource = userTable_.GetUsers(PromptLine.Text);
+                UsersFoundDisplay.ItemsSource = nonUserTable_.GetUnits(PromptLine.Text);
                 UsersFoundDisplay.Items.Refresh();
             }
         }
 
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
-            var addUserWindow = new AddNewNonUser(this, userTable_);
+            var addUserWindow = new AddNewNonUser(this, nonUserTable_);
             addUserWindow.ShowDialog();
         }
     }

@@ -21,13 +21,13 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
     /// </summary>
     public partial class AddNewNonUser : Window
     {
-        UserTable userTable_;
+        NonUserTable nonUserTable_;
         NonUserFinder owner_;
         bool isAdmin = false;
-        public AddNewNonUser(NonUserFinder owner, UserTable userTable)
+        public AddNewNonUser(NonUserFinder owner, NonUserTable nonUserTable)
         {
             InitializeComponent();
-            this.userTable_ = userTable;
+            this.nonUserTable_ = nonUserTable;
             owner_ = owner;
         }
 
@@ -38,52 +38,24 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (LoginChange.Text.Trim().Length > 0)
-            {
-                if (!userTable_.UserExists(LoginChange.Text))
-                {
-                    if(PasswordChange.Password.Trim().Length >= 5)
-                    {
 
-                        try
-                        {
-                            User user = new User(LoginChange.Text, FullnameChange.Text, PostChange.Text, StructDivisionChange.Text, isAdmin);
+        try
+        {
+        nonUserTable_.NewUnit(FullnameChange.Text, PostChange.Text, StructDivisionChange.Text);
+        owner_.UsersFoundDisplay.ItemsSource = nonUserTable_.GetUnits();
+        owner_.UsersFoundDisplay.Items.Refresh();
+        MessageBox.Show("Человек был успешно добавлен");
+        this.Close();
+        }
+        catch
+        {
+        owner_.UsersFoundDisplay.ItemsSource = nonUserTable_.GetUnits();
+        owner_.UsersFoundDisplay.Items.Refresh();
+        MessageBox.Show("Произошла непредвиденененененная ошибка");
+        this.Close();
+        }
+                    
 
-                            userTable_.NewUser(user, PasswordChange.Password);
-
-
-                            owner_.UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
-                            owner_.UsersFoundDisplay.Items.Refresh();
-                            MessageBox.Show("Пользователь был успешно добавлен");
-                            this.Close();
-                        }
-                        catch
-                        {
-                            owner_.UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
-                            owner_.UsersFoundDisplay.Items.Refresh();
-                            MessageBox.Show("Произошла непредвиденененененная ошибка");
-                            this.Close();
-                        }
-                    }
-                    else
-                    {
-
-                        MessageBox.Show("Поле \"Пароль\" должно содержать хотя бы пять символов");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Пользователь с таким логином уже существует");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Ошибка: поле \"Логин\" должно содержать хотя бы один символ");
-            }*/
-            
-            
-            
         }
     }
 }

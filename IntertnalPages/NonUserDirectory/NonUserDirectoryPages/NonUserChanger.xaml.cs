@@ -59,7 +59,7 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
             user.Post = post;
             user.StructDivision = structDivision;
 
-            nonUserTable_.UpdateUser(user);
+            nonUserTable_.UpdateUnit(user);
             RefreshInfo();
         }
 
@@ -72,15 +72,11 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
 
         private void DeleteUser_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult notifWindow = MessageBox.Show("Вы собираетесь удалить этого пользователя,\nподтвердить удаление?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            MessageBoxResult notifWindow = MessageBox.Show("Вы собираетесь удалить этого человека из справочника,\nподтвердить удаление?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (notifWindow == MessageBoxResult.Yes)
             {
-                else
-                {
-                    userTable_.DeleteUser(userTable_.GetUsers()[index_].Username);
-                    owner_.ToSearchUsers();
-                }
-                
+                nonUserTable_.DeleteUnit(nonUserTable_.GetUnits()[index_].Id);
+                owner_.ToSearchUsers();
             }
         }
 

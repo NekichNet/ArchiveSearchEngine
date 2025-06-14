@@ -1,5 +1,6 @@
 ﻿using ArchiveSearchEngine.Database;
 using ArchiveSearchEngine.IntertnalPages;
+using ArchiveSearchEngine.IntertnalPages.NonUserDirectory;
 using ArchiveSearchEngine.IntertnalPages.UserManager;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace ArchiveSearchEngine
 
         UserTable userTable_;
 
-        public MainSpace(MainWindow owner, UserTable userTable, DocumentTable _documentTable)
+        public MainSpace(MainWindow owner, UserTable userTable, DocumentTable _documentTable, NonUserTable nonUserTable)
         {
             InitializeComponent();
             _owner = owner;
@@ -38,6 +39,7 @@ namespace ArchiveSearchEngine
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, _documentTable, userTable))); // , historyTable
             Spaces.Add(new UserSpace("Создание документа", new AddDocs(this, _documentTable, userTable)));
             Spaces.Add(new UserSpace("Добавление документов", new DocumentCreation(this)));
+            Spaces.Add(new UserSpace("Справочник незарегистрированных пользователей", new NonUserDirectory(this, nonUserTable)));
 
             userTable_ = userTable;
 
@@ -74,6 +76,7 @@ namespace ArchiveSearchEngine
             {
                 Spaces.RemoveAt(Spaces.Count - 1);
             }
+            
             try
             {
                 if (_owner.LoggedUser.IsAdmin)
