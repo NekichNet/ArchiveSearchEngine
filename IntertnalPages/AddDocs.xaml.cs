@@ -35,6 +35,8 @@ namespace ArchiveSearchEngine.IntertnalPages
             StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "ЛС", "Постоянно"};
         }
 
+
+
         public void AddDock()
         {
             try
@@ -82,6 +84,36 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void FullnameSearchGUI_Selected(object sender, RoutedEventArgs e)
         {
             selectedUserIndex = FullnameSearchGUI.SelectedIndex;
+        }
+
+        public void SetPresetValues(Document docAsPreset)
+        {
+            try
+            {
+                RegistrationObjectNumberGUI.Text = docAsPreset.RegistrationNum;
+                TomNumberGUI.Text = docAsPreset.VolumeNum;
+                BookNumberGUI.Text = docAsPreset.BookNum;
+                AmountOfSheetsGUI.Text = $"{docAsPreset.ContentQuantity}";
+                InventoryDateGUI.DisplayDate = docAsPreset.InventoryDate;
+                InventoryDateGUI.Text = docAsPreset.InventoryDate.ToShortDateString();
+                InventoryNumberGUI.Text = docAsPreset.InventoryNum;
+                DealIndexGUI.Text = docAsPreset.ObjectIndex;
+                ObjectNameGUI.Text = docAsPreset.ObjectName;
+                RackGUI.Text = docAsPreset.Rack;
+                ShelfGUI.Text = docAsPreset.Shelf;
+                StoringTermGUI.Text = docAsPreset.ExpiringIn;
+                DocDateGUI.DisplayDate = docAsPreset.DocumentsDate;
+                DocDateGUI.Text = docAsPreset.DocumentsDate.ToShortDateString();
+                CaseNumberGUI.Text = docAsPreset.CaseNum;
+                DestroyActDateGUI.DisplayDate = docAsPreset.DestructActDate;
+                DestroyActDateGUI.Text = docAsPreset.DestructActDate.ToShortDateString();
+                DestroyActNumberGUI.Text = docAsPreset.DestructActNum;
+                AdditionGUI.Text = docAsPreset.Note;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

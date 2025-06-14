@@ -82,7 +82,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             try
             {
-                Document updatedDoc = new Document(doc_.Id, RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
+                Document updatedDoc = new Document(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
                     (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
                     ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
                     (DateTime)DestroyActDateGUI.SelectedDate, doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.AchievedUsername,
@@ -104,7 +104,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             TakeDocButton.Visibility = Visibility.Collapsed;
             ReturnDocButton.Visibility = Visibility.Visible;
-            documentTable_.TakeDocument(doc_.Id, owner_._owner.Owner.LoggedUser.Username);
+            documentTable_.TakeDocument(doc_.RegistrationNum, owner_._owner.Owner.LoggedUser.Username);
             Refresh();
         }
 
@@ -113,7 +113,7 @@ namespace ArchiveSearchEngine.IntertnalPages
             TakeDocButton.Visibility = Visibility.Visible;
             ReturnDocButton.Visibility = Visibility.Collapsed;
 
-            documentTable_.ReturnDocument(doc_.Id);
+            documentTable_.ReturnDocument(doc_.RegistrationNum);
             Refresh();
         }
         private void Refresh()
@@ -128,8 +128,8 @@ namespace ArchiveSearchEngine.IntertnalPages
             }
             else
             {
-                AccountThatTookPreviewButton.Content = documentTable_.UserWhoTook(doc_.Id);
-                if (owner_._owner.Owner.LoggedUser.Username != documentTable_.UserWhoTook(doc_.Id))
+                AccountThatTookPreviewButton.Content = documentTable_.UserWhoTook(doc_.RegistrationNum);
+                if (owner_._owner.Owner.LoggedUser.Username != documentTable_.UserWhoTook(doc_.RegistrationNum))
                 {
                     DocStatus.Text = "Вне архива, забрал: ";
                     AccountThatTookPreviewButton.Visibility = Visibility.Visible;
@@ -140,7 +140,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                     AccountThatTookPreviewButton.Visibility = Visibility.Collapsed;
                 }
 
-                if (documentTable_.UserWhoTook(doc_.Id) == owner_._owner.Owner.LoggedUser.Username)
+                if (documentTable_.UserWhoTook(doc_.RegistrationNum) == owner_._owner.Owner.LoggedUser.Username)
                 {
                     TakeReturnButtonSheet.Visibility = Visibility.Visible;
                 }
@@ -153,7 +153,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void AccountThatTookPreviewButton_Click(object sender, RoutedEventArgs e)
         {
-            var previewUser = new UserPreview(documentTable_.UserWhoTook(doc_.Id), userTable_);
+            var previewUser = new UserPreview(documentTable_.UserWhoTook(doc_.RegistrationNum), userTable_);
             previewUser.ShowDialog();
         }
 

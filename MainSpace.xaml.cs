@@ -90,5 +90,11 @@ namespace ArchiveSearchEngine
             DisplayFrame.Navigate(Spaces[0].Page);
 
         }
+        public void CreateDocByPreset(Document doc) {
+            var CreationPage = Spaces.OfType<AddDocs>().FirstOrDefault();
+            if (CreationPage != null) {
+                CreationPage.SetPresetValues(doc);
+            }
+        }
     }
 }
