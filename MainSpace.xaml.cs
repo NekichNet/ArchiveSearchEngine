@@ -36,7 +36,7 @@ namespace ArchiveSearchEngine
             _owner = owner;
 
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, _documentTable, userTable))); // , historyTable
-            Spaces.Add(new UserSpace("Создание документа", new AddDocs(this, _documentTable)));
+            Spaces.Add(new UserSpace("Создание документа", new AddDocs(this, _documentTable, userTable)));
             Spaces.Add(new UserSpace("Добавление документов", new DocumentCreation(this)));
 
             userTable_ = userTable;
@@ -89,6 +89,12 @@ namespace ArchiveSearchEngine
             SpacesListBox.Items.Refresh();
             DisplayFrame.Navigate(Spaces[0].Page);
 
+        }
+        public void CreateDocByPreset(Document doc) {
+            var CreationPage = Spaces.OfType<AddDocs>().FirstOrDefault();
+            if (CreationPage != null) {
+                CreationPage.SetPresetValues(doc);
+            }
         }
     }
 }

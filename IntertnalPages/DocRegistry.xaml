@@ -98,7 +98,12 @@
                         <DataGridTextColumn Visibility="Hidden" Header="Доступность"  IsReadOnly="True" Binding="{Binding Path=Available}" Width="0.8*"></DataGridTextColumn>
                         <DataGridCheckBoxColumn Visibility="Hidden" Header="Доступность"  IsReadOnly="True" Binding="{Binding Path=Available, Mode=OneWay}" Width="0.8*"></DataGridCheckBoxColumn>
                     </DataGrid.Columns>
-                    
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Click="CopyRegistrationNumberToClipboard" Header="Копировать регистрационный номер в буфер обмена"></MenuItem>
+                            <MenuItem Click="CreateDocByPreset" Header="Создать новый документ по шаблону"></MenuItem>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </Grid>
         </Border>

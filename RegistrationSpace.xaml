@@ -62,7 +62,7 @@
                 <TextBlock TextWrapping="Wrap" FontWeight="Bold" Foreground="DarkRed" Name="ErrorGui" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="3"></TextBlock>
 
                 <Button FontSize="30" Click="BackToSignIn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource DenyButtonStyle}" Margin="10" Content="Отмена" ></Button>
-                <Button FontSize="30" Click="SignUpANewUser" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource AcceptButtonStyle}" Margin="10" Content="Зарегестрировать" ></Button>
+                <Button FontSize="30" Click="SignUpANewUser" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Style="{StaticResource AcceptButtonStyle}" Margin="10" Content="Зарегистрировать" ></Button>
                 <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Регистрация" Grid.ColumnSpan="4" Grid.Column="1" VerticalAlignment="Center" FontSize="50" FontWeight="Bold"></TextBlock>
             </Grid>
         </Border>

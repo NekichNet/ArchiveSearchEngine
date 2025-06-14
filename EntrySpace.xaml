@@ -26,7 +26,8 @@
         <Border Name="Border1"  Grid.Column="2" Grid.RowSpan="4" BorderThickness="0"  Margin="10"></Border>
         <StackPanel Grid.Row="1" Grid.Column="2" Margin="20">
             <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Логин" FontFamily="Arial"></TextBlock>
-            <TextBox Name="LoginGUI"></TextBox>
+            <TextBox Visibility="Collapsed" Name="LoginGUI"></TextBox>
+            <ComboBox FontSize="30" IsEditable="True" IsTextSearchEnabled="True" Name="LoginSearchGUI"></ComboBox>
             <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Пароль" FontFamily="Arial"></TextBlock>
             <PasswordBox Name="PasswordGUI"></PasswordBox>
         </StackPanel>

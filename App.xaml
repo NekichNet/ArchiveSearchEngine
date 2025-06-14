@@ -10,6 +10,19 @@
             <Setter Property="Background"  Value="#7FFFFFFF"></Setter>
         </Style>
 
+
+        <Style TargetType="ComboBox">
+            <Setter Property="BorderBrush" Value="Transparent"></Setter>
+            <Setter Property="Background" Value="Transparent"></Setter>
+        </Style>
+        
+        
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#FFE9F5FF"></Setter>
+        </Style>
+        
+        
+        
         <Style x:Key="DenyButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>

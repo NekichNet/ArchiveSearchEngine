@@ -56,23 +56,16 @@
 
             <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Наименование объекта</TextBlock>
             <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="ObjectNameGUI"></TextBox>
-            <Border Margin="0,10,0,10" BorderThickness="1">
-                <StackPanel>
-                    <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Стеллаж</TextBlock>
-                    <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="RackGUI"></TextBox>
-
-                    <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Полка</TextBlock>
-                    <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="ShelfGUI"></TextBox>
-                </StackPanel>
-            </Border>
+            
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="2" Margin="15">
             <Border Margin="0,10,0,10" BorderThickness="1">
                 <StackPanel>
                     <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Срок хранения дела, по перечню</TextBlock>
-                    <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="StoringTermGUI"></TextBox>
+                    <TextBox Visibility="Collapsed" Style="{StaticResource ResourceKey=DocTextBox}" Name="StoringTermGUI"></TextBox>
+                    <ComboBox IsEditable="True" FontSize="20" Name="StoringTermComboGUI" ></ComboBox>
 
-            
+
                     <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата документов</TextBlock>
                     <DatePicker FontSize="20" Background="Transparent" Name="DocDateGUI" Padding="0" ></DatePicker>
                 </StackPanel>
@@ -90,21 +83,27 @@
                     <DatePicker FontSize="20" Background="Transparent" Padding="0"  Name="DestroyActDateGUI" ></DatePicker>
                 </StackPanel>
             </Border>
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Человек сдавший документ в архив</TextBlock>
+            <ComboBox FontSize="20" IsEditable="True" IsTextSearchEnabled="True" SelectionChanged="FullnameSearchGUI_Selected" Name="FullnameSearchGUI"></ComboBox>
+            
+            <Border Margin="0,10,0,10" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Стеллаж</TextBlock>
+                    <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="RackGUI"></TextBox>
 
-            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Структурное подразделение</TextBlock>
-            <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="StructSubdivisionGUI"></TextBox>
-
-            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Должность сдавшего в архив</TextBlock>
-            <TextBox Style="{StaticResource ResourceKey=DocTextBox}"  Name="PostGUI"></TextBox>
-
-            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">ФИО сдавшего в архив</TextBlock>
-            <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="FullnameGUI"></TextBox>
+                    <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Полка</TextBlock>
+                    <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="ShelfGUI"></TextBox>
+                </StackPanel>
+            </Border>
         </StackPanel>
 
         <StackPanel Margin="15" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Примечание</TextBlock>
             <TextBox Style="{StaticResource ResourceKey=DocTextBox}"  Name="AdditionGUI" AcceptsReturn="True" MaxHeight="230" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap"></TextBox>
         </StackPanel>
+
+
+        
 
         <Button FontSize="30" Name="AcceptAddition" Click="AcceptAddition_Click" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Добавить" Margin="15" Grid.Row="3" Grid.Column="3"></Button>
         <Button FontSize="30" Visibility="Hidden" Name="DeclineAddition" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Очистить" Margin="15" Grid.Row="3" Grid.Column="0"></Button>

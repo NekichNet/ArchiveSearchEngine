@@ -43,6 +43,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 }
             };
         }
+     
         private void NextPage(object sender, RoutedEventArgs e)
         {
             CounterBox.Text = Convert.ToString(page_ + 1);
@@ -75,6 +76,16 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             var ChangeDockWin = new ChangeDoc(this, documentTable_, documents_[DocGrid.SelectedIndex], userTable_); // , historyTable_
             ChangeDockWin.ShowDialog();
+        }
+
+        private void CreateDocByPreset(object sender, RoutedEventArgs e)
+        {
+            _owner.CreateDocByPreset(documents_[DocGrid.SelectedIndex]);
+        }
+
+        private void CopyRegistrationNumberToClipboard(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(documents_[DocGrid.SelectedIndex].RegistrationNum);
         }
     }
 }

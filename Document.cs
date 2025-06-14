@@ -72,7 +72,7 @@ namespace ArchiveSearchEngine
 
         public string Note { get; set; } // 27 Примечание
 
-        public bool Available { get { return Table.IsAvailable(Id); } }
+        public bool Available { get { return Table.IsAvailable(RegistrationNum); } }
 
         public string AchievedUsername { get; } // username того, кто принял документ со стороны архива
     }

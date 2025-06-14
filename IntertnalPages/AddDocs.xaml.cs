@@ -23,21 +23,29 @@ namespace ArchiveSearchEngine.IntertnalPages
     {
         MainSpace _owner;
         DocumentTable _table;
-        public AddDocs(MainSpace owner, DocumentTable _documentTable)
+        int selectedUserIndex = 0;
+        UserTable _userTable;
+        public AddDocs(MainSpace owner, DocumentTable _documentTable, UserTable userTable)
         {
             _owner = owner;
             InitializeComponent();
             _table = _documentTable;
+            FullnameSearchGUI.ItemsSource = userTable.GetUsers().Select(x => x.Fullname);
+            _userTable = userTable;
+            StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "ЛС", "Постоянно"};
         }
+
+
 
         public void AddDock()
         {
             try
             {
+                User user = _userTable.GetUsers()[selectedUserIndex];
                 _table.NewDocument(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
                     (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
-                    ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
-                    (DateTime)DestroyActDateGUI.SelectedDate, StructSubdivisionGUI.Text, PostGUI.Text, FullnameGUI.Text, _owner.Owner.LoggedUser.Username,
+                    ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
+                    (DateTime)DestroyActDateGUI.SelectedDate, user.StructDivision, user.Post, user.Fullname, _owner.Owner.LoggedUser.Username,
                     AdditionGUI.Text);
                 MessageBox.Show("Документ был успешно добавлен");
             }
@@ -49,6 +57,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                     MessageBox.Show(exception.Message, "Ошибка");
                 }
             }
+
         }
 
         private void AcceptAddition_Click(object sender, RoutedEventArgs e)
@@ -70,6 +79,41 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void Number_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (Convert.ToInt32((sender as TextBox).Text) < 0) e.Handled = true;
+        }
+
+        private void FullnameSearchGUI_Selected(object sender, RoutedEventArgs e)
+        {
+            selectedUserIndex = FullnameSearchGUI.SelectedIndex;
+        }
+
+        public void SetPresetValues(Document docAsPreset)
+        {
+            try
+            {
+                RegistrationObjectNumberGUI.Text = docAsPreset.RegistrationNum;
+                TomNumberGUI.Text = docAsPreset.VolumeNum;
+                BookNumberGUI.Text = docAsPreset.BookNum;
+                AmountOfSheetsGUI.Text = $"{docAsPreset.ContentQuantity}";
+                InventoryDateGUI.DisplayDate = docAsPreset.InventoryDate;
+                InventoryDateGUI.Text = docAsPreset.InventoryDate.ToShortDateString();
+                InventoryNumberGUI.Text = docAsPreset.InventoryNum;
+                DealIndexGUI.Text = docAsPreset.ObjectIndex;
+                ObjectNameGUI.Text = docAsPreset.ObjectName;
+                RackGUI.Text = docAsPreset.Rack;
+                ShelfGUI.Text = docAsPreset.Shelf;
+                StoringTermGUI.Text = docAsPreset.ExpiringIn;
+                DocDateGUI.DisplayDate = docAsPreset.DocumentsDate;
+                DocDateGUI.Text = docAsPreset.DocumentsDate.ToShortDateString();
+                CaseNumberGUI.Text = docAsPreset.CaseNum;
+                DestroyActDateGUI.DisplayDate = docAsPreset.DestructActDate;
+                DestroyActDateGUI.Text = docAsPreset.DestructActDate.ToShortDateString();
+                DestroyActNumberGUI.Text = docAsPreset.DestructActNum;
+                AdditionGUI.Text = docAsPreset.Note;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

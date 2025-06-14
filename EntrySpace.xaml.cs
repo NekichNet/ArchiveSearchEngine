@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,11 +22,19 @@ namespace ArchiveSearchEngine
     public partial class EntrySpace : Page
     {
         MainWindow _owner;
-        public EntrySpace(MainWindow owner)
+        public EntrySpace(MainWindow owner, UserTable userTable)
         {
             InitializeComponent();
 
             _owner = owner;
+            IsVisibleChanged += (s, e) =>
+            {
+                if (IsVisible)
+                {
+                    ReOpen();
+                }
+            };
+            LoginSearchGUI.ItemsSource = userTable.GetUsers().Select(x=>x.Username);
         }
 
         private void SignUp(object sender, RoutedEventArgs e)
@@ -37,7 +46,7 @@ namespace ArchiveSearchEngine
         {
             try
             {
-                _owner.TrySigningIn(LoginGUI.Text, PasswordGUI.Password);
+                _owner.TrySigningIn(LoginSearchGUI.Text, PasswordGUI.Password);
             }
             catch (Exception ex)
             {
@@ -47,6 +56,10 @@ namespace ArchiveSearchEngine
         private void ErrorOut(string message)
         {
             ErrorGui.Text = message;
+        }
+        private void ReOpen() {
+            LoginSearchGUI.Text = "";
+            ErrorGui.Text = "";
         }
     }
 }
