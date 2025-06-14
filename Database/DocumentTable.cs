@@ -19,8 +19,7 @@ namespace ArchiveSearchEngine.Database
             _connection = connection;
 
             new SqliteCommand("CREATE TABLE IF NOT EXISTS DocumentTable (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "registration_num TEXT NOT NULL," +
+                "registration_num PRIMARY KEY TEXT NOT NULL," +
                 "volume_num TEXT NOT NULL," +
                 "book_num TEXT NOT NULL," +
                 "content_quantity INTEGER NOT NULL," +
@@ -44,7 +43,8 @@ namespace ArchiveSearchEngine.Database
                 "note TEXT)", _connection).ExecuteNonQuery();
         }
 
-        public void NewDocument(string registrationNum,
+        // Creates new document. If document with this registrationNum already exists, returns false
+        public bool NewDocument(string registrationNum,
             string volumeNum, string bookNum,
             int contentQuantity,
             DateTime inventoryDate, string inventoryNum,
@@ -56,7 +56,9 @@ namespace ArchiveSearchEngine.Database
             string givedPost, string givedFullname,
             string achievedUsername, string note)
         {
-            new SqliteCommand($"INSERT INTO DocumentTable " +
+            if (!DocumentExists(registrationNum))
+            {
+                new SqliteCommand($"INSERT INTO DocumentTable " +
                 $"(registration_num, volume_num, book_num, content_quantity, " +
                 $"inventory_date, inventory_num, object_index, object_name," +
                 $"rack, shelf, expiring_in, documents_date, case_num," +
@@ -68,19 +70,21 @@ namespace ArchiveSearchEngine.Database
                 $"'{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
                 $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', '{achievedUsername}', '{note.Replace("'", "")}')",
                 _connection).ExecuteNonQuery();
+            }
+            return !DocumentExists(registrationNum);
         }
 
         // Returns document found by his id (throws an exception, if not exists)
-        public Document GetDocument(int id)
+        public Document GetDocument(string registrationNum)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM DocumentTable WHERE id = {id}",
+                $"SELECT * FROM DocumentTable WHERE registration_num = {registrationNum}",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
                 {
                     reader.Read();
-                    return new Document(Convert.ToInt32(reader["id"]), (string)reader["registration_num"],
+                    return new Document((string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
                         Convert.ToInt32(reader["content_quantity"]), Convert.ToDateTime(reader["inventory_date"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
@@ -93,7 +97,7 @@ namespace ArchiveSearchEngine.Database
                 }
                 else
                 {
-                    throw new Exception($"Документ с id: {id} не найден");
+                    throw new Exception($"Документ с регистрационным номером: {registrationNum} не найден");
                 }
             }
         }
@@ -104,14 +108,14 @@ namespace ArchiveSearchEngine.Database
             List<Document> documents = new List<Document>();
 
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM DocumentTable",
+                "SELECT * FROM DocumentTable",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
-                        documents.Add(new Document(Convert.ToInt32(reader["id"]), (string)reader["registration_num"],
+                        documents.Add(new Document((string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
                         Convert.ToInt32(reader["content_quantity"]), Convert.ToDateTime(reader["inventory_date"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
@@ -129,7 +133,7 @@ namespace ArchiveSearchEngine.Database
         }
 
         // Returns list of 30 documents in database with offset of 30*page (first page is 0)
-        public List<Document> GetDocuments(int page)
+        public List<Document> GetDocuments(int page, DocumentFilter filter)
         {
             List<Document> documents = new List<Document>();
 
@@ -141,7 +145,7 @@ namespace ArchiveSearchEngine.Database
                 {
                     while (reader.Read())
                     {
-                        documents.Add(new Document(Convert.ToInt32(reader["id"]), (string)reader["registration_num"],
+                        documents.Add(new Document((string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
                         Convert.ToInt32(reader["content_quantity"]), Convert.ToDateTime(reader["inventory_date"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
@@ -156,6 +160,19 @@ namespace ArchiveSearchEngine.Database
             }
 
             return documents;
+        }
+
+        // Checks, if document with exact registration_num already exists
+        public bool DocumentExists(string registrationNum)
+        {
+            registrationNum = registrationNum.Replace("'", "");
+
+            using (SqliteDataReader reader = new SqliteCommand(
+                $"SELECT registration_num FROM DocumentTable WHERE registration_num = '{registrationNum}'",
+                _connection).ExecuteReader())
+            {
+                return reader.HasRows;
+            }
         }
 
         // Updates document info in database, found by his id
@@ -183,27 +200,25 @@ namespace ArchiveSearchEngine.Database
                 $"gived_fullname={doc.GivedFullname.Replace("'", "")}, " +
                 $"note={doc.Note.Replace("'", "")}, " +
 
-                $"WHERE id = {doc.Id}", _connection).ExecuteNonQuery();
+                $"WHERE registration_num = {doc.RegistrationNum}", _connection).ExecuteNonQuery();
         }
 
-        public void TakeDocument(int documentId, string username)
+        public void TakeDocument(string registrationNum, string username)
         {
-            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username='{username}', taken_datetime='{DateTime.Now}' WHERE id = {documentId}",
+            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username='{username}', taken_datetime='{DateTime.Now}' WHERE registration_num = {registrationNum}",
                 _connection).ExecuteNonQuery();
-            //MessageBox.Show($"TakeDocument: {cmd}, documentId: {documentId}, username: {username}");
         }
 
-        public void ReturnDocument(int documentId)
+        public void ReturnDocument(string registrationNum)
         {
-            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE id = {documentId}",
+            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE registration_num = {registrationNum}",
                 _connection).ExecuteNonQuery();
-            //MessageBox.Show($"ReturnDocument: {cmd}, documentId: {documentId}");
         }
 
-        public string UserWhoTook(int documentId)
+        public string UserWhoTook(string registrationNum)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT taken_username FROM DocumentTable WHERE id = {documentId} AND NOT taken_username IS NULL LIMIT 1",
+                $"SELECT taken_username FROM DocumentTable WHERE registration_num = {registrationNum} AND NOT taken_username IS NULL LIMIT 1",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
@@ -213,26 +228,25 @@ namespace ArchiveSearchEngine.Database
                 }
                 else
                 {
-                    throw new Exception($"Не существует документа с id: {documentId}, либо документ доступен к выдаче");
+                    throw new Exception($"Не существует документа с регистрационным номером: {registrationNum}, либо документ доступен к выдаче");
                 }
             }
         }
 
-        public bool IsAvailable(int documentId)
+        public bool IsAvailable(string registrationNum)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT taken_username FROM DocumentTable WHERE id={documentId} AND taken_username IS NULL LIMIT 1",
+                $"SELECT taken_username FROM DocumentTable WHERE registration_num={registrationNum} AND taken_username IS NULL LIMIT 1",
                 _connection).ExecuteReader())
             {
-                //MessageBox.Show($"IsAvailable reader.HasRows: {reader.HasRows}, doc_id: {documentId}");
                 return reader.HasRows;
             }
         }
 
         // Deletes document with exact id
-        public void DeleteDocument(int id)
+        public void DeleteDocument(string registrationNum)
         {
-            new SqliteCommand($"DELETE FROM UserDocument WHERE id = {id}", _connection).ExecuteNonQuery();
+            new SqliteCommand($"DELETE FROM UserDocument WHERE registration_num = {registrationNum}", _connection).ExecuteNonQuery();
         }
 
         // ToDo: Генерация описей четырёх видов

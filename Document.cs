@@ -9,8 +9,7 @@ namespace ArchiveSearchEngine
 {
     public class Document
     {
-        public Document(int id,
-            string registrationNum,
+        public Document(string registrationNum,
             string volumeNum, string bookNum,
             int contentQuantity,
             DateTime inventoryDate, string inventoryNum,
@@ -22,7 +21,6 @@ namespace ArchiveSearchEngine
             string givedPost, string givedFullname,
             string achievedUsername, string note)
         {
-            Id = id;
             RegistrationNum = registrationNum;
             VolumeNum = volumeNum;
             BookNum = bookNum;
@@ -45,8 +43,6 @@ namespace ArchiveSearchEngine
             Note = note;
         }
         static public DocumentTable Table { get; set; }
-
-        public int Id { get; } // Id документа в базе данных
 
         public string RegistrationNum { get; set; } // 1 Номер регистрации объекта
         public string VolumeNum { get; set; } // 2 Номер тома
