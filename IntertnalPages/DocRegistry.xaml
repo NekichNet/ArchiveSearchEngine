@@ -87,6 +87,14 @@
                 
                 
                 <DataGrid MouseDoubleClick="DocGrid_MouseDoubleClick" Name="DocGrid"  Grid.Row="2" Grid.ColumnSpan="5" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" Style="{StaticResource ResourceKey=LargeTextDataGridStyle}" Background="Transparent" Margin="15" BorderThickness="0">
+
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Click="CopyRegistrationNumberToClipboard" Header="Копировать регистрационный номер в буфер обмена"/>
+                            <MenuItem Click="CreateDocByPreset" Header="Создать новый документ по шаблону"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Индекс" IsReadOnly="True" Binding="{Binding Path=ObjectIndex}" Width="0.45*"></DataGridTextColumn>
                         <DataGridTextColumn Header="Наименование" IsReadOnly="True" Binding="{Binding Path=ObjectName}" Width="4*"></DataGridTextColumn>
@@ -98,12 +106,6 @@
                         <DataGridTextColumn Visibility="Hidden" Header="Доступность"  IsReadOnly="True" Binding="{Binding Path=Available}" Width="0.8*"></DataGridTextColumn>
                         <DataGridCheckBoxColumn Visibility="Hidden" Header="Доступность"  IsReadOnly="True" Binding="{Binding Path=Available, Mode=OneWay}" Width="0.8*"></DataGridCheckBoxColumn>
                     </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Click="CopyRegistrationNumberToClipboard" Header="Копировать регистрационный номер в буфер обмена"></MenuItem>
-                            <MenuItem Click="CreateDocByPreset" Header="Создать новый документ по шаблону"></MenuItem>
-                        </ContextMenu>
-                    </DataGrid.ContextMenu>
                 </DataGrid>
             </Grid>
         </Border>

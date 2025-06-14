@@ -30,7 +30,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             _owner = owner;
             InitializeComponent();
-            documents_ = documentTable.GetDocuments(0);
+            documents_ = documentTable.GetDocuments(0, new DocumentFilter());
             DocGrid.ItemsSource = documents_; 
             documentTable_ = documentTable;
             userTable_ = userTable;
