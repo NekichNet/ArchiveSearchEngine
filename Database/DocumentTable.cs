@@ -137,7 +137,7 @@ namespace ArchiveSearchEngine.Database
         {
             List<Document> documents = new List<Document>();
 
-            if (page < 1) { throw new Exception("Непредвиденная ошибка: страница меньше единицы"); }
+            if (page < 0) { throw new Exception("Непредвиденная ошибка: страница меньше единицы"); }
 
             string query = $"SELECT * FROM DocumentTable LIMIT 30 OFFSET {page * 30}";
 
