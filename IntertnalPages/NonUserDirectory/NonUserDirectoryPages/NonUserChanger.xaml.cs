@@ -24,13 +24,13 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
     public partial class NonUserChanger : Page
     {
         public NonUserDirectory owner_;
-        UserTable userTable_;
+        NonUserTable nonUserTable_;
         int index_;
-        public NonUserChanger(NonUserDirectory owner, UserTable userTable, int index)
+        public NonUserChanger(NonUserDirectory owner, NonUserTable nonUserTable, int index)
         {
             InitializeComponent();
             owner_ = owner;
-            userTable_ = userTable;
+            nonUserTable_ = nonUserTable;
             index_ = index;
             RefreshInfo();
         }
@@ -38,10 +38,10 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
 
         public void RefreshInfo()
         {
-            var user = userTable_.GetUsers()[index_];
-            NameDisplay.Text = userTable_.GetUser(user.Username).Fullname;
-            PostDisplay.Text = userTable_.GetUser(user.Username).Post;
-            StructDivisionDisplay.Text = userTable_.GetUser(user.Username).StructDivision;
+            var user = nonUserTable_.GetUnits()[index_];
+            NameDisplay.Text = nonUserTable_.GetUnits(user.Id).Fullname;
+            PostDisplay.Text = nonUserTable_.GetUnits(user.Id).Post;
+            StructDivisionDisplay.Text = nonUserTable_.GetUnits(user.Id).StructDivision;
         }
 
 
@@ -53,37 +53,20 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
         }
 
        
-        public void ChangeUser(string name, string post, string structDivision, string username, string password, bool isAdmin) {
-            if (!userTable_.UserExists(name))
-            {
-                var user = userTable_.GetUsers()[index_];
-                user.Username = username;
-                user.Fullname = name;
-                user.Post = post;
-                user.StructDivision = structDivision;
-                user.IsAdmin = isAdmin;
+        public void ChangeUser(string name, string post, string structDivision) {
+            var user = nonUserTable_.GetUnits()[index_];
+            user.Fullname = name;
+            user.Post = post;
+            user.StructDivision = structDivision;
 
-                if (password.Trim().Count() > 0)
-                {
-                    userTable_.UpdateUser(user, password);
-                }
-                else
-                {
-                    userTable_.UpdateUser(user);
-                }
-
-                RefreshInfo();
-            }
-            else
-            {
-                MessageBox.Show("Пользователь с таким логином уже существует");
-            }
+            nonUserTable_.UpdateUser(user);
+            RefreshInfo();
         }
 
     
         private void ChangeNamePostEtc_Click(object sender, RoutedEventArgs e)
         {
-            var window = new ChangeNonUserProperties(this, userTable_.GetUser(userTable_.GetUsers()[index_].Username));
+            var window = new ChangeNonUserProperties(this, nonUserTable_.GetUnit(nonUserTable_.GetUnits()[index_].Id));
             window.ShowDialog();
         }
 
