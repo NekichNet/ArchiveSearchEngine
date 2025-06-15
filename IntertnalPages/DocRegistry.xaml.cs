@@ -43,7 +43,8 @@ namespace ArchiveSearchEngine.IntertnalPages
             {
                 if (IsVisible)
                 {
-                    documents_ = documentTable_.GetDocuments(page_, filter_);
+                    documents_ = documentTable_.GetDocuments(page_ - 1, filter_);
+                    DocGrid.ItemsSource = documents_;
                     DocGrid.Items.Refresh();
                 }
             };
@@ -74,12 +75,18 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void NextPage(object sender, RoutedEventArgs e)
         {
             CounterBox.Text = Convert.ToString(page_ + 1);
+            documents_ = documentTable_.GetDocuments(page_-1, filter_);
+            DocGrid.ItemsSource = documents_;
+            DocGrid.Items.Refresh();
         }
 
         // Processing '<-' button press
         private void PrevPage(object sender, RoutedEventArgs e)
         {
             CounterBox.Text = Convert.ToString(page_ - 1);
+            documents_ = documentTable_.GetDocuments(page_-1, filter_);
+            DocGrid.ItemsSource = documents_;
+            DocGrid.Items.Refresh();
         }
 
         private void CounterBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
