@@ -44,7 +44,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 User user = _userTable.GetUsers()[selectedUserIndex];
                 _table.NewDocument(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
                     (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
-                    ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
+                    ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
                     (DateTime)DestroyActDateGUI.SelectedDate, user.StructDivision, user.Post, user.Fullname, _owner.Owner.LoggedUser.Username,
                     AdditionGUI.Text);
 
@@ -107,7 +107,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 StoringTermComboGUI.Text = docAsPreset.ExpiringIn;
                 DocDateGUI.DisplayDate = docAsPreset.DocumentsDate;
                 DocDateGUI.Text = docAsPreset.DocumentsDate.ToShortDateString();
-                CaseNumberGUI.Text = docAsPreset.CaseNum;
+                CaseNumberGUI.Text = $"{docAsPreset.CaseNum}";
                 DestroyActDateGUI.DisplayDate = docAsPreset.DestructActDate;
                 DestroyActDateGUI.Text = docAsPreset.DestructActDate.ToShortDateString();
                 DestroyActNumberGUI.Text = docAsPreset.DestructActNum;

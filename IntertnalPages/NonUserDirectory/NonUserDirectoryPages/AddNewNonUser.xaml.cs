@@ -23,7 +23,6 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
     {
         NonUserTable nonUserTable_;
         NonUserFinder owner_;
-        bool isAdmin = false;
         public AddNewNonUser(NonUserFinder owner, NonUserTable nonUserTable)
         {
             InitializeComponent();

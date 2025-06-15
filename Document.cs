@@ -15,10 +15,10 @@ namespace ArchiveSearchEngine
             DateTime inventoryDate, string inventoryNum,
             string objectIndex, string objectName,
             string rack, string shelf, string expiringIn,
-            DateTime documentsDate, string caseNum,
+            DateTime documentsDate, int caseNum,
             string destructActNum, DateTime destructActDate,
-            string structDivision,
-            string givedPost, string givedFullname,
+            string structDivision, string givedPost,
+            string givedFullname, bool isPersonnel,
             string achievedUsername, string note)
         {
             RegistrationNum = registrationNum;
@@ -39,6 +39,7 @@ namespace ArchiveSearchEngine
             StructDivision = structDivision;
             GivedPost = givedPost;
             GivedFullname = givedFullname;
+            IsPersonnel = isPersonnel;
             AchievedUsername = achievedUsername;
             Note = note;
         }
@@ -60,7 +61,7 @@ namespace ArchiveSearchEngine
 
         public string ExpiringIn { get; set; } // 11 Срок хранения дела, по перечню
         public DateTime DocumentsDate { get; set; } // 12 Дата документов
-        public string CaseNum { get; set; } // 13 Дело № (валовый номер)
+        public int CaseNum { get; set; } // 13 Дело № (валовый номер)
 
         public string DestructActNum { get; set; } // 14 Номер акта на уничтожение
         public DateTime DestructActDate { get; set; } // 15 Дата акта на уничтожение
@@ -72,7 +73,9 @@ namespace ArchiveSearchEngine
 
         public string Note { get; set; } // 27 Примечание
 
-        public bool Available { get { return Table.IsAvailable(RegistrationNum); } }
+        public bool IsPersonnel { get; set; } // Является ли делом по личному составу
+
+        public bool Available { get { return Table.IsAvailable(RegistrationNum); } } // Доступен ли к выдаче
 
         public string AchievedUsername { get; } // username того, кто принял документ со стороны архива
     }

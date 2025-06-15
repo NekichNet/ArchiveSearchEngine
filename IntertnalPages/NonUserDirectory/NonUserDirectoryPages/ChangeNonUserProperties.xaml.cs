@@ -19,9 +19,7 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
     /// </summary>
     public partial class ChangeNonUserProperties : Window
     {
-        User user_;
         public NonUserChanger owner_;
-        bool UserIsAdmin;
         public ChangeNonUserProperties(NonUserChanger owner, NonUser user)
         {
             InitializeComponent();

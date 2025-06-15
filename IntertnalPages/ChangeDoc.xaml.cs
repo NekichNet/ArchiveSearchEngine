@@ -53,7 +53,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 StoringTermGUI.Text = doc_.ExpiringIn;
                 DocDateGUI.DisplayDate = doc_.DocumentsDate;
                 DocDateGUI.Text = doc_.DocumentsDate.ToShortDateString();
-                CaseNumberGUI.Text = doc_.CaseNum;
+                CaseNumberGUI.Text = $"{doc_.CaseNum}";
                 DestroyActDateGUI.DisplayDate= doc_.DestructActDate;
                 DestroyActDateGUI.Text= doc_.DestructActDate.ToShortDateString();
                 DestroyActNumberGUI.Text = doc_.DestructActNum;
@@ -84,7 +84,7 @@ namespace ArchiveSearchEngine.IntertnalPages
             {
                 Document updatedDoc = new Document(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
                     (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
-                    ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
+                    ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
                     (DateTime)DestroyActDateGUI.SelectedDate, doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.AchievedUsername,
                     AdditionGUI.Text);
 

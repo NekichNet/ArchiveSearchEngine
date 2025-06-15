@@ -54,6 +54,8 @@ namespace ArchiveSearchEngine
             pages.Add(new RegistrationSpace(this));
             pages.Add(new MainSpace(this, _userTable, _documentTable, _nonUserTable));
             EntryFrame.Navigate(pages[0]);
+
+            //_documentTable.ExportToWord("1", "дел, документов постоянного хранения", "2025", "И.В. Богородский");
         }
 
         public void TrySigningIn(string username, string password)

@@ -6,7 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spire.Doc;
+using Spire.Doc.Documents;
+using System.Drawing;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace ArchiveSearchEngine.Database
 {
@@ -31,7 +34,7 @@ namespace ArchiveSearchEngine.Database
                 "shelf TEXT NOT NULL, " +
                 "expiring_in TEXT NOT NULL, " +
                 "documents_date DATE NOT NULL, " +
-                "case_num TEXT NOT NULL, " +
+                "case_num INTEGER NOT NULL, " +
                 "destruct_act_num TEXT, " +
                 "destruct_act_date DATE, " +
                 "struct_division TEXT NOT NULL, " +
@@ -50,7 +53,7 @@ namespace ArchiveSearchEngine.Database
             DateTime inventoryDate, string inventoryNum,
             string objectIndex, string objectName,
             string rack, string shelf, string expiringIn,
-            DateTime documentsDate, string caseNum,
+            DateTime documentsDate, int caseNum,
             string destructActNum, DateTime destructActDate,
             string structDivision,
             string givedPost, string givedFullname,
@@ -66,7 +69,7 @@ namespace ArchiveSearchEngine.Database
                 $"gived_post, gived_fullname, achieved_username, note) VALUES " +
                 $"('{registrationNum.Replace("'", "")}', '{volumeNum.Replace("'", "")}', '{bookNum.Replace("'", "")}', {contentQuantity}, " +
                 $"'{inventoryDate}', '{inventoryNum.Replace("'", "")}', '{objectIndex.Replace("'", "")}', '{objectName.Replace("'", "")}', " +
-                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate}', '{caseNum.Replace("'", "")}', " +
+                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate}', {caseNum}, " +
                 $"'{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
                 $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', '{achievedUsername}', '{note.Replace("'", "")}')",
                 _connection).ExecuteNonQuery();
@@ -90,7 +93,7 @@ namespace ArchiveSearchEngine.Database
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
-                        (string)reader["case_num"], (string)reader["destruct_act_num"],
+                        Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
                         Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
                         (string)reader["achieved_username"], (string)reader["note"]);
@@ -121,7 +124,7 @@ namespace ArchiveSearchEngine.Database
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
-                        (string)reader["case_num"], (string)reader["destruct_act_num"],
+                        Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
                         Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
                         (string)reader["achieved_username"], (string)reader["note"]));
@@ -164,7 +167,7 @@ namespace ArchiveSearchEngine.Database
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
-                        (string)reader["case_num"], (string)reader["destruct_act_num"],
+                        Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
                         Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
                         (string)reader["achieved_username"], (string)reader["note"]));
@@ -196,27 +199,27 @@ namespace ArchiveSearchEngine.Database
             {
                 new SqliteCommand($"UPDATE DocumentTable SET " +
 
-                    $"registration_num={doc.RegistrationNum.Replace("'", "")}, " +
-                    $"volume_num={doc.VolumeNum.Replace("'", "")}, " +
-                    $"book_num={doc.BookNum.Replace("'", "")}, " +
+                    $"registration_num='{doc.RegistrationNum.Replace("'", "")}', " +
+                    $"volume_num='{doc.VolumeNum.Replace("'", "")}', " +
+                    $"book_num='{doc.BookNum.Replace("'", "")}', " +
                     $"content_quantity={doc.ContentQuantity}, " +
-                    $"inventory_date={doc.InventoryDate}, " +
-                    $"inventory_num={doc.InventoryNum.Replace("'", "")}, " +
-                    $"object_index={doc.ObjectIndex.Replace("'", "")}, " +
-                    $"object_name={doc.ObjectName.Replace("'", "")}, " +
-                    $"rack={doc.Rack.Replace("'", "")}, " +
-                    $"shelf={doc.Shelf.Replace("'", "")}, " +
-                    $"expiring_in={doc.ExpiringIn.Replace("'", "")}, " +
-                    $"documents_date={doc.DocumentsDate}, " +
-                    $"case_num={doc.CaseNum.Replace("'", "")}, " +
-                    $"destruct_act_num={doc.DestructActNum.Replace("'", "")}, " +
-                    $"destruct_act_date={doc.DestructActDate}, " +
-                    $"struct_division={doc.StructDivision.Replace("'", "")}, " +
-                    $"gived_post={doc.GivedPost.Replace("'", "")}, " +
-                    $"gived_fullname={doc.GivedFullname.Replace("'", "")}, " +
-                    $"note={doc.Note.Replace("'", "")}, " +
+                    $"inventory_date='{doc.InventoryDate}', " +
+                    $"inventory_num='{doc.InventoryNum.Replace("'", "")}', " +
+                    $"object_index='{doc.ObjectIndex.Replace("'", "")}', " +
+                    $"object_name='{doc.ObjectName.Replace("'", "")}', " +
+                    $"rack='{doc.Rack.Replace("'", "")}', " +
+                    $"shelf='{doc.Shelf.Replace("'", "")}', " +
+                    $"expiring_in='{doc.ExpiringIn.Replace("'", "")}', " +
+                    $"documents_date='{doc.DocumentsDate}', " +
+                    $"case_num={doc.CaseNum}, " +
+                    $"destruct_act_num='{doc.DestructActNum.Replace("'", "")}', " +
+                    $"destruct_act_date='{doc.DestructActDate}', " +
+                    $"struct_division='{doc.StructDivision.Replace("'", "")}', " +
+                    $"gived_post='{doc.GivedPost.Replace("'", "")}', " +
+                    $"gived_fullname='{doc.GivedFullname.Replace("'", "")}', " +
+                    $"note='{doc.Note.Replace("'", "")}', " +
 
-                    $"WHERE registration_num = {oldRegistrationNum}", _connection).ExecuteNonQuery();
+                    $"WHERE registration_num = '{oldRegistrationNum}'", _connection).ExecuteNonQuery();
                 return true;
             }
             return false;
@@ -224,20 +227,20 @@ namespace ArchiveSearchEngine.Database
 
         public void TakeDocument(string registrationNum, string username)
         {
-            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username='{username}', taken_datetime='{DateTime.Now}' WHERE registration_num = {registrationNum}",
+            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username='{username}', taken_datetime='{DateTime.Now}' WHERE registration_num = '{registrationNum}'",
                 _connection).ExecuteNonQuery();
         }
 
         public void ReturnDocument(string registrationNum)
         {
-            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE registration_num = {registrationNum}",
+            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE registration_num = '{registrationNum}'",
                 _connection).ExecuteNonQuery();
         }
 
         public string UserWhoTook(string registrationNum)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT taken_username FROM DocumentTable WHERE registration_num = {registrationNum} AND NOT taken_username IS NULL LIMIT 1",
+                $"SELECT taken_username FROM DocumentTable WHERE registration_num = '{registrationNum}' AND NOT taken_username IS NULL LIMIT 1",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
@@ -255,7 +258,7 @@ namespace ArchiveSearchEngine.Database
         public bool IsAvailable(string registrationNum)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT taken_username FROM DocumentTable WHERE registration_num={registrationNum} AND taken_username IS NULL LIMIT 1",
+                $"SELECT taken_username FROM DocumentTable WHERE registration_num='{registrationNum}' AND taken_username IS NULL LIMIT 1",
                 _connection).ExecuteReader())
             {
                 return reader.HasRows;
@@ -265,14 +268,141 @@ namespace ArchiveSearchEngine.Database
         // Deletes document with exact id
         public void DeleteDocument(string registrationNum)
         {
-            new SqliteCommand($"DELETE FROM UserDocument WHERE registration_num = {registrationNum}", _connection).ExecuteNonQuery();
+            new SqliteCommand($"DELETE FROM UserDocument WHERE registration_num = '{registrationNum}'", _connection).ExecuteNonQuery();
+        }
+
+        // Проверка значения "срока хранения" на то, что документ "временного хранения"
+        public bool CheckIsTempExpiring(string expiring_in)
+        {
+            if (int.TryParse(expiring_in, out _))
+            {
+                return Int32.Parse(expiring_in) <= 5;
+            }
+            return false;
+        }
+
+        // Проверка значения "срока хранения" на то, что документ "долговременного хранения"
+        private bool CheckIsLongExpiring(string expiring_in)
+        {
+            if (int.TryParse(expiring_in, out _))
+            {
+                return Int32.Parse(expiring_in) > 10;
+            }
+            return false;
+        }
+
+        private bool CheckIsNoExpiring(string expiring_in)
+        {
+            return expiring_in.ToLower().Contains("постоянно");
         }
 
         // ToDo: Генерация описей четырёх видов
-        //public void ExportToWord()
-        //{
-        //    Spire.Doc.Document document = new Spire.Doc.Document();
-        //    Section section = document.AddSection();
-        //}
+        public void ExportToWord(string filepath, string inventory_num, string doc_type,
+            string by_year, int startCaseNum, int endCaseNum)
+        {
+            Spire.Doc.Document document = new Spire.Doc.Document();
+
+            ParagraphStyle textStyle = new ParagraphStyle(document);
+            textStyle.Name = "MainTextStyle";
+            textStyle.CharacterFormat.FontName = "Franklin Gothic Book";
+            textStyle.CharacterFormat.FontSize = 12f;
+            document.Styles.Add(textStyle);
+
+            Spire.Doc.Section section = document.AddSection();
+            section.PageSetup.Margins.Left = 90f;
+
+            Spire.Doc.Table heading_table = section.AddTable(false);
+            heading_table.ResetCells(1, 2);
+
+            heading_table[0, 0].SetCellWidth(390f, CellWidthType.Point);
+            heading_table[0, 1].SetCellWidth(210f, CellWidthType.Point);
+
+            Spire.Doc.Documents.Paragraph heading1 = heading_table[0, 0].AddParagraph();
+            heading1.ApplyStyle("MainTextStyle");
+
+            heading1.AppendText("Ноябрьское управление \r\n" +
+                "магистральных нефтепроводов\r\n" +
+                "Акционерное общество \r\n" +
+                "«Транснефть – Сибирь» \r\n" +
+                "(АО «Транснефть – Сибирь»)\r\n" +
+                "публичного акционерного общества \r\n" +
+                "«Транснефть» (ПАО «Транснефть»)\r\n\r\n" +
+                "Фонд № ___________\r\n" +
+                $"ОПИСЬ № {inventory_num} \r\n" +
+                $"{doc_type}\r\n" +
+                $"за {by_year} год\r\n");
+
+            Spire.Doc.Documents.Paragraph heading2 = heading_table[0, 1].AddParagraph();
+            heading2.ApplyStyle("MainTextStyle");
+
+            heading2.AppendText("УТВЕРЖДАЮ\r\n" +
+                "Начальник управления\r\n" +
+                "Ноябрьского УМН\r\n" +
+                "АО «Транснефть-Сибирь» \r\n" +
+                $"________________________\r\n" +
+                $"«____»____________ {DateTime.Now.Year} г.\r\n");
+
+            Spire.Doc.Table datatable = section.AddTable(true);
+            datatable.DefaultColumnsNumber = 6;
+
+            datatable[0, 0].AddParagraph().AppendText("№ п\\п");
+            datatable[1, 0].AddParagraph().AppendText("1");
+
+            datatable[0, 1].AddParagraph().AppendText("Индекс дела");
+            datatable[1, 1].AddParagraph().AppendText("2");
+
+            datatable[0, 2].AddParagraph().AppendText("Заголовок дела");
+            datatable[1, 2].AddParagraph().AppendText("3");
+
+            datatable[0, 3].AddParagraph().AppendText("Крайние даты");
+            datatable[1, 3].AddParagraph().AppendText("4");
+
+            datatable[0, 4].AddParagraph().AppendText("Кол-во листов");
+            datatable[1, 4].AddParagraph().AppendText("5");
+
+            datatable[0, 5].AddParagraph().AppendText("Примечание");
+            datatable[1, 5].AddParagraph().AppendText("6");
+
+            // ToDo: Здесь заполнение таблицы описи
+            using (SqliteDataReader reader = new SqliteCommand(
+                "SELECT case_num, object_index, object_name, documents_date," +
+                " content_quantity, struct_division, note, expiring_in" +
+                " FROM DocumentTable ORDER BY struct_division, case_num",
+                _connection).ExecuteReader())
+            {
+                int docCounter = 0;
+                int rowCounter = 2;
+                string currentDivision = "";
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        // Проверка на соответствии типу описи по сроку хранения
+                        
+
+                        // Делаем горизонтальное разграничение по "структурному подразделению" текущей группы документов
+                        if ((string)reader["struct_division"] != currentDivision)
+                        {
+                            datatable.ApplyHorizontalMerge(rowCounter, 0, 5);
+                            datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["struct_division"]);
+                            rowCounter++;
+                        }
+
+                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["case_num"]);
+                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["object_index"]);
+                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["object_name"]);
+                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["documents_date"]);
+                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["content_quantity"]);
+                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["note"]);
+
+                        docCounter++;
+                        rowCounter++;
+                    }
+                }
+            }
+
+            document.SaveToFile(filepath, FileFormat.Docx);
+            document.Dispose();
+        }
     }
 }
