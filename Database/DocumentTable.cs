@@ -275,6 +275,8 @@ namespace ArchiveSearchEngine.Database
             new SqliteCommand($"DELETE FROM UserDocument WHERE registration_num = '{registrationNum}'", _connection).ExecuteNonQuery();
         }
 
+        delegate bool CheckExpiring(string expiring_in);
+
         // Проверка значения "срока хранения" на то, что документ "временного хранения"
         public bool CheckIsTempExpiring(string expiring_in)
         {
@@ -304,6 +306,25 @@ namespace ArchiveSearchEngine.Database
         public void ExportToWord(string filepath, string inventory_num, string doc_type,
             string by_year, int startCaseNum, int endCaseNum)
         {
+            CheckExpiring check_method;
+            if (doc_type == "Дела временного хранения")
+            {
+                check_method = CheckIsTempExpiring;
+            }
+            else if (doc_type == "Дела долговременного хранения")
+            {
+                check_method = CheckIsLongExpiring;
+            }
+            else if (doc_type == "Дела постоянного хранения")
+            {
+                check_method = CheckIsNoExpiring;
+            }
+            else if (doc_type == "Дела по личному составу")
+            {
+                check_method = (string expiring_in) => { return true; };
+            }
+            else { throw new Exception("Некоректный тип документа"); }
+
             Spire.Doc.Document document = new Spire.Doc.Document();
 
             ParagraphStyle textStyle = new ParagraphStyle(document);
@@ -367,22 +388,29 @@ namespace ArchiveSearchEngine.Database
             datatable[0, 5].AddParagraph().AppendText("Примечание");
             datatable[1, 5].AddParagraph().AppendText("6");
 
+            int docCounter = 0;
+            int rowCounter = 2;
+            string currentDivision = "";
+            int numbers_lost = 0;
+            int lastNum = -1;
+
             // ToDo: Здесь заполнение таблицы описи
             using (SqliteDataReader reader = new SqliteCommand(
                 "SELECT case_num, object_index, object_name, documents_date," +
                 " content_quantity, struct_division, note, expiring_in" +
-                " FROM DocumentTable ORDER BY struct_division, case_num",
+                " FROM DocumentTable ORDER BY struct_division, case_num" +
+                $" WHERE is_personnel = {(doc_type == "Дела по личному составу" ? 1 : 0)}",
                 _connection).ExecuteReader())
             {
-                int docCounter = 0;
-                int rowCounter = 2;
-                string currentDivision = "";
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
                         // Проверка на соответствии типу описи по сроку хранения
-                        
+                        if (!check_method((string)reader["expiring_in"]))
+                        {
+                            continue;
+                        }
 
                         // Делаем горизонтальное разграничение по "структурному подразделению" текущей группы документов
                         if ((string)reader["struct_division"] != currentDivision)
@@ -391,6 +419,9 @@ namespace ArchiveSearchEngine.Database
                             datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["struct_division"]);
                             rowCounter++;
                         }
+
+                        if (lastNum == -1) { lastNum = Convert.ToInt32(reader["case_num"]); }
+                        numbers_lost += Convert.ToInt32(reader["case_num"]) - lastNum == 1 ? 0 : Convert.ToInt32(reader["case_num"]) - lastNum;
 
                         datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["case_num"]);
                         datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["object_index"]);
@@ -404,6 +435,19 @@ namespace ArchiveSearchEngine.Database
                     }
                 }
             }
+
+            Spire.Doc.Documents.Paragraph ending = section.AddParagraph();
+            ending.ApplyStyle("MainTextStyle");
+
+            ending.AppendText($"В данный раздел описи внесено {docCounter} (двести сорок семь) дел,\r\n" +
+                $"с № {startCaseNum} по № {endCaseNum} в том числе: \r\n" +
+                "литерные номера: нет\r\n" +
+                $"пропущенные номера: {(numbers_lost == 0 ? "нет" : numbers_lost)} \r\n\r\n\r\n" +
+                "Начальник АХО ____________________\r\n" +
+                $"{DateTime.Now.ToShortDateString()}\r\n\r\n\r\n" +
+                "СОГЛАСОВАНО\r\n" +
+                "Протокол ЭК Ноябрьского УМН \r\n" +
+                "от __________ № ____\r\n");
 
             document.SaveToFile(filepath, FileFormat.Docx);
             document.Dispose();
