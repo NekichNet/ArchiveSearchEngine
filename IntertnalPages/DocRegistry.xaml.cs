@@ -63,6 +63,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 {
                     page_ = newPage;
                     documents_ = newDocuments;
+                    DocGrid.ItemsSource = documents_;
                     DocGrid.Items.Refresh();
                     return true;
                 }
@@ -75,8 +76,6 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void NextPage(object sender, RoutedEventArgs e)
         {
             CounterBox.Text = Convert.ToString(page_ + 1);
-            documents_ = documentTable_.GetDocuments(page_-1, filter_);
-            DocGrid.ItemsSource = documents_;
             DocGrid.Items.Refresh();
         }
 
@@ -84,8 +83,6 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void PrevPage(object sender, RoutedEventArgs e)
         {
             CounterBox.Text = Convert.ToString(page_ - 1);
-            documents_ = documentTable_.GetDocuments(page_-1, filter_);
-            DocGrid.ItemsSource = documents_;
             DocGrid.Items.Refresh();
         }
 
