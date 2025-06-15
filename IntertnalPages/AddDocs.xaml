@@ -106,7 +106,7 @@
         
 
         <Button FontSize="30" Name="AcceptAddition" Click="AcceptAddition_Click" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Добавить" Margin="15" Grid.Row="3" Grid.Column="3"></Button>
-        <Button FontSize="30" Visibility="Hidden" Name="DeclineAddition" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Очистить" Margin="15" Grid.Row="3" Grid.Column="0"></Button>
+        <Button FontSize="30"  Name="ClearButton" Click="ClearButton_Click" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Очистить" Margin="15" Grid.Row="3" Grid.Column="0"></Button>
 
 
     </Grid>

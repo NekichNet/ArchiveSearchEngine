@@ -40,7 +40,6 @@ namespace ArchiveSearchEngine
 
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, _documentTable, userTable))); // , historyTable
             Spaces.Add(new UserSpace("Создание документа", new AddDocs(this, _documentTable, userTable)));
-            Spaces.Add(new UserSpace("Справочник незарегистрированных пользователей", new NonUserDirectory(this, nonUserTable)));
             Spaces.Add(new UserSpace("Генерация описи", new InventoryGeneration(this, userTable, nonUserTable, _documentTable)));
 
             string method() { 
@@ -62,6 +61,9 @@ namespace ArchiveSearchEngine
                 return openFileDialog.FileName;
             }
             Spaces.Add(new UserSpace("Импорт документов из excel (*.xlsx)", method1));
+
+
+            Spaces.Add(new UserSpace("Справочник незарегистрированных пользователей", new NonUserDirectory(this, nonUserTable)));
 
 
             userTable_ = userTable;
@@ -128,6 +130,7 @@ namespace ArchiveSearchEngine
             if (CreationPage != null) {
                 DisplayFrame.Navigate(Spaces[1].Page);
                 CreationPage.SetPresetValues(doc);
+                SpacesListBox.SelectedIndex = 1;
             }
         }
     }

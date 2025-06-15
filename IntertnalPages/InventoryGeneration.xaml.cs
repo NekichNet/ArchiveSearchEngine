@@ -43,7 +43,6 @@ namespace ArchiveSearchEngine.IntertnalPages
             InventoryNumberGUI.Text = "";
             TermGUI.SelectedIndex = 0;
             YearPickerGUI.Text = "";
-            UserPickerGUI.Text = "";
         }
 
         private void InventGenerationButton_Click(object sender, RoutedEventArgs e)

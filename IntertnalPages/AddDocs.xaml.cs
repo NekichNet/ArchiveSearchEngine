@@ -47,7 +47,10 @@ namespace ArchiveSearchEngine.IntertnalPages
                     ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, CaseNumberGUI.Text, DestroyActNumberGUI.Text,
                     (DateTime)DestroyActDateGUI.SelectedDate, user.StructDivision, user.Post, user.Fullname, _owner.Owner.LoggedUser.Username,
                     AdditionGUI.Text);
+
+                Clear();
                 MessageBox.Show("Документ был успешно добавлен");
+
             }
             catch (Exception exception)
             {
@@ -115,6 +118,34 @@ namespace ArchiveSearchEngine.IntertnalPages
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        public void Clear()
+        {
+            RegistrationObjectNumberGUI.Text = "";
+            TomNumberGUI.Text = "";
+            BookNumberGUI.Text = "";
+            AmountOfSheetsGUI.Text = "1";
+            InventoryNumberGUI.Text = "";
+            DealIndexGUI.Text = "";
+            ObjectNameGUI.Text = "";
+            RackGUI.Text = "";
+            ShelfGUI.Text = "";
+            StoringTermComboGUI.Text = "";
+            CaseNumberGUI.Text = "";
+            DestroyActNumberGUI.Text = "";
+            AdditionGUI.Text = "";
+            FullnameSearchGUI.Text = "";
+            DestroyActDateGUI.DisplayDate = DateTime.Now;
+            DestroyActDateGUI.Text = "";
+            DocDateGUI.DisplayDate = DateTime.Now;
+            DocDateGUI.Text = "";
+            InventoryDateGUI.DisplayDate = DateTime.Now;
+            InventoryDateGUI.Text = "";
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            Clear();
         }
     }
 }
