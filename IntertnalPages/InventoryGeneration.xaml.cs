@@ -1,6 +1,8 @@
 ﻿using ArchiveSearchEngine.Database;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,7 +49,13 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void InventGenerationButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Генерация описи");
+            SaveFileDialog openFileDialog = new SaveFileDialog();
+            openFileDialog.Filter = "Файл формата (*.docx)| *.docx";
+            openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
+            openFileDialog.ShowDialog();
+            documentTable_.ExportToWord(openFileDialog.FileName, InventoryNumberGUI.Text, TermGUI.Text, 
+                YearPickerGUI.Text, Int32.Parse(FromGUI.Text), Int32.Parse(UpToGUI.Text));
+            MessageBox.Show($"Опись сгенерирована по пути: {openFileDialog.FileName}");
         }
     }
 }

@@ -35,12 +35,12 @@
             <TextBlock Style="{StaticResource DocTextBlock}" Text="Год" Margin="0,15,0,0"></TextBlock>
             <TextBox Name="YearPickerGUI" FontSize="20"></TextBox>
 
-            <TextBlock Style="{StaticResource DocTextBlock}" Text="Внесенные акты" Margin="0,15,0,0"></TextBlock>
+            <TextBlock Style="{StaticResource DocTextBlock}" Text="Валовые номера" Margin="0,15,0,0"></TextBlock>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Style="{StaticResource DocTextBlock}" VerticalAlignment="Center" Text="С "></TextBlock>
-                <TextBox Style="{StaticResource DocTextBox}" Padding="0" MinWidth="30"></TextBox>
+                <TextBox Name="FromGUI" Style="{StaticResource DocTextBox}" Padding="0" MinWidth="30"></TextBox>
                 <TextBlock Style="{StaticResource DocTextBlock}" VerticalAlignment="Center" Text=" по "></TextBlock>
-                <TextBox Style="{StaticResource DocTextBox}" Padding="0" MinWidth="30"></TextBox>
+                <TextBox Name="UpToGUI" Style="{StaticResource DocTextBox}" Padding="0" MinWidth="30"></TextBox>
             </StackPanel>
 
         </StackPanel>
