@@ -70,7 +70,7 @@ namespace ArchiveSearchEngine.Database
                 $"gived_post, gived_fullname, is_personnel, achieved_username, note) VALUES " +
                 $"('{registrationNum.Replace("'", "")}', '{volumeNum.Replace("'", "")}', '{bookNum.Replace("'", "")}', {contentQuantity}, " +
                 $"'{inventoryDate}', '{inventoryNum.Replace("'", "")}', '{objectIndex.Replace("'", "")}', '{objectName.Replace("'", "")}', " +
-                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate.}', {caseNum}, " +
+                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate}', {caseNum}, " +
                 $"'{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
                 $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', {isPersonnel}, '{achievedUsername}', '{note.Replace("'", "")}')",
                 _connection).ExecuteNonQuery();

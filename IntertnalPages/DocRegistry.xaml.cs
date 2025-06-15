@@ -43,6 +43,7 @@ namespace ArchiveSearchEngine.IntertnalPages
             {
                 if (IsVisible)
                 {
+                    documents_ = documentTable_.GetDocuments(page_, filter_);
                     DocGrid.Items.Refresh();
                 }
             };
