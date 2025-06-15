@@ -135,7 +135,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         }
 
         public void SetFilter(string ObjectIndex, string ObjectName, string VolumeNum, 
-            string BookNum, string ContentQuantity, string ExpiringIn, string DocumentDate)
+            string BookNum, string ContentQuantity, string ExpiringIn, string DocumentDate, string StructDivisionGUI)
         {
             filter_.ObjectIndex = ObjectIndex;
             filter_.ObjectName = ObjectName;

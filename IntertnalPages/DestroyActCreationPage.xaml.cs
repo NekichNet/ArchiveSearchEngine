@@ -16,14 +16,12 @@ using System.Windows.Shapes;
 namespace ArchiveSearchEngine.IntertnalPages
 {
     /// <summary>
-    /// Логика взаимодействия для DocumentCreation.xaml
+    /// Логика взаимодействия для DestroyActCreationPage.xaml
     /// </summary>
-    public partial class DocumentCreation : Page
+    public partial class DestroyActCreationPage : Page
     {
-        MainSpace _owner;
-        public DocumentCreation(MainSpace owner)
+        public DestroyActCreationPage()
         {
-            _owner = owner;
             InitializeComponent();
         }
     }

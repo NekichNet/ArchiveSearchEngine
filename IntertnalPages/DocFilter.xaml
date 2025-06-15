@@ -48,6 +48,9 @@
 
             <TextBlock Style="{StaticResource DocTextBlock}" Margin="0,10,0,0" Text="Дата документа"></TextBlock>
             <DatePicker FontSize="20" Name="DocumentsDateGUI"></DatePicker>
+            
+            <TextBlock Style="{StaticResource DocTextBlock}" Margin="0,10,0,0" Text="Кол-во страниц / дисков"></TextBlock>
+            <TextBox Style="{StaticResource DocTextBox}" Name="StructDivisionGUI"></TextBox>
 
 
         </StackPanel>

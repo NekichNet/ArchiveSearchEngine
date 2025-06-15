@@ -43,7 +43,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void AcceptFilterButton_Click(object sender, RoutedEventArgs e)
         {
             _owner.SetFilter(ObjectIndexGUI.Text, ObjectNameGUI.Text, VolumeNumGUI.Text,
-                BookNumGUI.Text, ContentQuantityGUI.Text, ExpiringInGUI.Text, DocumentsDateGUI.Text);
+                BookNumGUI.Text, ContentQuantityGUI.Text, ExpiringInGUI.Text, DocumentsDateGUI.Text, StructDivisionGUI.Text);
             this.Close();
         }
 
@@ -57,6 +57,7 @@ namespace ArchiveSearchEngine.IntertnalPages
             ContentQuantityGUI.Text = "";
             ExpiringInGUI.Text = "";
             DocumentsDateGUI.Text = "";
+            StructDivisionGUI.Text = "";
         }
         }
 }

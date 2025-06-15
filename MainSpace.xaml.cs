@@ -2,8 +2,10 @@
 using ArchiveSearchEngine.IntertnalPages;
 using ArchiveSearchEngine.IntertnalPages.NonUserDirectory;
 using ArchiveSearchEngine.IntertnalPages.UserManager;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,8 +40,29 @@ namespace ArchiveSearchEngine
 
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, _documentTable, userTable))); // , historyTable
             Spaces.Add(new UserSpace("Создание документа", new AddDocs(this, _documentTable, userTable)));
-            Spaces.Add(new UserSpace("Добавление документов", new DocumentCreation(this)));
             Spaces.Add(new UserSpace("Справочник незарегистрированных пользователей", new NonUserDirectory(this, nonUserTable)));
+            Spaces.Add(new UserSpace("Генерация описи", new InventoryGeneration(this, userTable, nonUserTable, _documentTable)));
+
+            string method() { 
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Файл формата (*.csv)| *.csv";
+                openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
+                openFileDialog.ShowDialog();
+                return openFileDialog.FileName;
+            }
+            Spaces.Add(new UserSpace("Импорт пользователей (*.csv)", method));
+
+
+            string method1()
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Таблица формата (*.xlsx)| *.xlsx";
+                openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
+                openFileDialog.ShowDialog();
+                return openFileDialog.FileName;
+            }
+            Spaces.Add(new UserSpace("Импорт документов из excel (*.xlsx)", method1));
+
 
             userTable_ = userTable;
 
@@ -61,7 +84,14 @@ namespace ArchiveSearchEngine
         {
             try
             {
-                DisplayFrame.Navigate(Spaces[SpacesListBox.SelectedIndex].Page);
+                if (Spaces[SpacesListBox.SelectedIndex].Page != null)
+                {
+                    DisplayFrame.Navigate(Spaces[SpacesListBox.SelectedIndex].Page);
+                }
+                else {
+                    Spaces[SpacesListBox.SelectedIndex].Invoke();
+                    SpacesListBox.SelectedIndex = -1;
+                }
             } catch { }
         }
 

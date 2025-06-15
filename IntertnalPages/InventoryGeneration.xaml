@@ -1,0 +1,47 @@
+﻿<Page x:Class="ArchiveSearchEngine.IntertnalPages.InventoryGeneration"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ArchiveSearchEngine.IntertnalPages"
+      mc:Ignorable="d" 
+      d:DesignHeight="1000" d:DesignWidth="1000"
+      Title="InventoryGeneration">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.15*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Center" FontWeight="Black" Grid.ColumnSpan="3" Grid.Column="1" Text="Генерация описи"></TextBlock>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+            <TextBlock Style="{StaticResource DocTextBlock}" Text="Номер описи"></TextBlock>
+            <TextBox Name="InventoryNumberGUI" Style="{StaticResource DocTextBox}"></TextBox>
+            
+            <TextBlock Style="{StaticResource DocTextBlock}" Text="Срок хранения" Margin="0,15,0,0"></TextBlock>
+            <ComboBox Name="TermGUI" FontSize="20"></ComboBox>
+            
+            <TextBlock Style="{StaticResource DocTextBlock}" Text="Год" Margin="0,15,0,0"></TextBlock>
+            <DatePicker Name="YearPickerGUI" FontSize="20"></DatePicker>
+            
+            <TextBlock Style="{StaticResource DocTextBlock}" Text="ФИО человека" Margin="0,15,0,0"></TextBlock>
+            <ComboBox Name="UserPickerGUI" FontSize="20" IsTextSearchEnabled="True" IsEditable="True"></ComboBox>
+            
+        </StackPanel>
+        
+        <Button Click="InventGenerationButton_Click" Grid.Row="2" Grid.Column="3" FontSize="30" Style="{StaticResource AcceptButtonStyle}" Name="InventGenerationButton" Margin="15" Content="Сгенерировать"></Button>
+        <Button Click="ClearButton_Click" Grid.Row="2" Grid.Column="1" FontSize="30" Style="{StaticResource DenyButtonStyle}" Name="ClearButton" Margin="15" Content="Очистить"></Button>
+        
+    </Grid>
+</Page>
