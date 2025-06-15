@@ -50,7 +50,8 @@ namespace ArchiveSearchEngine.IntertnalPages
                 ObjectNameGUI.Text = doc_.ObjectName;
                 RackGUI.Text = doc_.Rack;
                 ShelfGUI.Text = doc_.Shelf;
-                StoringTermGUI.Text = doc_.ExpiringIn;
+                StoringTermComboGUI.Text = doc_.ExpiringIn;
+                StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "ЛС", "Постоянно" };
                 DocDateGUI.DisplayDate = doc_.DocumentsDate;
                 DocDateGUI.Text = doc_.DocumentsDate.ToShortDateString();
                 CaseNumberGUI.Text = doc_.CaseNum;
