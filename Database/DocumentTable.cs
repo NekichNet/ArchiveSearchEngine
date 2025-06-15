@@ -424,11 +424,11 @@ namespace ArchiveSearchEngine.Database
                         numbers_lost += Convert.ToInt32(reader["case_num"]) - lastNum == 1 ? 0 : Convert.ToInt32(reader["case_num"]) - lastNum;
 
                         datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["case_num"]);
-                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["object_index"]);
-                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["object_name"]);
-                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["documents_date"]);
-                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["content_quantity"]);
-                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["note"]);
+                        datatable[rowCounter, 1].AddParagraph().AppendText((string)reader["object_index"]);
+                        datatable[rowCounter, 2].AddParagraph().AppendText((string)reader["object_name"]);
+                        datatable[rowCounter, 3].AddParagraph().AppendText((string)reader["documents_date"]);
+                        datatable[rowCounter, 4].AddParagraph().AppendText((string)reader["content_quantity"]);
+                        datatable[rowCounter, 5].AddParagraph().AppendText((string)reader["note"]);
 
                         docCounter++;
                         rowCounter++;
