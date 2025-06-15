@@ -144,7 +144,7 @@ namespace ArchiveSearchEngine.Database
 
             if (page < 0) { throw new Exception("Непредвиденная ошибка: страница меньше единицы"); }
 
-            string query = $"SELECT * FROM DocumentTable LIMIT 30 OFFSET {page * 30}";
+            string query = $"SELECT * FROM DocumentTable";
 
             if (filter.FilterEnabled) {
                 query += " WHERE";
@@ -156,6 +156,8 @@ namespace ArchiveSearchEngine.Database
                 if (filter.ExpiringIn != "") { query += $" expiring_in = '{filter.ExpiringIn}'"; }
                 if (filter.DocumentsDate != "") { query += $" documents_date = '{filter.DocumentsDate}'"; }
             }
+
+            query += $" LIMIT {page * 30}, 30";
 
             using (SqliteDataReader reader = new SqliteCommand(query, _connection).ExecuteReader())
             {
@@ -368,39 +370,54 @@ namespace ArchiveSearchEngine.Database
                 $"«____»____________ {DateTime.Now.Year} г.\r\n");
 
             Spire.Doc.Table datatable = section.AddTable(true);
-            datatable.DefaultColumnsNumber = 6;
-            datatable.ResetCells(2, 6);
 
-            datatable[0, 0].AddParagraph().AppendText("№ п\\п");
-            datatable[1, 0].AddParagraph().AppendText("1");
+            Spire.Doc.TableRow headingRow = datatable.AddRow();
 
-            datatable[0, 1].AddParagraph().AppendText("Индекс дела");
-            datatable[1, 1].AddParagraph().AppendText("2");
+            Spire.Doc.TableCell caseNumCellH = headingRow.AddCell();
+            caseNumCellH.AddParagraph().AppendText("№ п\\п");
+            caseNumCellH.SetCellWidth(11.8f, CellWidthType.Percentage);
 
-            datatable[0, 2].AddParagraph().AppendText("Заголовок дела");
-            datatable[1, 2].AddParagraph().AppendText("3");
+            Spire.Doc.TableCell objectIndexCellH = headingRow.AddCell();
+            objectIndexCellH.AddParagraph().AppendText("Индекс дела");
+            objectIndexCellH.SetCellWidth(16.4f, CellWidthType.Percentage);
 
-            datatable[0, 3].AddParagraph().AppendText("Крайние даты");
-            datatable[1, 3].AddParagraph().AppendText("4");
+            Spire.Doc.TableCell objectNameCellH = headingRow.AddCell();
+            objectNameCellH.AddParagraph().AppendText("Заголовок дела");
+            objectNameCellH.SetCellWidth(38.8f, CellWidthType.Percentage);
 
-            datatable[0, 4].AddParagraph().AppendText("Кол-во листов");
-            datatable[1, 4].AddParagraph().AppendText("5");
+            Spire.Doc.TableCell documentsDateCellH = headingRow.AddCell();
+            documentsDateCellH.AddParagraph().AppendText("Крайние даты");
+            documentsDateCellH.SetCellWidth(11.9f, CellWidthType.Percentage);
 
-            datatable[0, 5].AddParagraph().AppendText("Примечание");
-            datatable[1, 5].AddParagraph().AppendText("6");
+            Spire.Doc.TableCell contentQuantityCellH = headingRow.AddCell();
+            contentQuantityCellH.AddParagraph().AppendText("Кол-во листов");
+            contentQuantityCellH.SetCellWidth(10.4f, CellWidthType.Percentage);
+
+            Spire.Doc.TableCell noteCellH = headingRow.AddCell();
+            noteCellH.AddParagraph().AppendText("Примечание");
+            noteCellH.SetCellWidth(10.5f, CellWidthType.Percentage);
+
+            Spire.Doc.TableRow heading2Row = datatable.AddRow();
+
+            heading2Row.Cells[0].AddParagraph().AppendText("1");
+            heading2Row.Cells[1].AddParagraph().AppendText("2");
+            heading2Row.Cells[2].AddParagraph().AppendText("3");
+            heading2Row.Cells[3].AddParagraph().AppendText("4");
+            heading2Row.Cells[4].AddParagraph().AppendText("5");
+            heading2Row.Cells[5].AddParagraph().AppendText("6");
 
             int docCounter = 0;
-            int rowCounter = 2;
             string currentDivision = "";
             int numbers_lost = 0;
             int lastNum = -1;
+            List<int> mergeIndexes = new List<int>();
 
             // ToDo: Здесь заполнение таблицы описи
             using (SqliteDataReader reader = new SqliteCommand(
                 "SELECT case_num, object_index, object_name, documents_date," +
                 " content_quantity, struct_division, note, expiring_in" +
-                " FROM DocumentTable ORDER BY struct_division, case_num" +
-                $" WHERE is_personnel = {(doc_type == "Дела по личному составу" ? 1 : 0)}",
+                $" FROM DocumentTable WHERE is_personnel = {(doc_type == "Дела по личному составу" ? 1 : 0)}" +
+                " ORDER BY struct_division, case_num",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
@@ -416,9 +433,9 @@ namespace ArchiveSearchEngine.Database
                         // Делаем горизонтальное разграничение по "структурному подразделению" текущей группы документов
                         if ((string)reader["struct_division"] != currentDivision)
                         {
-                            datatable.ApplyHorizontalMerge(rowCounter, 0, 5);
-                            datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["struct_division"]);
-                            rowCounter++;
+                            Spire.Doc.TableRow structRow = datatable.AddRow();
+                            mergeIndexes.Add(structRow.GetRowIndex());
+                            structRow.Cells[0].AddParagraph().AppendText((string)reader["struct_division"]);
                         }
 
                         if (lastNum == -1) { lastNum = Convert.ToInt32(reader["case_num"]); }
@@ -426,36 +443,21 @@ namespace ArchiveSearchEngine.Database
 
                         Spire.Doc.TableRow newRow = datatable.AddRow();
 
-                        Spire.Doc.TableCell caseNumCell = newRow.AddCell();
-                        caseNumCell.AddParagraph().AppendText((string)reader["case_num"]);
-                        newRow.Cells.Add(caseNumCell);
-
-                        Spire.Doc.TableCell objectIndexCell = newRow.AddCell();
-                        caseNumCell.AddParagraph().AppendText((string)reader["object_index"]);
-                        newRow.Cells.Add(objectIndexCell);
-
-                        Spire.Doc.TableCell objectNameCell = newRow.AddCell();
-                        caseNumCell.AddParagraph().AppendText((string)reader["object_name"]);
-                        newRow.Cells.Add(objectNameCell);
-
-                        Spire.Doc.TableCell documentsDateCell = newRow.AddCell();
-                        caseNumCell.AddParagraph().AppendText((string)reader["documents_date"]);
-                        newRow.Cells.Add(documentsDateCell);
-
-                        Spire.Doc.TableCell contentQuantityCell = newRow.AddCell();
-                        caseNumCell.AddParagraph().AppendText((string)reader["content_quantity"]);
-                        newRow.Cells.Add(contentQuantityCell);
-
-                        Spire.Doc.TableCell noteCell = newRow.AddCell();
-                        caseNumCell.AddParagraph().AppendText((string)reader["note"]);
-                        newRow.Cells.Add(noteCell);
-
-                        datatable.Rows.Add(newRow);
+                        newRow.Cells[0].AddParagraph().AppendText(Convert.ToString(reader["case_num"]));
+                        newRow.Cells[1].AddParagraph().AppendText((string)reader["object_index"]);
+                        newRow.Cells[2].AddParagraph().AppendText((string)reader["object_name"]);
+                        newRow.Cells[3].AddParagraph().AppendText((string)reader["documents_date"]);
+                        newRow.Cells[4].AddParagraph().AppendText(Convert.ToString(reader["content_quantity"]));
+                        newRow.Cells[5].AddParagraph().AppendText((string)reader["note"]);
 
                         docCounter++;
-                        rowCounter++;
                     }
                 }
+            }
+            foreach (int ind in mergeIndexes)
+            {
+                datatable.ApplyHorizontalMerge(ind, 0, 5);
+                datatable[ind, 0].SetCellWidth(100f, CellWidthType.Percentage);
             }
 
             Spire.Doc.Documents.Paragraph ending = section.AddParagraph();

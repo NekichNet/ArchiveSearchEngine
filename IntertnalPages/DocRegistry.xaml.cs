@@ -28,6 +28,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         private int page_;
         UserTable userTable_;
         private DocumentFilter filter_;
+        private bool initialized_ = false;
         public DocRegistry(MainSpace owner, DocumentTable documentTable, UserTable userTable)
         {
             _owner = owner;
@@ -51,39 +52,40 @@ namespace ArchiveSearchEngine.IntertnalPages
         }
 
         // Preprocessing pagechanging only by Counterbox and '<-' '->' buttons.
-        // If it's going to become empty, makes no effect and returns false
-        private bool ChangePage(int newPage)
-        {
-            try
-            {
-                if (newPage == page_) { return true; }
-                if (newPage < 1) { return false; }
-                List<Document> newDocuments = documentTable_.GetDocuments(page_ - 1, filter_);
-                if (newDocuments.Count > 0)
-                {
-                    page_ = newPage;
-                    documents_ = newDocuments;
-                    DocGrid.ItemsSource = documents_;
-                    DocGrid.Items.Refresh();
-                    return true;
-                }
-                return false;
-            }
-            catch (NullReferenceException ex) { return true; }
-        }
+        // If it's going to become empty, it returns false
+        //private bool ChangePage(int newPage)
+        //{
+        //    try
+        //    {
+        //        if (newPage == page_) { return true; }
+        //        if (newPage < 1) { return false; }
+        //        List<Document> newDocuments = documentTable_.GetDocuments(page_ - 1, filter_);
+        //        if (newDocuments.Count > 0)
+        //        {
+        //            page_ = newPage;
+        //            documents_ = newDocuments;
+        //            DocGrid.ItemsSource = documents_;
+        //            DocGrid.Items.Refresh();
+        //            return true;
+        //        }
+        //        return false;
+        //    }
+        //    catch (NullReferenceException ex) { return true; }
+        //}
         
         // Processing '->' button press
         private void NextPage(object sender, RoutedEventArgs e)
         {
             CounterBox.Text = Convert.ToString(page_ + 1);
-            DocGrid.Items.Refresh();
         }
 
         // Processing '<-' button press
         private void PrevPage(object sender, RoutedEventArgs e)
         {
-            CounterBox.Text = Convert.ToString(page_ - 1);
-            DocGrid.Items.Refresh();
+            if (page_ > 1)
+            {
+                CounterBox.Text = Convert.ToString(page_ - 1);
+            }
         }
 
         private void CounterBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -94,11 +96,12 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void CounterBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int value = Convert.ToInt32((sender as TextBox).Text);
-            if (!ChangePage(value))
-            {
-                (sender as TextBox).Text = Convert.ToString(page_);
-            }
+            // чтобы не вылезала ошибка перед инициализированием documentTable_
+            if (!initialized_) { initialized_ = true; return; }
+            page_ = Convert.ToInt32((sender as TextBox).Text);
+            documents_ = documentTable_.GetDocuments(page_ - 1, filter_);
+            DocGrid.ItemsSource = documents_;
+            DocGrid.Items.Refresh();
         }
 
         private void CounterBox_PreviewKeyDown(object sender, KeyEventArgs e)

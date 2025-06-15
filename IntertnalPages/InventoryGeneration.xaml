@@ -33,7 +33,7 @@
             <ComboBox Name="TermGUI" FontSize="20"></ComboBox>
             
             <TextBlock Style="{StaticResource DocTextBlock}" Text="Год" Margin="0,15,0,0"></TextBlock>
-            <TextBox Name="YearPickerGUI" FontSize="20"></TextBox>
+            <TextBox Name="YearPickerGUI" FontSize="20" Style="{StaticResource DocTextBox}"></TextBox>
 
             <TextBlock Style="{StaticResource DocTextBlock}" Text="Валовые номера" Margin="0,15,0,0"></TextBlock>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
