@@ -45,7 +45,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 _table.NewDocument(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
                     (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
                     ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
-                    (DateTime)DestroyActDateGUI.SelectedDate, user.StructDivision, user.Post, user.Fullname, IsPersonnelGUI.Checked, _owner.Owner.LoggedUser.Username,
+                    (DateTime)DestroyActDateGUI.SelectedDate, user.StructDivision, user.Post, user.Fullname, IsPersonnelGUI.IsChecked, _owner.Owner.LoggedUser.Username,
                     AdditionGUI.Text);
 
                 Clear();

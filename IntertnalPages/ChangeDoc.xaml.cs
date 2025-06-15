@@ -38,7 +38,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
                 doc_ = doc;
 
-                IsPersonnelGUI.Checked = doc_.IsPersonnel
+                IsPersonnelGUI.IsChecked = doc_.IsPersonnel;
                 RegistrationObjectNumberGUI.Text = doc_.RegistrationNum;
                 TomNumberGUI.Text = doc_.VolumeNum;
                 BookNumberGUI.Text = doc_.BookNum;
@@ -86,7 +86,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 Document updatedDoc = new Document(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
                     (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
                     ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
-                    (DateTime)DestroyActDateGUI.SelectedDate, doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.AchievedUsername,
+                    (DateTime)DestroyActDateGUI.SelectedDate, doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.IsPersonnel, doc_.AchievedUsername,
                     AdditionGUI.Text);
 
                 documentTable_.UpdateDocument(updatedDoc, doc_.RegistrationNum);
