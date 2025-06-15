@@ -369,6 +369,7 @@ namespace ArchiveSearchEngine.Database
 
             Spire.Doc.Table datatable = section.AddTable(true);
             datatable.DefaultColumnsNumber = 6;
+            datatable.ResetCells(2, 6);
 
             datatable[0, 0].AddParagraph().AppendText("№ п\\п");
             datatable[1, 0].AddParagraph().AppendText("1");
@@ -423,12 +424,33 @@ namespace ArchiveSearchEngine.Database
                         if (lastNum == -1) { lastNum = Convert.ToInt32(reader["case_num"]); }
                         numbers_lost += Convert.ToInt32(reader["case_num"]) - lastNum == 1 ? 0 : Convert.ToInt32(reader["case_num"]) - lastNum;
 
-                        datatable[rowCounter, 0].AddParagraph().AppendText((string)reader["case_num"]);
-                        datatable[rowCounter, 1].AddParagraph().AppendText((string)reader["object_index"]);
-                        datatable[rowCounter, 2].AddParagraph().AppendText((string)reader["object_name"]);
-                        datatable[rowCounter, 3].AddParagraph().AppendText((string)reader["documents_date"]);
-                        datatable[rowCounter, 4].AddParagraph().AppendText((string)reader["content_quantity"]);
-                        datatable[rowCounter, 5].AddParagraph().AppendText((string)reader["note"]);
+                        Spire.Doc.TableRow newRow = datatable.AddRow();
+
+                        Spire.Doc.TableCell caseNumCell = newRow.AddCell();
+                        caseNumCell.AddParagraph().AppendText((string)reader["case_num"]);
+                        newRow.Cells.Add(caseNumCell);
+
+                        Spire.Doc.TableCell objectIndexCell = newRow.AddCell();
+                        caseNumCell.AddParagraph().AppendText((string)reader["object_index"]);
+                        newRow.Cells.Add(objectIndexCell);
+
+                        Spire.Doc.TableCell objectNameCell = newRow.AddCell();
+                        caseNumCell.AddParagraph().AppendText((string)reader["object_name"]);
+                        newRow.Cells.Add(objectNameCell);
+
+                        Spire.Doc.TableCell documentsDateCell = newRow.AddCell();
+                        caseNumCell.AddParagraph().AppendText((string)reader["documents_date"]);
+                        newRow.Cells.Add(documentsDateCell);
+
+                        Spire.Doc.TableCell contentQuantityCell = newRow.AddCell();
+                        caseNumCell.AddParagraph().AppendText((string)reader["content_quantity"]);
+                        newRow.Cells.Add(contentQuantityCell);
+
+                        Spire.Doc.TableCell noteCell = newRow.AddCell();
+                        caseNumCell.AddParagraph().AppendText((string)reader["note"]);
+                        newRow.Cells.Add(noteCell);
+
+                        datatable.Rows.Add(newRow);
 
                         docCounter++;
                         rowCounter++;
