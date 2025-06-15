@@ -41,6 +41,7 @@ namespace ArchiveSearchEngine.Database
                 "gived_post TEXT NOT NULL, " +
                 "gived_fullname TEXT NOT NULL, " +
                 "achieved_username TEXT NOT NULL, " +
+                "is_personnel INTEGER NOT NULL, " +
                 "taken_username TEXT, " +
                 "taken_datetime TEXT, " +
                 "note TEXT)", _connection).ExecuteNonQuery();
@@ -55,8 +56,8 @@ namespace ArchiveSearchEngine.Database
             string rack, string shelf, string expiringIn,
             DateTime documentsDate, int caseNum,
             string destructActNum, DateTime destructActDate,
-            string structDivision,
-            string givedPost, string givedFullname,
+            string structDivision, string givedPost,
+            string givedFullname, bool isPersonnel,
             string achievedUsername, string note)
         {
             if (!DocumentExists(registrationNum))
@@ -66,12 +67,12 @@ namespace ArchiveSearchEngine.Database
                 $"inventory_date, inventory_num, object_index, object_name," +
                 $"rack, shelf, expiring_in, documents_date, case_num," +
                 $"destruct_act_num, destruct_act_date, struct_division," +
-                $"gived_post, gived_fullname, achieved_username, note) VALUES " +
+                $"gived_post, gived_fullname, is_personnel, achieved_username, note) VALUES " +
                 $"('{registrationNum.Replace("'", "")}', '{volumeNum.Replace("'", "")}', '{bookNum.Replace("'", "")}', {contentQuantity}, " +
                 $"'{inventoryDate}', '{inventoryNum.Replace("'", "")}', '{objectIndex.Replace("'", "")}', '{objectName.Replace("'", "")}', " +
-                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate}', {caseNum}, " +
+                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate.}', {caseNum}, " +
                 $"'{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
-                $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', '{achievedUsername}', '{note.Replace("'", "")}')",
+                $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', {isPersonnel}, '{achievedUsername}', '{note.Replace("'", "")}')",
                 _connection).ExecuteNonQuery();
             }
             return !DocumentExists(registrationNum);
@@ -95,7 +96,7 @@ namespace ArchiveSearchEngine.Database
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
                         Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
                         Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
-                        (string)reader["gived_post"], (string)reader["gived_fullname"],
+                        (string)reader["gived_post"], (string)reader["gived_fullname"], Convert.ToInt32(reader["is_personnel"]) == 1,
                         (string)reader["achieved_username"], (string)reader["note"]);
                 }
                 else
@@ -127,6 +128,7 @@ namespace ArchiveSearchEngine.Database
                         Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
                         Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
+                        Convert.ToInt32(reader["is_personnel"]) == 1,
                         (string)reader["achieved_username"], (string)reader["note"]));
                     }
                 }
@@ -170,6 +172,7 @@ namespace ArchiveSearchEngine.Database
                         Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
                         Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
                         (string)reader["gived_post"], (string)reader["gived_fullname"],
+                        Convert.ToInt32(reader["is_personnel"]) == 1,
                         (string)reader["achieved_username"], (string)reader["note"]));
                     }
                 }
@@ -217,6 +220,7 @@ namespace ArchiveSearchEngine.Database
                     $"struct_division='{doc.StructDivision.Replace("'", "")}', " +
                     $"gived_post='{doc.GivedPost.Replace("'", "")}', " +
                     $"gived_fullname='{doc.GivedFullname.Replace("'", "")}', " +
+                    $"is_personnel={(doc.IsPersonnel? 1 : 0)}, " +
                     $"note='{doc.Note.Replace("'", "")}', " +
 
                     $"WHERE registration_num = '{oldRegistrationNum}'", _connection).ExecuteNonQuery();
