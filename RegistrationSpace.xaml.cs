@@ -70,5 +70,11 @@ namespace ArchiveSearchEngine
             StructDivisionGUI.Text = "";
             ErrorGui.Text = "";
         }
+        public void FillWithPreset(NonUser nonUser)
+        {
+            PostGUI.Text = nonUser.Post;
+            NameGui.Text = nonUser.Fullname;
+            StructDivisionGUI.Text = nonUser.Fullname;
+        }
     }
 }

@@ -71,7 +71,7 @@
             <StackPanel>
                 <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Срок хранения дела, по перечню</TextBlock>
                 <TextBox Visibility="Collapsed" Style="{StaticResource ResourceKey=DocTextBox}" Name="StoringTermGUI"></TextBox>
-                    <ComboBox FontSize="20" Name="StoringTermComboGUI"></ComboBox>
+                    <ComboBox IsEditable="True" FontSize="20" Name="StoringTermComboGUI"></ComboBox>
 
 
                 <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дата документов</TextBlock>

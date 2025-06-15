@@ -63,7 +63,7 @@ namespace ArchiveSearchEngine
             Spaces.Add(new UserSpace("Импорт документов из excel (*.xlsx)", method1));
 
 
-            Spaces.Add(new UserSpace("Справочник незарегистрированных пользователей", new NonUserDirectory(this, nonUserTable)));
+            Spaces.Add(new UserSpace("Справочник незарегистрированных пользователей", new NonUserDirectory(this, nonUserTable, userTable)));
 
 
             userTable_ = userTable;
@@ -133,5 +133,7 @@ namespace ArchiveSearchEngine
                 SpacesListBox.SelectedIndex = 1;
             }
         }
+
+
     }
 }
