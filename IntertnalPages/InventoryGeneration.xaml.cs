@@ -28,6 +28,10 @@ namespace ArchiveSearchEngine.IntertnalPages
         public InventoryGeneration(MainSpace owner, UserTable userTable, NonUserTable nonUserTable, DocumentTable documentTable)
         {
             InitializeComponent();
+
+            TermGUI.ItemsSource = new List<string> { "Дела временного хранения", "Дела долговременного хранения", "Дела по личному составу", "Дела постоянного хранения" };
+            TermGUI.SelectedIndex = 0;
+
             this.owner_ = owner;
             this.userTable_ = userTable;
             this.nonUserTable_ = nonUserTable;
@@ -37,7 +41,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             InventoryNumberGUI.Text = "";
-            TermGUI.Text = "";
+            TermGUI.SelectedIndex = 0;
             YearPickerGUI.Text = "";
             UserPickerGUI.Text = "";
         }

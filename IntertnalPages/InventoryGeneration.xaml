@@ -27,13 +27,13 @@
 
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
             <TextBlock Style="{StaticResource DocTextBlock}" Text="Номер описи"></TextBlock>
-            <TextBox Name="InventoryNumberGUI" Style="{StaticResource DocTextBox}"></TextBox>
+            <TextBox Name="InventoryNumberGUI" FontSize="20" Style="{StaticResource DocTextBox}"></TextBox>
             
             <TextBlock Style="{StaticResource DocTextBlock}" Text="Срок хранения" Margin="0,15,0,0"></TextBlock>
             <ComboBox Name="TermGUI" FontSize="20"></ComboBox>
             
             <TextBlock Style="{StaticResource DocTextBlock}" Text="Год" Margin="0,15,0,0"></TextBlock>
-            <DatePicker Name="YearPickerGUI" FontSize="20"></DatePicker>
+            <TextBox Name="YearPickerGUI" FontSize="20"></TextBox>
             
             <TextBlock Style="{StaticResource DocTextBlock}" Text="ФИО человека" Margin="0,15,0,0"></TextBlock>
             <ComboBox Name="UserPickerGUI" FontSize="20" IsTextSearchEnabled="True" IsEditable="True"></ComboBox>
