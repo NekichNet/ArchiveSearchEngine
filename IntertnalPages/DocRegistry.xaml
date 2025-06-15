@@ -71,7 +71,7 @@
 
                 <TextBox Name="PageDisplay" Margin="15" Background="AliceBlue" Grid.RowSpan="2"></TextBox>
                 
-                <Button Margin="15" Content="Фильтр" FontSize="30" Grid.RowSpan="2" FontWeight="Black" Grid.Column="4"></Button>
+                <Button Name="OpenFilterMenuButton" Click="OpenFilterMenuButton_Click" Margin="15" Content="Фильтр" FontSize="30" Grid.RowSpan="2" FontWeight="Black" Grid.Column="4"></Button>
 
 
                 <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" FontSize="20" FontWeight="Bold" Margin="0,15,0,15" Click="PrevPage">

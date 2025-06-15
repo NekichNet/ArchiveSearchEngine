@@ -128,5 +128,23 @@ namespace ArchiveSearchEngine.IntertnalPages
             }
         }
 
+        private void OpenFilterMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            var filterWindow = new DocFilter(this, filter_);
+            filterWindow.ShowDialog();
+        }
+
+        public void SetFilter(string ObjectIndex, string ObjectName, string VolumeNum, 
+            string BookNum, string ContentQuantity, string ExpiringIn, string DocumentDate)
+        {
+            filter_.ObjectIndex = ObjectIndex;
+            filter_.ObjectName = ObjectName;
+            filter_.VolumeNum = VolumeNum;
+            filter_.BookNum = BookNum;
+            filter_.ContentQuantity = ContentQuantity;
+            filter_.ExpiringIn = ExpiringIn;
+            filter_.DocumentsDate = DocumentDate;
+            DocGrid.Items.Refresh();
+        }
     }
 }

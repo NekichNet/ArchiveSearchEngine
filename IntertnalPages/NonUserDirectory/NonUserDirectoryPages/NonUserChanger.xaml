@@ -51,7 +51,9 @@
 
 
                         <Button FontSize="25" Name="ChangeNamePostEtc" Click="ChangeNamePostEtc_Click" Grid.Column="3" Grid.Row="3" Margin="15" Content="Изменить" Style="{StaticResource ResourceKey=RoundedSignInButtonStyle}"></Button>
-                        <Button FontSize="25" Name="MakeAnAccount" Click="MakeAnAccount_Click" Grid.Column="2" Grid.Row="3" Margin="15" Content="Зарегистрировать по шаблону" Style="{StaticResource ResourceKey=RoundedRegistrationButtonStyle}"></Button>
+                        <Button FontSize="25" Name="MakeAnAccount" Click="MakeAnAccount_Click" Grid.Column="2" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=RoundedRegistrationButtonStyle}">
+                            <TextBlock Text="Зарегистрировать по шаблону" MaxWidth="250" TextWrapping="Wrap"></TextBlock>
+                        </Button>
                         <Button FontSize="25"  Name="DeleteUser" Click="DeleteUser_Click" Grid.Column="0" Grid.Row="3" Margin="15" Content="Удалить" Style="{StaticResource ResourceKey=DenyButtonStyle}"></Button>
                         
 
