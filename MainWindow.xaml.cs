@@ -32,7 +32,7 @@ namespace ArchiveSearchEngine
             "/sources/background2.png",
         };
 
-        List<Page> pages = new List<Page>();
+        public List<Page> pages = new List<Page>();
         public MainWindow()
         {
             InitializeComponent();

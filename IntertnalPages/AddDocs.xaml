@@ -72,7 +72,7 @@
             </Border>
 
             <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дело № (валовый номер)</TextBlock>
-            <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="CaseNumberGUI"></TextBox>
+            <TextBox PreviewKeyDown="Number_PreviewKeyDown" PreviewTextInput="Number_PreviewTextInput" TextChanged="Number_TextChanged" Style="{StaticResource ResourceKey=DocTextBox}" Name="CaseNumberGUI"></TextBox>
 
             <Border Margin="0,10,0,10" BorderThickness="1">
                 <StackPanel>

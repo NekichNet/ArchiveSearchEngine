@@ -1,4 +1,5 @@
 ﻿using ArchiveSearchEngine.Database;
+using ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +23,23 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
     {
         UserTable userTable_;
         UserFinder owner_;
+        NonUserChanger NonUserOwner_;
         bool isAdmin = false;
         public AddNewUser(UserFinder owner, UserTable userTable)
         {
             InitializeComponent();
             this.userTable_ = userTable;
             owner_ = owner;
+        }
+        public AddNewUser(NonUserChanger owner, UserTable userTable, NonUser nonUser)
+        {
+            InitializeComponent();
+            this.userTable_ = userTable;
+            FullnameChange.Text = nonUser.Fullname;
+            PostChange.Text = nonUser.Post;
+            StructDivisionChange.Text = nonUser.StructDivision;
+            NonUserOwner_ = owner;
+
         }
 
         private void DenyButton_Click(object sender, RoutedEventArgs e)
@@ -50,16 +62,20 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
 
                             userTable_.NewUser(user, PasswordChange.Password);
 
-
-                            owner_.UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
-                            owner_.UsersFoundDisplay.Items.Refresh();
-                            MessageBox.Show("Пользователь был успешно добавлен");
+                            if (owner_ != null)
+                            {
+                                owner_.UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
+                                owner_.UsersFoundDisplay.Items.Refresh();
+                                MessageBox.Show("Пользователь был успешно добавлен");
+                            }
+                            else if (NonUserOwner_ != null) {
+                                NonUserOwner_.DeleteUserAfterRegistration();
+                                MessageBox.Show("Пользователь был успешно перенесён");
+                            }
                             this.Close();
                         }
                         catch
                         {
-                            owner_.UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
-                            owner_.UsersFoundDisplay.Items.Refresh();
                             MessageBox.Show("Произошла непредвиденененененная ошибка");
                             this.Close();
                         }

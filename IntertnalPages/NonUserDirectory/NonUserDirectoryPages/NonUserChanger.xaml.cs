@@ -1,4 +1,5 @@
 ﻿using ArchiveSearchEngine.Database;
+using ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,14 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
         public NonUserDirectory owner_;
         NonUserTable nonUserTable_;
         int index_;
-        public NonUserChanger(NonUserDirectory owner, NonUserTable nonUserTable, int index)
+        UserTable userTable_;
+        public NonUserChanger(NonUserDirectory owner, NonUserTable nonUserTable, int index, UserTable userTable)
         {
             InitializeComponent();
             owner_ = owner;
             nonUserTable_ = nonUserTable;
             index_ = index;
+            userTable_ = userTable;
             RefreshInfo();
         }
 
@@ -69,7 +72,11 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
             var window = new ChangeNonUserProperties(this, nonUserTable_.GetUnit(nonUserTable_.GetUnits()[index_].Id));
             window.ShowDialog();
         }
-
+        public void DeleteUserAfterRegistration()
+        {
+            nonUserTable_.DeleteUnit(nonUserTable_.GetUnits()[index_].Id);
+            owner_.ToSearchUsers();
+        }
         private void DeleteUser_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult notifWindow = MessageBox.Show("Вы собираетесь удалить этого человека из справочника,\nподтвердить удаление?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -82,7 +89,8 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
 
         private void MakeAnAccount_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Регистрация по шаблону");
+            var createAUser = new AddNewUser(this, userTable_, nonUserTable_.GetUnits()[index_]);
+            createAUser.ShowDialog();
         }
     }
 }
