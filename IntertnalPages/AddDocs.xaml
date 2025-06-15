@@ -95,6 +95,12 @@
                     <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="ShelfGUI"></TextBox>
                 </StackPanel>
             </Border>
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,15">
+                <Viewbox>
+                    <CheckBox Name="IsPersonnelGUI"></CheckBox>
+                </Viewbox>
+                <TextBlock Text=" Дело по личному составу" Style="{StaticResource DocTextBlock}"></TextBlock>
+            </StackPanel>
         </StackPanel>
 
         <StackPanel Margin="15" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">

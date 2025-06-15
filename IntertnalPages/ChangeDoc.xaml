@@ -92,6 +92,12 @@
             </StackPanel>
         </Border>
 
+            <StackPanel Orientation="Horizontal" Margin="0,15,0,15">
+                <Viewbox>
+                    <CheckBox Name="IsPersonnelGUI"></CheckBox>
+                </Viewbox>
+                <TextBlock Text=" Дело по личному составу" Style="{StaticResource DocTextBlock}"></TextBlock>
+            </StackPanel>
 
 
             <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Пользователь впервые добавивший документ в реестр</TextBlock>

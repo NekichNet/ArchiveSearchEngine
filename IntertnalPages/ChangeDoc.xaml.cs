@@ -38,7 +38,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
                 doc_ = doc;
 
-
+                IsPersonnelGUI.Checked = doc_.IsPersonnel
                 RegistrationObjectNumberGUI.Text = doc_.RegistrationNum;
                 TomNumberGUI.Text = doc_.VolumeNum;
                 BookNumberGUI.Text = doc_.BookNum;
@@ -51,7 +51,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 RackGUI.Text = doc_.Rack;
                 ShelfGUI.Text = doc_.Shelf;
                 StoringTermComboGUI.Text = doc_.ExpiringIn;
-                StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "ЛС", "Постоянно" };
+                StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "Постоянно" };
                 DocDateGUI.DisplayDate = doc_.DocumentsDate;
                 DocDateGUI.Text = doc_.DocumentsDate.ToShortDateString();
                 CaseNumberGUI.Text = $"{doc_.CaseNum}";
