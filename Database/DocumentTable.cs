@@ -1,14 +1,16 @@
 ﻿using Microsoft.Data.Sqlite;
-using System.Security.Cryptography;
+using Spire.Doc;
+using Spire.Doc.Collections;
+using Spire.Doc.Documents;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Spire.Doc;
-using Spire.Doc.Documents;
-using System.Drawing;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace ArchiveSearchEngine.Database
@@ -26,14 +28,14 @@ namespace ArchiveSearchEngine.Database
                 "volume_num TEXT, " +
                 "book_num TEXT, " +
                 "content_quantity INTEGER NOT NULL, " +
-                "inventory_date DATE, " +
+                "inventory_date TEXT, " +
                 "inventory_num TEXT, " +
                 "object_index TEXT NOT NULL, " +
                 "object_name TEXT NOT NULL, " +
                 "rack TEXT NOT NULL, " +
                 "shelf TEXT NOT NULL, " +
                 "expiring_in TEXT NOT NULL, " +
-                "documents_date DATE NOT NULL, " +
+                "documents_date TEXT NOT NULL, " +
                 "case_num INTEGER NOT NULL, " +
                 "destruct_act_num TEXT, " +
                 "destruct_act_date DATE, " +
@@ -70,8 +72,8 @@ namespace ArchiveSearchEngine.Database
                 $"gived_post, gived_fullname, is_personnel, achieved_username, note) VALUES " +
                 $"('{registrationNum.Replace("'", "")}', '{volumeNum.Replace("'", "")}', '{bookNum.Replace("'", "")}', {contentQuantity}, " +
                 $"'{inventoryDate}', '{inventoryNum.Replace("'", "")}', '{objectIndex.Replace("'", "")}', '{objectName.Replace("'", "")}', " +
-                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate}', {caseNum}, " +
-                $"'{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
+                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate.ToShortDateString()}', {caseNum}, " +
+                $"'{destructActNum.Replace("'", "")}', '{destructActDate.ToShortDateString()}', '{structDivision.Replace("'", "")}', " +
                 $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', {isPersonnel}, '{achievedUsername}', '{note.Replace("'", "")}')",
                 _connection).ExecuteNonQuery();
             }
@@ -208,17 +210,17 @@ namespace ArchiveSearchEngine.Database
                     $"volume_num='{doc.VolumeNum.Replace("'", "")}', " +
                     $"book_num='{doc.BookNum.Replace("'", "")}', " +
                     $"content_quantity={doc.ContentQuantity}, " +
-                    $"inventory_date='{doc.InventoryDate}', " +
+                    $"inventory_date='{doc.InventoryDate.ToShortDateString()}', " +
                     $"inventory_num='{doc.InventoryNum.Replace("'", "")}', " +
                     $"object_index='{doc.ObjectIndex.Replace("'", "")}', " +
                     $"object_name='{doc.ObjectName.Replace("'", "")}', " +
                     $"rack='{doc.Rack.Replace("'", "")}', " +
                     $"shelf='{doc.Shelf.Replace("'", "")}', " +
                     $"expiring_in='{doc.ExpiringIn.Replace("'", "")}', " +
-                    $"documents_date='{doc.DocumentsDate}', " +
+                    $"documents_date='{doc.DocumentsDate.ToShortDateString()}', " +
                     $"case_num={doc.CaseNum}, " +
                     $"destruct_act_num='{doc.DestructActNum.Replace("'", "")}', " +
-                    $"destruct_act_date='{doc.DestructActDate}', " +
+                    $"destruct_act_date='{doc.DestructActDate.ToShortDateString()}', " +
                     $"struct_division='{doc.StructDivision.Replace("'", "")}', " +
                     $"gived_post='{doc.GivedPost.Replace("'", "")}', " +
                     $"gived_fullname='{doc.GivedFullname.Replace("'", "")}', " +
@@ -308,21 +310,26 @@ namespace ArchiveSearchEngine.Database
         public void ExportToWord(string filepath, string inventory_num, string doc_type,
             string by_year, int startCaseNum, int endCaseNum)
         {
+            // ToDo: Вот это заменить на проверку в самом SQL запросе
             CheckExpiring check_method;
             if (doc_type == "Дела временного хранения")
             {
+                doc_type = "дел временного хранения";
                 check_method = CheckIsTempExpiring;
             }
             else if (doc_type == "Дела долговременного хранения")
             {
+                doc_type = "дел долговременного хранения";
                 check_method = CheckIsLongExpiring;
             }
             else if (doc_type == "Дела постоянного хранения")
             {
+                doc_type = "дел, документов постоянного хранения";
                 check_method = CheckIsNoExpiring;
             }
             else if (doc_type == "Дела по личному составу")
             {
+                doc_type = "дел по личному составу";
                 check_method = (string expiring_in) => { return true; };
             }
             else { throw new Exception("Некоректный тип документа"); }
@@ -334,6 +341,13 @@ namespace ArchiveSearchEngine.Database
             textStyle.CharacterFormat.FontName = "Franklin Gothic Book";
             textStyle.CharacterFormat.FontSize = 12f;
             document.Styles.Add(textStyle);
+
+            ParagraphStyle tableStyle = new ParagraphStyle(document);
+            tableStyle.Name = "TableTextStyle";
+            tableStyle.CharacterFormat.FontName = "Franklin Gothic Book";
+            tableStyle.CharacterFormat.FontSize = 12f;
+            tableStyle.ParagraphFormat.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Center;
+            document.Styles.Add(tableStyle);
 
             Spire.Doc.Section section = document.AddSection();
             section.PageSetup.Margins.Left = 90f;
@@ -375,27 +389,26 @@ namespace ArchiveSearchEngine.Database
 
             Spire.Doc.TableCell caseNumCellH = headingRow.AddCell();
             caseNumCellH.AddParagraph().AppendText("№ п\\п");
-            caseNumCellH.SetCellWidth(11.8f, CellWidthType.Percentage);
+            caseNumCellH.FirstParagraph.ApplyStyle("TableTextStyle");
 
             Spire.Doc.TableCell objectIndexCellH = headingRow.AddCell();
             objectIndexCellH.AddParagraph().AppendText("Индекс дела");
-            objectIndexCellH.SetCellWidth(16.4f, CellWidthType.Percentage);
+            objectIndexCellH.FirstParagraph.ApplyStyle("TableTextStyle");
 
             Spire.Doc.TableCell objectNameCellH = headingRow.AddCell();
             objectNameCellH.AddParagraph().AppendText("Заголовок дела");
-            objectNameCellH.SetCellWidth(38.8f, CellWidthType.Percentage);
+            objectNameCellH.FirstParagraph.ApplyStyle("TableTextStyle");
 
             Spire.Doc.TableCell documentsDateCellH = headingRow.AddCell();
             documentsDateCellH.AddParagraph().AppendText("Крайние даты");
-            documentsDateCellH.SetCellWidth(11.9f, CellWidthType.Percentage);
+            documentsDateCellH.FirstParagraph.ApplyStyle("TableTextStyle");
 
             Spire.Doc.TableCell contentQuantityCellH = headingRow.AddCell();
             contentQuantityCellH.AddParagraph().AppendText("Кол-во листов");
-            contentQuantityCellH.SetCellWidth(10.4f, CellWidthType.Percentage);
+            contentQuantityCellH.FirstParagraph.ApplyStyle("TableTextStyle");
 
             Spire.Doc.TableCell noteCellH = headingRow.AddCell();
             noteCellH.AddParagraph().AppendText("Примечание");
-            noteCellH.SetCellWidth(10.5f, CellWidthType.Percentage);
 
             Spire.Doc.TableRow heading2Row = datatable.AddRow();
 
@@ -406,17 +419,25 @@ namespace ArchiveSearchEngine.Database
             heading2Row.Cells[4].AddParagraph().AppendText("5");
             heading2Row.Cells[5].AddParagraph().AppendText("6");
 
+            heading2Row.Cells[0].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[1].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[2].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[3].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[4].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[5].FirstParagraph.ApplyStyle("TableTextStyle");
+
             int docCounter = 0;
             string currentDivision = "";
-            int numbers_lost = 0;
+            int numbers_lost = -1; // it's gaining one extra number lost somehow, so starting with -1
             int lastNum = -1;
             List<int> mergeIndexes = new List<int>();
 
             // ToDo: Здесь заполнение таблицы описи
             using (SqliteDataReader reader = new SqliteCommand(
-                "SELECT case_num, object_index, object_name, documents_date," +
+                "SELECT registration_num, case_num, object_index, object_name, documents_date," +
                 " content_quantity, struct_division, note, expiring_in" +
-                $" FROM DocumentTable WHERE is_personnel = {(doc_type == "Дела по личному составу" ? 1 : 0)}" +
+                $" FROM DocumentTable WHERE is_personnel = {(doc_type == "дел по личному составу" ? 1 : 0)} AND" +
+                $" case_num BETWEEN {startCaseNum} AND {endCaseNum}" +
                 " ORDER BY struct_division, case_num",
                 _connection).ExecuteReader())
             {
@@ -424,8 +445,8 @@ namespace ArchiveSearchEngine.Database
                 {
                     while (reader.Read())
                     {
-                        // Проверка на соответствии типу описи по сроку хранения
-                        if (!check_method((string)reader["expiring_in"]))
+                        // Проверка документа по фильтрам (todo: потом впихнуть в sql)
+                        if (!check_method((string)reader["expiring_in"]) || Convert.ToDateTime((string)reader["documents_date"]).Year > Convert.ToInt32(by_year))
                         {
                             continue;
                         }
@@ -433,40 +454,64 @@ namespace ArchiveSearchEngine.Database
                         // Делаем горизонтальное разграничение по "структурному подразделению" текущей группы документов
                         if ((string)reader["struct_division"] != currentDivision)
                         {
-                            Spire.Doc.TableRow structRow = datatable.AddRow();
-                            mergeIndexes.Add(structRow.GetRowIndex());
-                            structRow.Cells[0].AddParagraph().AppendText((string)reader["struct_division"]);
+                            currentDivision = (string)reader["struct_division"];
+                            Spire.Doc.TableRow divisionRow = datatable.AddRow();
+                            mergeIndexes.Add(divisionRow.GetRowIndex());
+                            divisionRow.Cells[0].AddParagraph().AppendText((string)reader["struct_division"]);
+                            divisionRow.Cells[0].FirstParagraph.ApplyStyle("TableTextStyle");
                         }
 
+                        // Проверка на пропущенный номер
                         if (lastNum == -1) { lastNum = Convert.ToInt32(reader["case_num"]); }
                         numbers_lost += Convert.ToInt32(reader["case_num"]) - lastNum == 1 ? 0 : Convert.ToInt32(reader["case_num"]) - lastNum;
+                        lastNum = Convert.ToInt32(reader["case_num"]);
 
+                        // Заполнение данными
                         Spire.Doc.TableRow newRow = datatable.AddRow();
 
-                        newRow.Cells[0].AddParagraph().AppendText(Convert.ToString(reader["case_num"]));
+                        newRow.Cells[0].AddParagraph().AppendText(Convert.ToString(reader["case_num"]) + ".");
                         newRow.Cells[1].AddParagraph().AppendText((string)reader["object_index"]);
                         newRow.Cells[2].AddParagraph().AppendText((string)reader["object_name"]);
                         newRow.Cells[3].AddParagraph().AppendText((string)reader["documents_date"]);
                         newRow.Cells[4].AddParagraph().AppendText(Convert.ToString(reader["content_quantity"]));
                         newRow.Cells[5].AddParagraph().AppendText((string)reader["note"]);
 
+                        newRow.Cells[0].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[1].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[2].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[3].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[4].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[5].FirstParagraph.ApplyStyle("TableTextStyle");
+
                         docCounter++;
+
+                        new SqliteCommand($"UPDATE DocumentTable SET " +
+                            $"inventory_num = '{inventory_num}', " +
+                            $"inventory_date = '{DateTime.Today.ToShortDateString()}'" +
+                            $" WHERE registration_num = {(string)reader["registration_num"]}", _connection).ExecuteNonQuery();
                     }
                 }
             }
+
             foreach (int ind in mergeIndexes)
             {
                 datatable.ApplyHorizontalMerge(ind, 0, 5);
-                datatable[ind, 0].SetCellWidth(100f, CellWidthType.Percentage);
             }
+
+            datatable.SetColumnWidth(0, 0.118f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(1, 0.164f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(2, 0.388f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(3, 0.119f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(4, 0.104f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(5, 0.105f * 600f, CellWidthType.Point);
 
             Spire.Doc.Documents.Paragraph ending = section.AddParagraph();
             ending.ApplyStyle("MainTextStyle");
 
-            ending.AppendText($"В данный раздел описи внесено {docCounter} (двести сорок семь) дел,\r\n" +
+            ending.AppendText($"\r\nВ данный раздел описи внесено {docCounter} ({NumToStringConverter(Convert.ToString(docCounter))}) дел,\r\n" +
                 $"с № {startCaseNum} по № {endCaseNum} в том числе: \r\n" +
                 "литерные номера: нет\r\n" +
-                $"пропущенные номера: {(numbers_lost == 0 ? "нет" : numbers_lost)} \r\n\r\n\r\n" +
+                $"пропущенные номера: {(numbers_lost < 1 ? "нет" : numbers_lost)} \r\n\r\n\r\n" +
                 "Начальник АХО ____________________\r\n" +
                 $"{DateTime.Now.ToShortDateString()}\r\n\r\n\r\n" +
                 "СОГЛАСОВАНО\r\n" +
@@ -475,6 +520,72 @@ namespace ArchiveSearchEngine.Database
 
             document.SaveToFile(filepath, FileFormat.Docx);
             document.Dispose();
+        }
+
+        // https://github.com/RiftSquadronFounder/IntToStringConverterRus
+        private string NumToStringConverter(string value)
+        {
+            string word = "Ошибка чтения числа";
+
+            List<string> values1 = new List<string> { "", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять" };
+            List<string> values2 = new List<string> { "", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяноста" };
+            List<string> values3 = new List<string> { "", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот" };
+            List<string> values4 = new List<string> { "тысяч", "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи", "пять тысяч", "шесть тысяч", "семь тысяч", "восемь тысяч", "девять тысяч" };
+            List<string> values3AfterTen = new List<string> { "десять", "одинадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать" };
+            List<string> Thousands = new List<string> { "тысяч", " тысяча", " тысячи", " тысячи", " тысячи", " тысяч", " тысяч", " тысяч", " тысяч", " тысяч" };
+            try
+            {
+                if (value.Length < 7)
+                {
+                    word = "";
+                    if (value == "0") { return "ноль"; }
+
+                    if (value[0] == '1' && value.Length == 2)
+                    {
+                        word += values3AfterTen[Int32.Parse(value[value.Length - 1].ToString())];
+                    }
+                    else
+                    {
+                        if (value.Length == 6)
+                        {
+                            word += values3[Int32.Parse(value[0].ToString())] + " ";
+                        }
+                        if (value.Length >= 5)
+                        {
+                            if (value[value.Length - 5] == '1')
+                            {
+                                word += values3AfterTen[Int32.Parse(value[value.Length - 4].ToString())] + " тысяч ";
+                            }
+                            else
+                            {
+                                word += values2[Int32.Parse(value[value.Length - 5].ToString())] + " ";
+                                word += values4[Int32.Parse(value[value.Length - 4].ToString())] + " ";
+                            }
+                        }
+                        if (value.Length == 4)
+                        {
+                            word += values4[Int32.Parse(value[value.Length - 4].ToString())] + " ";
+                        }
+                        if (value.Length >= 3)
+                        {
+                            word += values3[Int32.Parse(value[value.Length - 3].ToString())] + " ";
+                        }
+                        if (value.Length >= 2)
+                        {
+                            word += values2[Int32.Parse(value[value.Length - 2].ToString())] + " ";
+                        }
+                        if (value.Length >= 1)
+                        {
+                            word += values1[Int32.Parse(value[value.Length - 1].ToString())];
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                word = "Ошибка чтения числа";
+            }
+            return word;
         }
     }
 }

@@ -171,7 +171,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void Number_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (Convert.ToInt32((sender as TextBox).Text) < 0) e.Handled = true;
+            e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
         }
 
         private void AccountThatFirstAddedPreviewButton_Click(object sender, RoutedEventArgs e)

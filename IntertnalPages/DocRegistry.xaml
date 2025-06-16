@@ -75,11 +75,11 @@
 
 
                 <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" FontSize="20" FontWeight="Bold" Margin="0,15,0,15" Click="PrevPage">
-                    <Image Source="/sources/arrow-left-thick-custom.png"></Image>
+                    <ContentControl Content="{StaticResource ArrowLeft}" Margin="20"></ContentControl>
                 </Button>
                 <TextBox Name="CounterBox" Grid.Row="0" Grid.RowSpan="2" VerticalContentAlignment="Bottom"  Grid.Column="2" Margin="0,15,0,15" HorizontalContentAlignment="Center" PreviewKeyDown="CounterBox_PreviewKeyDown" PreviewTextInput="CounterBox_PreviewTextInput" TextChanged="CounterBox_TextChanged">1</TextBox>
                 <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="3" FontSize="20" FontWeight="Bold" Margin="0,15,0,15" Click="NextPage">
-                    <Image Source="/sources/arrow-right-thick-custom.png"></Image>
+                    <ContentControl Content="{StaticResource ArrowRight}" Margin="20"></ContentControl>
                 </Button>
                 <TextBlock Text="Страница" Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Top" FontSize="20" FontWeight="Black" Grid.ColumnSpan="3" Grid.Column="1"></TextBlock>
                 

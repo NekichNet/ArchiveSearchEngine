@@ -38,8 +38,8 @@ namespace ArchiveSearchEngine
             InitializeComponent();
             _owner = owner;
 
-            Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, _documentTable, userTable))); // , historyTable
-            Spaces.Add(new UserSpace("Создание документа", new AddDocs(this, _documentTable, userTable)));
+            Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, _documentTable, userTable)));
+            Spaces.Add(new UserSpace("Добавление документа", new AddDocs(this, _documentTable, userTable)));
             Spaces.Add(new UserSpace("Генерация описи", new InventoryGeneration(this, userTable, nonUserTable, _documentTable)));
 
             string method() { 
@@ -49,7 +49,7 @@ namespace ArchiveSearchEngine
                 openFileDialog.ShowDialog();
                 return openFileDialog.FileName;
             }
-            Spaces.Add(new UserSpace("Импорт пользователей (*.csv)", method));
+            Spaces.Add(new UserSpace("Импорт сотрудников (*.csv)", method));
 
 
             string method1()
@@ -63,7 +63,7 @@ namespace ArchiveSearchEngine
             Spaces.Add(new UserSpace("Импорт документов из excel (*.xlsx)", method1));
 
 
-            Spaces.Add(new UserSpace("Справочник незарегистрированных пользователей", new NonUserDirectory(this, nonUserTable, userTable)));
+            Spaces.Add(new UserSpace("Справочник сотрудников", new NonUserDirectory(this, nonUserTable, userTable)));
 
 
             userTable_ = userTable;

@@ -152,6 +152,9 @@ namespace ArchiveSearchEngine.IntertnalPages
             filter_.ContentQuantity = ContentQuantity;
             filter_.ExpiringIn = ExpiringIn;
             filter_.DocumentsDate = DocumentDate;
+
+            documents_ = documentTable_.GetDocuments(page_ - 1, filter_);
+            DocGrid.ItemsSource = documents_;
             DocGrid.Items.Refresh();
         }
     }

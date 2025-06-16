@@ -32,9 +32,8 @@ namespace ArchiveSearchEngine.IntertnalPages
             _table = _documentTable;
             FullnameSearchGUI.ItemsSource = userTable.GetUsers().Select(x => x.Fullname);
             _userTable = userTable;
-            StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "Постоянно"};
+            StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "Постоянно" };
         }
-
 
 
         public void AddDock()
@@ -88,7 +87,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void Number_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (Convert.ToInt32((sender as TextBox).Text) < 0) e.Handled = true;
+            e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
         }
 
         private void FullnameSearchGUI_Selected(object sender, RoutedEventArgs e)

@@ -24,23 +24,23 @@
         <Border Margin="10" Grid.RowSpan="3" Grid.ColumnSpan="2">
             <StackPanel Margin="20">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold"  Text="ФИО : " HorizontalAlignment="Left"></TextBlock>
+                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold"  Text="ФИО: " HorizontalAlignment="Left"></TextBlock>
                     <TextBlock Style="{StaticResource DefaultTextStyle}" Name="FullnameDisplay"  Text="ФИО" HorizontalAlignment="Left"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold" Text="Логин : " HorizontalAlignment="Left"></TextBlock>
+                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold" Text="Логин: " HorizontalAlignment="Left"></TextBlock>
                     <TextBlock Style="{StaticResource DefaultTextStyle}" Name="UserNameDisplay" Text="Логин" HorizontalAlignment="Left"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold" Text="Пост : " HorizontalAlignment="Left"></TextBlock>
-                    <TextBlock Style="{StaticResource DefaultTextStyle}" Name="PostDisplay" Text="Пост" HorizontalAlignment="Left"></TextBlock>
+                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold" Text="Должность: " HorizontalAlignment="Left"></TextBlock>
+                    <TextBlock Style="{StaticResource DefaultTextStyle}" Name="PostDisplay" Text="Должность" HorizontalAlignment="Left"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold" Text="Структное подразделение : " HorizontalAlignment="Left"></TextBlock>
-                    <TextBlock Style="{StaticResource DefaultTextStyle}" Name="StructDivisionDisplay" Text="Структное подразделение" HorizontalAlignment="Left"></TextBlock>
+                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold" Text="Структурное подразделение: " HorizontalAlignment="Left"></TextBlock>
+                    <TextBlock Style="{StaticResource DefaultTextStyle}" Name="StructDivisionDisplay" Text="Структурное подразделение" HorizontalAlignment="Left"></TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold" Text="Аккаунт : " HorizontalAlignment="Left"></TextBlock>
+                    <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Bold" Text="Аккаунт: " HorizontalAlignment="Left"></TextBlock>
                     <TextBlock Style="{StaticResource DefaultTextStyle}" Name="isAdminDisplay" Text="Аккаунт" HorizontalAlignment="Left"></TextBlock>
                 </StackPanel>
             </StackPanel>

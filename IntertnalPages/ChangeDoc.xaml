@@ -39,7 +39,7 @@
         </Border>
 
         <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Количество листов / дисков</TextBlock>
-        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Text="1" Name="AmountOfSheetsGUI" PreviewKeyDown="Number_PreviewKeyDown" PreviewTextInput="Number_PreviewTextInput" TextChanged="Number_TextChanged"></TextBox>
+        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="AmountOfSheetsGUI" PreviewKeyDown="Number_PreviewKeyDown" PreviewTextInput="Number_PreviewTextInput" TextChanged="Number_TextChanged"></TextBox>
 
         <Border Margin="0,10,0,10" BorderThickness="1">
             <StackPanel>
@@ -80,7 +80,7 @@
         </Border>
 
         <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Дело № (валовый номер)</TextBlock>
-        <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="CaseNumberGUI"></TextBox>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="CaseNumberGUI"  PreviewKeyDown="Number_PreviewKeyDown" PreviewTextInput="Number_PreviewTextInput" TextChanged="Number_TextChanged"></TextBox>
 
         <Border Margin="0,10,0,10" BorderThickness="1">
             <StackPanel>
@@ -100,7 +100,7 @@
             </StackPanel>
 
 
-            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Пользователь впервые добавивший документ в реестр</TextBlock>
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Человек, сдавший документ в архив</TextBlock>
             <Button Name="AccountThatFirstAddedPreviewButton" Click="AccountThatFirstAddedPreviewButton_Click" Content="   " Padding="1" FontSize="20" Margin="0,5,0,5"></Button>
 
             <StackPanel Orientation="Horizontal">

@@ -10,7 +10,9 @@
 
   <ItemGroup>
     <None Remove="sources\arrow-left-thick-custom.png" />
+    <None Remove="sources\arrow-left-thick.svg" />
     <None Remove="sources\arrow-right-thick-custom.png" />
+    <None Remove="sources\arrow-right-thick.svg" />
     <None Remove="sources\background1.png" />
     <None Remove="sources\background2.png" />
     <None Remove="sources\background3.png" />
@@ -26,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="sources\arrow-left-thick-custom.png" />
-    <Resource Include="sources\arrow-right-thick-custom.png" />
     <Resource Include="sources\background6.png" />
   </ItemGroup>
 

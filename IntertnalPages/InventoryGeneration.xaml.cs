@@ -57,5 +57,21 @@ namespace ArchiveSearchEngine.IntertnalPages
                 YearPickerGUI.Text, Int32.Parse(FromGUI.Text), Int32.Parse(UpToGUI.Text));
             MessageBox.Show($"Опись сгенерирована по пути: {openFileDialog.FileName}");
         }
+
+        private void Number_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            string tempText = e.Text;
+            e.Handled = !(int.TryParse(e.Text, out _) && e.Text.Replace(" ", "") == tempText);
+        }
+
+        private void Number_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = e.Key == Key.Space || ((e.Key == Key.Delete || e.Key == Key.Back) && (sender as TextBox).Text.Length == 1);
+        }
+
+        private void Number_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0 || Convert.ToInt32((sender as TextBox).Text) > 9999;
+        }
     }
 }

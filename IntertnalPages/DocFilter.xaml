@@ -41,7 +41,7 @@
             <TextBox Style="{StaticResource DocTextBox}" Name="BookNumGUI"></TextBox>
 
             <TextBlock Style="{StaticResource DocTextBlock}" Margin="0,10,0,0" Text="Кол-во страниц / дисков"></TextBlock>
-            <TextBox Style="{StaticResource DocTextBox}" Name="ContentQuantityGUI"></TextBox>
+            <TextBox Style="{StaticResource DocTextBox}" Name="ContentQuantityGUI" PreviewKeyDown="Number_PreviewKeyDown" PreviewTextInput="Number_PreviewTextInput" TextChanged="Number_TextChanged"></TextBox>
 
             <TextBlock Style="{StaticResource DocTextBlock}" Margin="0,10,0,0" Text="Срок хранения дела"></TextBlock>
             <ComboBox FontSize="20" IsEditable="True" Name="ExpiringInGUI"></ComboBox>
@@ -49,7 +49,7 @@
             <TextBlock Style="{StaticResource DocTextBlock}" Margin="0,10,0,0" Text="Дата документа"></TextBlock>
             <DatePicker FontSize="20" Name="DocumentsDateGUI"></DatePicker>
             
-            <TextBlock Style="{StaticResource DocTextBlock}" Margin="0,10,0,0" Text="Кол-во страниц / дисков"></TextBlock>
+            <TextBlock Style="{StaticResource DocTextBlock}" Margin="0,10,0,0" Text="Структурное подразделение / отдел"></TextBlock>
             <TextBox Style="{StaticResource DocTextBox}" Name="StructDivisionGUI"></TextBox>
 
 

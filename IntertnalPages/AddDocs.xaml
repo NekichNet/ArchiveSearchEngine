@@ -39,7 +39,7 @@
             </Border>
 
             <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Количество листов / дисков</TextBlock>
-            <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="AmountOfSheetsGUI" Text="1" PreviewKeyDown="Number_PreviewKeyDown" PreviewTextInput="Number_PreviewTextInput" TextChanged="Number_TextChanged"></TextBox>
+            <TextBox Style="{StaticResource ResourceKey=DocTextBox}" Name="AmountOfSheetsGUI" PreviewKeyDown="Number_PreviewKeyDown" PreviewTextInput="Number_PreviewTextInput" TextChanged="Number_TextChanged"></TextBox>
 
             <Border Margin="0,10,0,10" BorderThickness="1">
                 <StackPanel>
@@ -83,7 +83,7 @@
                     <DatePicker FontSize="20" Background="Transparent" Padding="0"  Name="DestroyActDateGUI" ></DatePicker>
                 </StackPanel>
             </Border>
-            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Человек сдавший документ в архив</TextBlock>
+            <TextBlock Style="{StaticResource ResourceKey=DocTextBlock}" FontWeight="Bold">Человек, сдавший документ в архив</TextBlock>
             <ComboBox FontSize="20" IsEditable="True" IsTextSearchEnabled="True" SelectionChanged="FullnameSearchGUI_Selected" Name="FullnameSearchGUI"></ComboBox>
             
             <Border Margin="0,10,0,10" BorderThickness="1">
