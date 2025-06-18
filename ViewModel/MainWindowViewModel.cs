@@ -1,0 +1,136 @@
+﻿using ArchiveSearchEngine.Model.Database;
+using ArchiveSearchEngine.Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using Microsoft.Data.Sqlite;
+using System.IO;
+using System.Windows;
+
+namespace ArchiveSearchEngine.ViewModel
+{
+    public class MainWindowViewModel
+    {
+        private MainWindow _view;
+
+        public User LoggedUser { get; set; }
+
+        private DocumentTable _documentTable;
+        private UserTable _userTable;
+        private NonUserTable _nonUserTable;
+
+        private List<string> images = new List<string>
+        {
+            "/sources/background.png",
+            "/sources/background1.png",
+            "/sources/background2.png",
+        };
+
+        public List<Page> pages = new List<Page>();
+
+        public MainWindowViewModel(MainWindow view)
+        {
+            _view = view;
+
+            // Initializing database
+
+            bool db_exists = File.Exists("archive.db");
+
+            SqliteConnection Connection = new SqliteConnection("Data Source=archive.db");
+            Connection.Open();
+
+            _userTable = new UserTable(Connection, !db_exists);
+            _documentTable = new DocumentTable(Connection);
+            _nonUserTable = new NonUserTable(Connection);
+
+            Document.Table = _documentTable;
+
+            pages.Add(new EntrySpace(_view, _userTable));
+            pages.Add(new RegistrationSpace(_view));
+            pages.Add(new MainSpace(_view, _userTable, _documentTable, _nonUserTable));
+            _view.EntryFrame.Navigate(pages[0]);
+        }
+
+        public void TrySigningIn(string username, string password)
+        {
+            if (username.Trim().Length == 0)
+            {
+                throw new Exception("Поле ввода \"Имя\" пусто");
+            }
+            if (password.Trim().Length == 0)
+            {
+                throw new Exception("Поле ввода \"Пароль\" пусто");
+            }
+
+            if (_userTable.CheckUser(username, password))
+            {
+                LoggedUser = _userTable.GetUser(username);
+                ToSystem();
+            }
+            else
+            {
+                throw new Exception("Пользователя с таким именем и паролем не существует");
+            }
+        }
+
+        public void TrySignUp(string username, string fullname, string post, string struct_division, string password, string passwordRepeat, bool is_admin = false)
+        {
+            if (username.Trim().Length > 0)
+            {
+                if (!_userTable.UserExists(username))
+                {
+                    if (password.Trim().Length >= 5)
+                    {
+                        if (password == passwordRepeat)
+                        {
+                            _userTable.NewUser(new User(username, fullname, post, struct_division, is_admin), password);
+                            ToSignIn();
+                        }
+                        else
+                        {
+                            throw new Exception("Пароли не совпадают");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception("Поле \"Пароль\" должно содержать хотя бы пять символов");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Пользователь с таким именем уже существует");
+                }
+            }
+            else
+            {
+                throw new Exception("Поле имени пусто");
+            }
+        }
+
+        public void ToSignIn()
+        {
+            _view.EntryFrame.Navigate(pages[0]);
+        }
+        public void ToSignUp()
+        {
+            _view.EntryFrame.Navigate(pages[1]);
+        }
+        public void ToSystem()
+        {
+            _view.EntryFrame.Navigate(pages[2]);
+        }
+
+
+        private void Quit(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("Вы собираетесь закрыть программу", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+            if (messageBoxResult == MessageBoxResult.OK)
+            {
+                _view.Close();
+            }
+        }
+    }
+}
