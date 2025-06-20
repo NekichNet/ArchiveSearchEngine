@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,14 +39,14 @@ namespace ArchiveSearchEngine
         private void BackToSignIn(object sender, RoutedEventArgs e)
         {
 
-            _owner.ToSignIn();
+            _owner.ViewModel.ToSignIn();
         }
 
         private void SignUpANewUser(object sender, RoutedEventArgs e)
         {
             try
             {
-                _owner.TrySignUp(LoginGUI.Text, NameGui.Text, PostGUI.Text, 
+                _owner.ViewModel.TrySignUp(LoginGUI.Text, NameGui.Text, PostGUI.Text, 
                     StructDivisionGUI.Text, PasswordGUI.Password, PasswordRepeatGUI.Password);
                 LoginGUI.Text = "";
                 NameGui.Text = "";

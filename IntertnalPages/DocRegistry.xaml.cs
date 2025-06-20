@@ -120,7 +120,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void CreateDocByPreset(object sender, RoutedEventArgs e)
         {
-            _owner.CreateDocByPreset(documents_[DocGrid.SelectedIndex]);
+            _owner.ViewModel.CreateDocByPreset(documents_[DocGrid.SelectedIndex]);
         }
         
         private void CopyRegistrationNumberToClipboard(object sender, RoutedEventArgs e)

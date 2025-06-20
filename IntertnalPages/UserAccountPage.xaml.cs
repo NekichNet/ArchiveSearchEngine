@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,7 +43,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void LogOut(object sender, RoutedEventArgs e)
         {
-            owner_.Owner.ToSignIn();
+            owner_.Owner.ViewModel.ToSignIn();
         }
     }
 }

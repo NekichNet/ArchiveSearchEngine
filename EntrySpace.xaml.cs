@@ -39,14 +39,14 @@ namespace ArchiveSearchEngine
 
         private void SignUp(object sender, RoutedEventArgs e)
         {
-            _owner.ToSignUp();
+            _owner.ViewModel.ToSignUp();
         }
 
         private void SignIn(object sender, RoutedEventArgs e)
         {
             try
             {
-                _owner.TrySigningIn(LoginSearchGUI.Text, PasswordGUI.Password);
+                _owner.ViewModel.TrySigningIn(LoginSearchGUI.Text, PasswordGUI.Password);
             }
             catch (Exception ex)
             {

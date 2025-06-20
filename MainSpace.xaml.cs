@@ -2,6 +2,7 @@
 using ArchiveSearchEngine.IntertnalPages;
 using ArchiveSearchEngine.IntertnalPages.NonUserDirectory;
 using ArchiveSearchEngine.IntertnalPages.UserManager;
+using ArchiveSearchEngine.ViewModel;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -29,111 +30,44 @@ namespace ArchiveSearchEngine
         MainWindow _owner;
         public MainWindow Owner { get { return _owner; } }
 
-        public List<UserSpace> Spaces = new List<UserSpace>();
+        public MainSpaceViewModel ViewModel;
 
-        UserTable userTable_;
-
-        public MainSpace(MainWindow owner, UserTable userTable, DocumentTable _documentTable, NonUserTable nonUserTable)
+        public MainSpace(MainWindow owner, UserTable userTable, DocumentTable documentTable, NonUserTable nonUserTable)
         {
             InitializeComponent();
             _owner = owner;
 
-            Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, _documentTable, userTable)));
-            Spaces.Add(new UserSpace("Добавление документа", new AddDocs(this, _documentTable, userTable)));
-            Spaces.Add(new UserSpace("Генерация описи", new InventoryGeneration(this, userTable, nonUserTable, _documentTable)));
+            ViewModel = new MainSpaceViewModel(userTable, documentTable, nonUserTable, this);
 
-            string method() { 
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Файл формата (*.csv)| *.csv";
-                openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
-                openFileDialog.ShowDialog();
-                return openFileDialog.FileName;
-            }
-            Spaces.Add(new UserSpace("Импорт сотрудников (*.csv)", method));
-
-
-            string method1()
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Таблица формата (*.xlsx)| *.xlsx";
-                openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
-                openFileDialog.ShowDialog();
-                return openFileDialog.FileName;
-            }
-            Spaces.Add(new UserSpace("Импорт документов из excel (*.xlsx)", method1));
-
-
-            Spaces.Add(new UserSpace("Справочник сотрудников", new NonUserDirectory(this, nonUserTable, userTable)));
-
-
-            userTable_ = userTable;
-
-            SpacesListBox.ItemsSource = Spaces;
+            SpacesListBox.ItemsSource = ViewModel.Spaces;
             IsVisibleChanged += (s, e) =>
             {
                 if (IsVisible)
                 {
-                    RefreshUser();
+                    ViewModel.RefreshUser();
                 }
                 else
                 {
-                    RefreshUser();
+                    ViewModel.RefreshUser();
                 }
             };
         }
 
-        private void SpacesListBox_GotFocus(object sender, RoutedEventArgs e)
+        public void SpacesListBox_GotFocus(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (Spaces[SpacesListBox.SelectedIndex].Page != null)
+                if (ViewModel.Spaces[this.SpacesListBox.SelectedIndex].Page != null)
                 {
-                    DisplayFrame.Navigate(Spaces[SpacesListBox.SelectedIndex].Page);
+                    this.DisplayFrame.Navigate(ViewModel.Spaces[this.SpacesListBox.SelectedIndex].Page);
                 }
-                else {
-                    Spaces[SpacesListBox.SelectedIndex].Invoke();
-                    SpacesListBox.SelectedIndex = -1;
-                }
-            } catch { }
-        }
-
-        private void RefreshUser()
-        {
-            if (Spaces.Find(x=>x.Title == "Аккаунт") != null)
-            {
-                Spaces.RemoveAt(Spaces.Count - 1);
-            }
-
-            if (Spaces.Find(x => x.Title == "Управление пользователями") != null)
-            {
-                Spaces.RemoveAt(Spaces.Count - 1);
-            }
-            
-            try
-            {
-                if (_owner.LoggedUser.IsAdmin)
+                else
                 {
-                    Spaces.Add(new UserSpace("Управление пользователями", new UserManager(this, userTable_)));
+                    ViewModel.Spaces[this.SpacesListBox.SelectedIndex].Invoke();
+                    this.SpacesListBox.SelectedIndex = -1;
                 }
             }
             catch { }
-            try
-            {
-                Spaces.Add(new UserSpace("Аккаунт", new UserAccountPage(this, _owner.LoggedUser)));
-            }catch { }
-            SpacesListBox.Items.Refresh();
-            DisplayFrame.Navigate(Spaces[0].Page);
-
         }
-        public void CreateDocByPreset(Document doc) {
-            var CreationPage = Spaces.Select(x=>x.Page).OfType<AddDocs>().FirstOrDefault();
-            if (CreationPage != null) {
-                DisplayFrame.Navigate(Spaces[1].Page);
-                CreationPage.SetPresetValues(doc);
-                SpacesListBox.SelectedIndex = 1;
-            }
-        }
-
-
     }
 }
