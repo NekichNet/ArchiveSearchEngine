@@ -33,14 +33,14 @@ namespace ArchiveSearchEngine
 
         UserTable userTable_;
 
-        public MainSpace(MainWindow owner, UserTable userTable, DocumentTable _documentTable, NonUserTable nonUserTable)
+        public MainSpace(MainWindow owner, UserTable userTable, DocumentTable documentTable, NonUserTable nonUserTable)
         {
             InitializeComponent();
             _owner = owner;
 
-            Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, _documentTable, userTable)));
-            Spaces.Add(new UserSpace("Добавление документа", new AddDocs(this, _documentTable, userTable)));
-            Spaces.Add(new UserSpace("Генерация описи", new InventoryGeneration(this, userTable, nonUserTable, _documentTable)));
+            Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, documentTable, userTable)));
+            Spaces.Add(new UserSpace("Добавление документа", new AddDocs(this, documentTable, userTable, nonUserTable)));
+            Spaces.Add(new UserSpace("Генерация описи", new InventoryGeneration(this, userTable, nonUserTable, documentTable)));
 
             string method() { 
                 OpenFileDialog openFileDialog = new OpenFileDialog();

@@ -90,13 +90,16 @@ namespace ArchiveSearchEngine.IntertnalPages
             {
                 Document updatedDoc = new Document(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text,
                     Int32.Parse(AmountOfSheetsGUI.Text), InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
-                    ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
+                    ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
                     doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.IsPersonnel, doc_.AchievedUsername,
                     AdditionGUI.Text, (DateTime?)InventoryDateGUI.SelectedDate, (DateTime?)DestroyActDateGUI.SelectedDate);
 
                 documentTable_.UpdateDocument(updatedDoc, doc_.RegistrationNum);
+                owner_.RefreshDataGrid();
+                this.Close();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
         }

@@ -1,6 +1,7 @@
 ﻿using ArchiveSearchEngine.Database;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,9 +45,7 @@ namespace ArchiveSearchEngine.IntertnalPages
             {
                 if (IsVisible)
                 {
-                    documents_ = documentTable_.GetDocuments(page_ - 1, filter_);
-                    DocGrid.ItemsSource = documents_;
-                    DocGrid.Items.Refresh();
+                    RefreshDataGrid();
                 }
             };
         }
@@ -74,6 +73,14 @@ namespace ArchiveSearchEngine.IntertnalPages
         //}
         
         // Processing '->' button press
+
+        public void RefreshDataGrid()
+        {
+            documents_ = documentTable_.GetDocuments(page_ - 1, filter_);
+            DocGrid.ItemsSource = documents_;
+            DocGrid.Items.Refresh();
+        }
+
         private void NextPage(object sender, RoutedEventArgs e)
         {
             CounterBox.Text = Convert.ToString(page_ + 1);

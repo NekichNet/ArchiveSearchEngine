@@ -23,18 +23,19 @@ namespace ArchiveSearchEngine.IntertnalPages
     {
         MainSpace _owner;
         DocumentTable _table;
-        int selectedUserIndex = 0;
         UserTable _userTable;
-        public AddDocs(MainSpace owner, DocumentTable _documentTable, UserTable userTable)
+        NonUserTable _nonUserTable;
+        int selectedUserIndex = 0;
+        public AddDocs(MainSpace owner, DocumentTable _documentTable, UserTable userTable, NonUserTable nonUserTable)
         {
             _owner = owner;
             InitializeComponent();
             _table = _documentTable;
-            FullnameSearchGUI.ItemsSource = userTable.GetUsers().Select(x => x.Fullname);
             _userTable = userTable;
+            _nonUserTable = nonUserTable;
+            FullnameSearchGUI.ItemsSource = _nonUserTable.GetUnits().Select(x => x.Fullname);
             StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "Постоянно" };
         }
-
 
         public void AddDock()
         {

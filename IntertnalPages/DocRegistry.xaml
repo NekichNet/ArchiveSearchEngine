@@ -96,15 +96,13 @@
                     </DataGrid.ContextMenu>
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Индекс" IsReadOnly="True" Binding="{Binding Path=ObjectIndex}" Width="0.45*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Индекс" IsReadOnly="True" Binding="{Binding Path=ObjectIndex}" Width="0.8*"></DataGridTextColumn>
                         <DataGridTextColumn Header="Наименование" IsReadOnly="True" Binding="{Binding Path=ObjectName}" Width="4*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="№ Тома" IsReadOnly="True" Binding="{Binding Path=VolumeNum}" Width="0.5*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="№ Книги" IsReadOnly="True" Binding="{Binding Path=BookNum}" Width="0.6*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Кол-во листов" IsReadOnly="True" Binding="{Binding Path=ContentQuantity}" Width="0.8*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Срок хранения" IsReadOnly="True" Binding="{Binding Path=ExpiringIn}"  Width="1*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Дата документов" IsReadOnly="True" Binding="{Binding Path=DocumentsDate, StringFormat='dd.MM.yyyy'}" Width="1*"></DataGridTextColumn>
-                        <DataGridTextColumn Visibility="Hidden" Header="Доступность"  IsReadOnly="True" Binding="{Binding Path=Available}" Width="0.8*"></DataGridTextColumn>
-                        <DataGridCheckBoxColumn Visibility="Hidden" Header="Доступность"  IsReadOnly="True" Binding="{Binding Path=Available, Mode=OneWay}" Width="0.8*"></DataGridCheckBoxColumn>
+                        <DataGridTextColumn Header="№ Тома" IsReadOnly="True" Binding="{Binding Path=VolumeNum}" Width="0.85*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="№ Книги" IsReadOnly="True" Binding="{Binding Path=BookNum}" Width="0.85*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Кол-во листов" IsReadOnly="True" Binding="{Binding Path=ContentQuantity}" Width="1.3*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Срок хранения" IsReadOnly="True" Binding="{Binding Path=ExpiringIn}"  Width="1.3*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Дата документов" IsReadOnly="True" Binding="{Binding Path=DocumentsDate, StringFormat='dd.MM.yyyy'}" Width="1.5*"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

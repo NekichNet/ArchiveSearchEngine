@@ -211,7 +211,7 @@ namespace ArchiveSearchEngine.Database
         // Returns false, if doc.RegistrationNum is already claimed
         public bool UpdateDocument(Document doc, string oldRegistrationNum)
         {
-            if (doc.RegistrationNum != oldRegistrationNum && DocumentExists(doc.RegistrationNum))
+            if (doc.RegistrationNum == oldRegistrationNum || !DocumentExists(doc.RegistrationNum))
             {
                 new SqliteCommand($"UPDATE DocumentTable SET " +
 
@@ -234,7 +234,7 @@ namespace ArchiveSearchEngine.Database
                     $"gived_post='{doc.GivedPost.Replace("'", "")}', " +
                     $"gived_fullname='{doc.GivedFullname.Replace("'", "")}', " +
                     $"is_personnel={(doc.IsPersonnel? 1 : 0)}, " +
-                    $"note='{doc.Note.Replace("'", "")}', " +
+                    $"note='{doc.Note.Replace("'", "")}' " +
 
                     $"WHERE registration_num = '{oldRegistrationNum}'", _connection).ExecuteNonQuery();
                 return true;
