@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages"
         mc:Ignorable="d"
-        Title="AddUser" Height="900" Width="1200" ResizeMode="NoResize" WindowStyle="None" WindowState="Normal" WindowStartupLocation="CenterScreen">
+        Title="AddUser" Height="1000" Width="1200" ResizeMode="NoResize" WindowStyle="None" WindowState="Normal" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.4*"></ColumnDefinition>
@@ -16,6 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.15*"></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
             <RowDefinition Height="0.1*"></RowDefinition>
             <RowDefinition Height="0.2*"></RowDefinition>
         </Grid.RowDefinitions>
@@ -41,11 +42,17 @@
             </Viewbox>
             <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Является ли пользователь администратором"></TextBlock>
         </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" Name="ShowDeleteOnMake_GUI">
+            <Viewbox  HorizontalAlignment="Left" Margin="15">
+                <CheckBox  Name="AddUserOnMaking_GUI" IsChecked="True"></CheckBox>
+            </Viewbox>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Добавить в справочник сотрудников"></TextBlock>
+        </StackPanel>
 
         <TextBlock Style="{StaticResource DefaultTextStyle}" FontWeight="Black" Text="Добавление пользователя" Grid.ColumnSpan="2" Grid.Column="1"></TextBlock>
 
-        <Button FontSize="30" Name="DenyButton" Click="DenyButton_Click" Grid.Column="1" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Отклонить"></Button>
-        <Button FontSize="30" Name="AcceptButton" Click="AcceptButton_Click" Grid.Column="2" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Добавить пользователя"></Button>
+        <Button FontSize="30" Name="DenyButton" Click="DenyButton_Click" Grid.Column="1" Grid.Row="4" Margin="15" Style="{StaticResource ResourceKey=DenyButtonStyle}" Content="Отклонить"></Button>
+        <Button FontSize="30" Name="AcceptButton" Click="AcceptButton_Click" Grid.Column="2" Grid.Row="4" Margin="15" Style="{StaticResource ResourceKey=AcceptButtonStyle}" Content="Добавить пользователя"></Button>
 
     </Grid>
 </Window>

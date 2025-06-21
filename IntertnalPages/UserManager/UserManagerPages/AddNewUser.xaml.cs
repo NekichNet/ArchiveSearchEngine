@@ -24,20 +24,25 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
         UserTable userTable_;
         UserFinder owner_;
         bool isAdmin = false;
+        NonUserTable _nonUserTable;
+        NonUser _nonUser;
         public AddNewUser(UserFinder owner, UserTable userTable)
         {
             InitializeComponent();
+            ShowDeleteOnMake_GUI.Visibility = Visibility.Collapsed;
             this.userTable_ = userTable;
             owner_ = owner;
         }
 
-        public AddNewUser(UserTable userTable, NonUser nonUser)
+        public AddNewUser(UserTable userTable, NonUser nonUser, NonUserTable nonUserTable)
         {
             InitializeComponent();
             this.userTable_ = userTable;
             FullnameChange.Text = nonUser.Fullname;
             PostChange.Text = nonUser.Post;
             StructDivisionChange.Text = nonUser.StructDivision;
+            _nonUserTable = nonUserTable;
+            _nonUser = nonUser;
         }
 
         private void DenyButton_Click(object sender, RoutedEventArgs e)
@@ -59,7 +64,10 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
                             User user = new User(LoginChange.Text, FullnameChange.Text, PostChange.Text, StructDivisionChange.Text, isAdmin);
 
                             userTable_.NewUser(user, PasswordChange.Password);
-
+                            if (AddUserOnMaking_GUI.IsChecked == true)
+                            {
+                                _nonUserTable.NewUnit(user.Fullname, user.Post, user.StructDivision);
+                            }
                             if (owner_ != null)
                             {
                                 owner_.UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
@@ -93,5 +101,6 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
             
             
         }
+
     }
 }
