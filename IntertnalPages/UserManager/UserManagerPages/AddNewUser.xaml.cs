@@ -23,7 +23,6 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
     {
         UserTable userTable_;
         UserFinder owner_;
-        NonUserChanger NonUserOwner_;
         bool isAdmin = false;
         public AddNewUser(UserFinder owner, UserTable userTable)
         {
@@ -31,15 +30,14 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
             this.userTable_ = userTable;
             owner_ = owner;
         }
-        public AddNewUser(NonUserChanger owner, UserTable userTable, NonUser nonUser)
+
+        public AddNewUser(UserTable userTable, NonUser nonUser)
         {
             InitializeComponent();
             this.userTable_ = userTable;
             FullnameChange.Text = nonUser.Fullname;
             PostChange.Text = nonUser.Post;
             StructDivisionChange.Text = nonUser.StructDivision;
-            NonUserOwner_ = owner;
-
         }
 
         private void DenyButton_Click(object sender, RoutedEventArgs e)
@@ -67,10 +65,6 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
                                 owner_.UsersFoundDisplay.ItemsSource = userTable_.GetUsers();
                                 owner_.UsersFoundDisplay.Items.Refresh();
                                 MessageBox.Show("Пользователь был успешно добавлен");
-                            }
-                            else if (NonUserOwner_ != null) {
-                                NonUserOwner_.DeleteUserAfterRegistration();
-                                MessageBox.Show("Пользователь был успешно перенесён");
                             }
                             this.Close();
                         }

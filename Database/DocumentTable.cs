@@ -29,7 +29,7 @@ namespace ArchiveSearchEngine.Database
                 "book_num TEXT, " +
                 "content_quantity INTEGER NOT NULL, " +
                 "inventory_date TEXT, " +
-                "inventory_num TEXT, " +
+                "inventory_num TEXT NOT NULL, " +
                 "object_index TEXT NOT NULL, " +
                 "object_name TEXT NOT NULL, " +
                 "rack TEXT NOT NULL, " +
@@ -37,7 +37,7 @@ namespace ArchiveSearchEngine.Database
                 "expiring_in TEXT NOT NULL, " +
                 "documents_date TEXT NOT NULL, " +
                 "case_num INTEGER NOT NULL, " +
-                "destruct_act_num TEXT, " +
+                "destruct_act_num TEXT NOT NULL, " +
                 "destruct_act_date DATE, " +
                 "struct_division TEXT NOT NULL, " +
                 "gived_post TEXT NOT NULL, " +
@@ -53,11 +53,11 @@ namespace ArchiveSearchEngine.Database
         public bool NewDocument(string registrationNum,
             string volumeNum, string bookNum,
             int contentQuantity,
-            DateTime inventoryDate, string inventoryNum,
+            DateTime? inventoryDate, string inventoryNum,
             string objectIndex, string objectName,
             string rack, string shelf, string expiringIn,
             DateTime documentsDate, int caseNum,
-            string destructActNum, DateTime destructActDate,
+            string destructActNum, DateTime? destructActDate,
             string structDivision, string givedPost,
             string givedFullname, bool isPersonnel,
             string achievedUsername, string note)
@@ -72,8 +72,8 @@ namespace ArchiveSearchEngine.Database
                 $"gived_post, gived_fullname, is_personnel, achieved_username, note) VALUES " +
                 $"('{registrationNum.Replace("'", "")}', '{volumeNum.Replace("'", "")}', '{bookNum.Replace("'", "")}', {contentQuantity}, " +
                 $"'{inventoryDate}', '{inventoryNum.Replace("'", "")}', '{objectIndex.Replace("'", "")}', '{objectName.Replace("'", "")}', " +
-                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate.ToShortDateString()}', {caseNum}, " +
-                $"'{destructActNum.Replace("'", "")}', '{destructActDate.ToShortDateString()}', '{structDivision.Replace("'", "")}', " +
+                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate}', {caseNum}, " +
+                $"'{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
                 $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', {isPersonnel}, '{achievedUsername}', '{note.Replace("'", "")}')",
                 _connection).ExecuteNonQuery();
             }
@@ -90,16 +90,19 @@ namespace ArchiveSearchEngine.Database
                 if (reader.HasRows)
                 {
                     reader.Read();
+                    
                     return new Document((string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
-                        Convert.ToInt32(reader["content_quantity"]), Convert.ToDateTime(reader["inventory_date"]),
+                        Convert.ToInt32(reader["content_quantity"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
                         Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
-                        Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
-                        (string)reader["gived_post"], (string)reader["gived_fullname"], Convert.ToInt32(reader["is_personnel"]) == 1,
-                        (string)reader["achieved_username"], (string)reader["note"]);
+                        (string)reader["struct_division"], (string)reader["gived_post"],
+                        (string)reader["gived_fullname"], Convert.ToInt32(reader["is_personnel"]) == 1,
+                        (string)reader["achieved_username"], (string)reader["note"],
+                        reader["inventory_date"] is null ? null : Convert.ToDateTime(reader["inventory_date"]),
+                        reader["destruct_act_date"] is null ? null : Convert.ToDateTime(reader["destruct_act_date"]));
                 }
                 else
                 {
@@ -123,15 +126,18 @@ namespace ArchiveSearchEngine.Database
                     {
                         documents.Add(new Document((string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
-                        Convert.ToInt32(reader["content_quantity"]), Convert.ToDateTime(reader["inventory_date"]),
+                        Convert.ToInt32(reader["content_quantity"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
                         Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
-                        Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
-                        (string)reader["gived_post"], (string)reader["gived_fullname"],
-                        Convert.ToInt32(reader["is_personnel"]) == 1,
-                        (string)reader["achieved_username"], (string)reader["note"]));
+                        (string)reader["struct_division"], (string)reader["gived_post"],
+                        (string)reader["gived_fullname"], Convert.ToInt32(reader["is_personnel"]) == 1,
+                        (string)reader["achieved_username"], (string)reader["note"],
+                        reader["inventory_date"] is null || (string)reader["inventory_date"] == "" ?
+                        null : Convert.ToDateTime(reader["inventory_date"]),
+                        reader["destruct_act_date"] is null || (string)reader["destruct_act_date"] == "" ?
+                        null : Convert.ToDateTime(reader["destruct_act_date"])));
                     }
                 }
             }
@@ -169,15 +175,18 @@ namespace ArchiveSearchEngine.Database
                     {
                         documents.Add(new Document((string)reader["registration_num"],
                         (string)reader["volume_num"], (string)reader["book_num"],
-                        Convert.ToInt32(reader["content_quantity"]), Convert.ToDateTime(reader["inventory_date"]),
+                        Convert.ToInt32(reader["content_quantity"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
                         (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
                         Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
-                        Convert.ToDateTime(reader["destruct_act_date"]), (string)reader["struct_division"],
-                        (string)reader["gived_post"], (string)reader["gived_fullname"],
-                        Convert.ToInt32(reader["is_personnel"]) == 1,
-                        (string)reader["achieved_username"], (string)reader["note"]));
+                        (string)reader["struct_division"], (string)reader["gived_post"],
+                        (string)reader["gived_fullname"], Convert.ToInt32(reader["is_personnel"]) == 1,
+                        (string)reader["achieved_username"], (string)reader["note"],
+                        reader["inventory_date"] is null || (string)reader["inventory_date"] == "" ?
+                        null : Convert.ToDateTime(reader["inventory_date"]),
+                        reader["destruct_act_date"] is null || (string)reader["destruct_act_date"] == "" ?
+                        null : Convert.ToDateTime(reader["destruct_act_date"])));
                     }
                 }
             }
@@ -210,17 +219,17 @@ namespace ArchiveSearchEngine.Database
                     $"volume_num='{doc.VolumeNum.Replace("'", "")}', " +
                     $"book_num='{doc.BookNum.Replace("'", "")}', " +
                     $"content_quantity={doc.ContentQuantity}, " +
-                    $"inventory_date='{doc.InventoryDate.ToShortDateString()}', " +
+                    $"inventory_date='{doc.InventoryDate}', " +
                     $"inventory_num='{doc.InventoryNum.Replace("'", "")}', " +
                     $"object_index='{doc.ObjectIndex.Replace("'", "")}', " +
                     $"object_name='{doc.ObjectName.Replace("'", "")}', " +
                     $"rack='{doc.Rack.Replace("'", "")}', " +
                     $"shelf='{doc.Shelf.Replace("'", "")}', " +
                     $"expiring_in='{doc.ExpiringIn.Replace("'", "")}', " +
-                    $"documents_date='{doc.DocumentsDate.ToShortDateString()}', " +
+                    $"documents_date='{doc.DocumentsDate}', " +
                     $"case_num={doc.CaseNum}, " +
                     $"destruct_act_num='{doc.DestructActNum.Replace("'", "")}', " +
-                    $"destruct_act_date='{doc.DestructActDate.ToShortDateString()}', " +
+                    $"destruct_act_date='{doc.DestructActDate}', " +
                     $"struct_division='{doc.StructDivision.Replace("'", "")}', " +
                     $"gived_post='{doc.GivedPost.Replace("'", "")}', " +
                     $"gived_fullname='{doc.GivedFullname.Replace("'", "")}', " +
@@ -487,7 +496,7 @@ namespace ArchiveSearchEngine.Database
 
                         new SqliteCommand($"UPDATE DocumentTable SET " +
                             $"inventory_num = '{inventory_num}', " +
-                            $"inventory_date = '{DateTime.Today.ToShortDateString()}'" +
+                            $"inventory_date = '{DateTime.Now}'" +
                             $" WHERE registration_num = {(string)reader["registration_num"]}", _connection).ExecuteNonQuery();
                     }
                 }

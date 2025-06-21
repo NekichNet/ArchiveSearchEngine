@@ -44,9 +44,9 @@ namespace ArchiveSearchEngine.IntertnalPages
                 {
                     User user = _userTable.GetUsers()[selectedUserIndex];
                     _table.NewDocument(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
-                        (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
+                        (DateTime?)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
                         ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
-                        (DateTime)DestroyActDateGUI.SelectedDate, user.StructDivision, user.Post, user.Fullname, (bool)IsPersonnelGUI.IsChecked, _owner.Owner.LoggedUser.Username,
+                        (DateTime?)DestroyActDateGUI.SelectedDate, user.StructDivision, user.Post, user.Fullname, (bool)IsPersonnelGUI.IsChecked, _owner.Owner.LoggedUser.Username,
                         AdditionGUI.Text);
 
                     MessageBox.Show("Документ был успешно добавлен", "", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -82,12 +82,16 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void Number_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            e.Handled = e.Key == Key.Space || ((e.Key == Key.Delete || e.Key == Key.Back) && (sender as TextBox).Text.Length == 1);
+            e.Handled = e.Key == Key.Space;
         }
 
         private void Number_TextChanged(object sender, TextChangedEventArgs e)
         {
-            e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
+            if ((sender as TextBox).Text != "")
+            {
+                e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
+            }
+            else { e.Handled = false; }
         }
 
         private void FullnameSearchGUI_Selected(object sender, RoutedEventArgs e)
@@ -103,8 +107,11 @@ namespace ArchiveSearchEngine.IntertnalPages
                 TomNumberGUI.Text = docAsPreset.VolumeNum;
                 BookNumberGUI.Text = docAsPreset.BookNum;
                 AmountOfSheetsGUI.Text = $"{docAsPreset.ContentQuantity}";
-                InventoryDateGUI.DisplayDate = docAsPreset.InventoryDate;
-                InventoryDateGUI.Text = docAsPreset.InventoryDate.ToShortDateString();
+                if (docAsPreset.InventoryDate is not null)
+                {
+                    InventoryDateGUI.DisplayDate = (DateTime)docAsPreset.InventoryDate;
+                    InventoryDateGUI.Text = ((DateTime)docAsPreset.InventoryDate).ToShortDateString();
+                }
                 InventoryNumberGUI.Text = docAsPreset.InventoryNum;
                 DealIndexGUI.Text = docAsPreset.ObjectIndex;
                 ObjectNameGUI.Text = docAsPreset.ObjectName;
@@ -114,8 +121,11 @@ namespace ArchiveSearchEngine.IntertnalPages
                 DocDateGUI.DisplayDate = docAsPreset.DocumentsDate;
                 DocDateGUI.Text = docAsPreset.DocumentsDate.ToShortDateString();
                 CaseNumberGUI.Text = $"{docAsPreset.CaseNum}";
-                DestroyActDateGUI.DisplayDate = docAsPreset.DestructActDate;
-                DestroyActDateGUI.Text = docAsPreset.DestructActDate.ToShortDateString();
+                if (docAsPreset.DestructActDate is not null)
+                {
+                    DestroyActDateGUI.DisplayDate = (DateTime)docAsPreset.DestructActDate;
+                    DestroyActDateGUI.Text = ((DateTime)docAsPreset.DestructActDate).ToShortDateString();
+                }
                 DestroyActNumberGUI.Text = docAsPreset.DestructActNum;
                 AdditionGUI.Text = docAsPreset.Note;
                 FullnameSearchGUI.Text = docAsPreset.GivedFullname;
@@ -130,14 +140,14 @@ namespace ArchiveSearchEngine.IntertnalPages
             RegistrationObjectNumberGUI.Text = "";
             TomNumberGUI.Text = "";
             BookNumberGUI.Text = "";
-            AmountOfSheetsGUI.Text = "1";
+            AmountOfSheetsGUI.Text = "";
             InventoryNumberGUI.Text = "";
             DealIndexGUI.Text = "";
             ObjectNameGUI.Text = "";
             RackGUI.Text = "";
             ShelfGUI.Text = "";
             StoringTermComboGUI.Text = "";
-            CaseNumberGUI.Text = "1";
+            CaseNumberGUI.Text = "";
             DestroyActNumberGUI.Text = "";
             AdditionGUI.Text = "";
             FullnameSearchGUI.Text = "";

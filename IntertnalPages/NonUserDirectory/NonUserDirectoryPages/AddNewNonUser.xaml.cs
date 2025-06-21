@@ -43,14 +43,14 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
         nonUserTable_.NewUnit(FullnameChange.Text, PostChange.Text, StructDivisionChange.Text);
         owner_.UsersFoundDisplay.ItemsSource = nonUserTable_.GetUnits();
         owner_.UsersFoundDisplay.Items.Refresh();
-        MessageBox.Show("Человек был успешно добавлен");
+        MessageBox.Show("Сотрудник был успешно добавлен");
         this.Close();
         }
         catch
         {
         owner_.UsersFoundDisplay.ItemsSource = nonUserTable_.GetUnits();
         owner_.UsersFoundDisplay.Items.Refresh();
-        MessageBox.Show("Произошла непредвиденененененная ошибка");
+        MessageBox.Show("Произошла непредвиденная ошибка");
         this.Close();
         }
                     

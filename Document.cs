@@ -11,15 +11,16 @@ namespace ArchiveSearchEngine
     {
         public Document(string registrationNum,
             string volumeNum, string bookNum,
-            int contentQuantity,
-            DateTime inventoryDate, string inventoryNum,
+            int contentQuantity, string inventoryNum,
             string objectIndex, string objectName,
             string rack, string shelf, string expiringIn,
             DateTime documentsDate, int caseNum,
-            string destructActNum, DateTime destructActDate,
-            string structDivision, string givedPost,
-            string givedFullname, bool isPersonnel,
-            string achievedUsername, string note)
+            string destructActNum, string structDivision,
+            string givedPost, string givedFullname,
+            bool isPersonnel, string achievedUsername,
+            string note,
+            DateTime? inventoryDate = null,
+            DateTime? destructActDate = null)
         {
             RegistrationNum = registrationNum;
             VolumeNum = volumeNum;
@@ -50,7 +51,7 @@ namespace ArchiveSearchEngine
         public string BookNum { get; set; } // 3 Номер книги
         public int ContentQuantity { get; set; } // 4 Количество листов / дисков
 
-        public DateTime InventoryDate { get; set; } // 5 Дата описи
+        public DateTime? InventoryDate { get; set; } // 5 Дата описи
         public string InventoryNum { get; set; } // 6 Номер описи
 
         public string ObjectIndex { get; set; } // 7 Код/индекс дела
@@ -64,7 +65,7 @@ namespace ArchiveSearchEngine
         public int CaseNum { get; set; } // 13 Дело № (валовый номер)
 
         public string DestructActNum { get; set; } // 14 Номер акта на уничтожение
-        public DateTime DestructActDate { get; set; } // 15 Дата акта на уничтожение
+        public DateTime? DestructActDate { get; set; } // 15 Дата акта на уничтожение
 
         public string StructDivision { get; set; } // 16 Структурное подразделение
 

@@ -22,7 +22,6 @@ namespace ArchiveSearchEngine.IntertnalPages
     {
         DocRegistry owner_;
         DocumentTable documentTable_;
-        //HistoryTable historyTable_;
         Document doc_;
         UserTable userTable_;
 
@@ -43,8 +42,11 @@ namespace ArchiveSearchEngine.IntertnalPages
                 TomNumberGUI.Text = doc_.VolumeNum;
                 BookNumberGUI.Text = doc_.BookNum;
                 AmountOfSheetsGUI.Text = $"{doc_.ContentQuantity}";
-                InventoryDateGUI.DisplayDate = doc_.InventoryDate;
-                InventoryDateGUI.Text = doc_.InventoryDate.ToShortDateString();
+                if (doc_.InventoryDate is not null)
+                {
+                    InventoryDateGUI.DisplayDate = (DateTime)doc_.InventoryDate;
+                    InventoryDateGUI.Text = ((DateTime)doc_.InventoryDate).ToShortDateString();
+                }
                 InventoryNumberGUI.Text = doc_.InventoryNum;
                 DealIndexGUI.Text = doc_.ObjectIndex;
                 ObjectNameGUI.Text = doc_.ObjectName;
@@ -55,8 +57,11 @@ namespace ArchiveSearchEngine.IntertnalPages
                 DocDateGUI.DisplayDate = doc_.DocumentsDate;
                 DocDateGUI.Text = doc_.DocumentsDate.ToShortDateString();
                 CaseNumberGUI.Text = $"{doc_.CaseNum}";
-                DestroyActDateGUI.DisplayDate= doc_.DestructActDate;
-                DestroyActDateGUI.Text= doc_.DestructActDate.ToShortDateString();
+                if (doc_.DestructActDate is not null)
+                {
+                    DestroyActDateGUI.DisplayDate = (DateTime)doc_.DestructActDate;
+                    DestroyActDateGUI.Text = ((DateTime)doc_.DestructActDate).ToShortDateString();
+                }
                 DestroyActNumberGUI.Text = doc_.DestructActNum;
                 AdditionGUI.Text = doc_.Note;
 
@@ -83,11 +88,11 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             try
             {
-                Document updatedDoc = new Document(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
-                    (DateTime)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
+                Document updatedDoc = new Document(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text,
+                    Int32.Parse(AmountOfSheetsGUI.Text), InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
                     ShelfGUI.Text, StoringTermGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
-                    (DateTime)DestroyActDateGUI.SelectedDate, doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.IsPersonnel, doc_.AchievedUsername,
-                    AdditionGUI.Text);
+                    doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.IsPersonnel, doc_.AchievedUsername,
+                    AdditionGUI.Text, (DateTime?)InventoryDateGUI.SelectedDate, (DateTime?)DestroyActDateGUI.SelectedDate);
 
                 documentTable_.UpdateDocument(updatedDoc, doc_.RegistrationNum);
             }
@@ -166,12 +171,16 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void Number_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            e.Handled = e.Key == Key.Space || ((e.Key == Key.Delete || e.Key == Key.Back) && (sender as TextBox).Text.Length == 1);
+            e.Handled = e.Key == Key.Space;
         }
 
         private void Number_TextChanged(object sender, TextChangedEventArgs e)
         {
-            e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
+            if ((sender as TextBox).Text != "")
+            {
+                e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
+            }
+            else { e.Handled = false; }
         }
 
         private void AccountThatFirstAddedPreviewButton_Click(object sender, RoutedEventArgs e)

@@ -70,12 +70,16 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void Number_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            e.Handled = e.Key == Key.Space || ((e.Key == Key.Delete || e.Key == Key.Back) && (sender as TextBox).Text.Length == 1);
+            e.Handled = e.Key == Key.Space;
         }
 
         private void Number_TextChanged(object sender, TextChangedEventArgs e)
         {
-            e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
+            if ((sender as TextBox).Text != "")
+            {
+                e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
+            }
+            else { e.Handled = false; }
         }
     }
 }

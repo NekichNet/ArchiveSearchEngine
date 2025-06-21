@@ -89,7 +89,7 @@ namespace ArchiveSearchEngine.IntertnalPages.NonUserDirectory.NonUserDirectoryPa
 
         private void MakeAnAccount_Click(object sender, RoutedEventArgs e)
         {
-            var createAUser = new AddNewUser(this, userTable_, nonUserTable_.GetUnits()[index_]);
+            var createAUser = new AddNewUser(userTable_, nonUserTable_.GetUnits()[index_]);
             createAUser.ShowDialog();
         }
     }

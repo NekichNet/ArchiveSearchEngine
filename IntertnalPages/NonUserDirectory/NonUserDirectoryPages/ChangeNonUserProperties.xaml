@@ -24,7 +24,7 @@
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <TextBlock Style="{StaticResource DefaultTextStyle}" Text="ФИО"></TextBlock>
             <TextBox Name="FullnameChange"></TextBox>
-            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Пост"></TextBlock>
+            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Должность"></TextBlock>
             <TextBox Name="PostChange"></TextBox>
             <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Структное подразделение"></TextBlock>
             <TextBox Name="StructDivisionChange" Margin="0,0,0,20"></TextBox>
