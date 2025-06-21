@@ -29,7 +29,6 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
         public AddNewUser(UserFinder owner, UserTable userTable)
         {
             InitializeComponent();
-            ShowDeleteOnMake_GUI.Visibility = Visibility.Collapsed;
             this.userTable_ = userTable;
             owner_ = owner;
         }
@@ -43,6 +42,7 @@ namespace ArchiveSearchEngine.IntertnalPages.UserManager.UserManagerPages
             StructDivisionChange.Text = nonUser.StructDivision;
             _nonUserTable = nonUserTable;
             _nonUser = nonUser;
+            ShowDeleteOnMake_GUI.Visibility = Visibility.Collapsed;
         }
 
         private void DenyButton_Click(object sender, RoutedEventArgs e)

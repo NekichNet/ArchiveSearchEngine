@@ -46,7 +46,7 @@ namespace ArchiveSearchEngine
             try
             {
                 _owner.TrySignUp(LoginGUI.Text, NameGui.Text, PostGUI.Text, 
-                    StructDivisionGUI.Text, PasswordGUI.Password, PasswordRepeatGUI.Password);
+                    StructDivisionGUI.Text, PasswordGUI.Password, PasswordRepeatGUI.Password, (bool)AddUserOnMaking_GUI.IsChecked);
                 LoginGUI.Text = "";
                 NameGui.Text = "";
                 PostGUI.Text = "";
