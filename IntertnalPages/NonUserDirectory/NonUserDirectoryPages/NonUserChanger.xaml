@@ -40,7 +40,7 @@
                                 <TextBlock Style="{StaticResource DefaultTextStyle}" Name="NameDisplay" Text="Имя"></TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Пост : " FontWeight="Bold"></TextBlock>
+                                <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Должнось : " FontWeight="Bold"></TextBlock>
                                 <TextBlock Style="{StaticResource DefaultTextStyle}" Name="PostDisplay" Text="Пост"></TextBlock>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
@@ -52,7 +52,7 @@
 
                         <Button FontSize="25" Name="ChangeNamePostEtc" Click="ChangeNamePostEtc_Click" Grid.Column="3" Grid.Row="3" Margin="15" Content="Изменить" Style="{StaticResource ResourceKey=RoundedSignInButtonStyle}"></Button>
                         <Button FontSize="25" Name="MakeAnAccount" Click="MakeAnAccount_Click" Grid.Column="2" Grid.Row="3" Margin="15" Style="{StaticResource ResourceKey=RoundedRegistrationButtonStyle}">
-                            <TextBlock Text="Зарегистрировать по шаблону" MaxWidth="250" TextWrapping="Wrap"></TextBlock>
+                            <TextBlock Text="Преобразовать в пользователя" MaxWidth="250" TextWrapping="Wrap"></TextBlock>
                         </Button>
                         <Button FontSize="25"  Name="DeleteUser" Click="DeleteUser_Click" Grid.Column="0" Grid.Row="3" Margin="15" Content="Удалить" Style="{StaticResource ResourceKey=DenyButtonStyle}"></Button>
                         

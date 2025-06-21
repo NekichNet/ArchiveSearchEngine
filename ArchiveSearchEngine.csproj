@@ -20,6 +20,7 @@
     <None Remove="sources\background5.png" />
     <None Remove="sources\background6.png" />
     <None Remove="sources\logo.png" />
+    <None Remove="sources\logo2.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,7 @@
     <Resource Include="sources\background4.png" />
     <Resource Include="sources\background5.png" />
     <Resource Include="sources\logo.png" />
+    <Resource Include="sources\logo2.png" />
   </ItemGroup>
 
 </Project>
