@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,17 +20,21 @@ namespace ArchiveSearchEngine
   
     public partial class EntryAnimWindow : Window
     {
-        private readonly string[] _imageFiles =
+        private List<string> _imageFiles = new List<string>
         {
             "/sources/background1.png",
             "/sources/background2.png",
             "/sources/background3.png",
+            "/sources/background4.png",
+            "/sources/background5.png",
+            "/sources/background6.png",
         };
 
-        private int _currentIndex = 0;
         private readonly DispatcherTimer _timer;
         private int currentIndex = 0;
         private float animProgress = 0.0f;
+        private int amountOfImagesBeforeStart = 4;
+        private int currentAmountOfImages = 0;
 
         public EntryAnimWindow()
         {
@@ -37,12 +42,18 @@ namespace ArchiveSearchEngine
 
             _timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(30)
+                Interval = TimeSpan.FromMilliseconds(10)
             };
             _timer.Tick += Timer_Tick;
 
             _timer.Start();
+
+            currentIndex = Random.Shared.Next(0, _imageFiles.Count);
+            BitmapImage bitmap1 = new BitmapImage(new Uri(_imageFiles[currentIndex], UriKind.Relative));
+            BackgroundImage1.Source = bitmap1;
+            _imageFiles.RemoveAt(currentIndex);
             ChangeBackground();
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -61,16 +72,29 @@ namespace ArchiveSearchEngine
 
         private void ChangeBackground()
         {
-            if (currentIndex < _imageFiles.Length && currentIndex + 1 < _imageFiles.Count())
+            if ( _imageFiles.Count() > 1 && amountOfImagesBeforeStart > currentAmountOfImages)
             {
-                BitmapImage bitmap1 = new BitmapImage(new Uri(_imageFiles[currentIndex], UriKind.Relative));
-                BitmapImage bitmap2 = new BitmapImage(new Uri(_imageFiles[currentIndex+1], UriKind.Relative));
                 animProgress = -0.5f;
 
-                BackgroundImage1.Source = bitmap1;
+                if (BackgroundImage2.Source != null)
+                {
+                    BackgroundImage1.Source = BackgroundImage2.Source;
+                }
                 BackgroundImage2.Opacity = 0.0f;
-                BackgroundImage2.Source = bitmap2;
-                currentIndex++;
+
+
+                _imageFiles.RemoveAt(currentIndex);
+
+                do
+                {
+                    currentIndex = Random.Shared.Next(0, _imageFiles.Count);
+                    BitmapImage bitmap2 = new BitmapImage(new Uri(_imageFiles[currentIndex], UriKind.Relative));
+
+                    BackgroundImage2.Source = bitmap2;
+                } while (BackgroundImage2.Source == BackgroundImage1.Source);
+
+
+                currentAmountOfImages++;
             }
             else
             {
