@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="EntryAnimWindow" Height="500" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
-        <Image x:Name="BackgroundImage" Stretch="UniformToFill"/>
+        <Image x:Name="BackgroundImage1" Stretch="UniformToFill"/>
+        <Image x:Name="BackgroundImage2" Stretch="UniformToFill"/>
         <Border Margin="40" Background="#B2FFFFFF">
             <Grid>
                 <Grid.RowDefinitions>

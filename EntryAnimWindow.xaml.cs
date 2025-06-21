@@ -29,13 +29,15 @@ namespace ArchiveSearchEngine
         private int _currentIndex = 0;
         private readonly DispatcherTimer _timer;
         private int currentIndex = 0;
+        private float animProgress = 0.0f;
+
         public EntryAnimWindow()
         {
             InitializeComponent();
 
             _timer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromSeconds(1)
+                Interval = TimeSpan.FromMilliseconds(30)
             };
             _timer.Tick += Timer_Tick;
 
@@ -45,16 +47,29 @@ namespace ArchiveSearchEngine
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            ChangeBackground();
+            if(animProgress >= 1.0)
+            {
+                ChangeBackground();
+            }
+            else
+            {
+                animProgress = animProgress + 0.05f;
+                BackgroundImage2.Opacity = Math.Clamp(animProgress, 0.0f, 1.0f);
+            }
         }
 
 
         private void ChangeBackground()
         {
-            if (currentIndex < _imageFiles.Length)
+            if (currentIndex < _imageFiles.Length && currentIndex + 1 < _imageFiles.Count())
             {
-                BitmapImage bitmap = new BitmapImage(new Uri(_imageFiles[currentIndex], UriKind.Relative));
-                BackgroundImage.Source = bitmap;
+                BitmapImage bitmap1 = new BitmapImage(new Uri(_imageFiles[currentIndex], UriKind.Relative));
+                BitmapImage bitmap2 = new BitmapImage(new Uri(_imageFiles[currentIndex+1], UriKind.Relative));
+                animProgress = -0.5f;
+
+                BackgroundImage1.Source = bitmap1;
+                BackgroundImage2.Opacity = 0.0f;
+                BackgroundImage2.Source = bitmap2;
                 currentIndex++;
             }
             else
