@@ -5,10 +5,46 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ArchiveSearchEngine.IntertnalPages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="720" d:DesignWidth="1280"
       Title="DestroyActCreationPage">
 
     <Grid>
+        
+
+        <Border Grid.Row="1" Grid.Column="1" Margin="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.15*"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="0.2*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="0.2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+
+                <TextBlock Style="{StaticResource DefaultTextStyle}" Grid.Column="1" Grid.ColumnSpan="3" FontWeight="Black" Text="Акт об уничтожении"></TextBlock>
+                <StackPanel Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
+                    <TextBlock Style="{StaticResource DocTextBlock}" Text="Номер акта об уничножении"></TextBlock>
+                    <TextBox Name="InventoryNumberGUI" FontSize="20" Style="{StaticResource DocTextBox}"></TextBox>
+
+                    <TextBlock Style="{StaticResource DocTextBlock}" Text="Срок хранения" Margin="0,15,0,0"></TextBlock>
+                    <ComboBox Name="TermGUI" FontSize="20"></ComboBox>
+
+                    <TextBlock Style="{StaticResource DocTextBlock}" Text="Год" Margin="0,15,0,0"></TextBlock>
+                    <TextBox Name="YearPickerGUI" FontSize="20" Style="{StaticResource DocTextBox}" PreviewKeyDown="Number_PreviewKeyDown" PreviewTextInput="Number_PreviewTextInput" TextChanged="Number_TextChanged"></TextBox>
+
+                </StackPanel>
+
+                <Button Click="InventGenerationButton_Click" Grid.Row="2" Grid.Column="3" FontSize="30" Style="{StaticResource AcceptButtonStyle}" Name="InventGenerationButton" Margin="15" Content="Сгенерировать"></Button>
+                <Button Click="ClearButton_Click" Grid.Row="2" Grid.Column="1" FontSize="30" Style="{StaticResource DenyButtonStyle}" Name="ClearButton" Margin="15" Content="Очистить"></Button>
+
+            </Grid>
+        </Border>
         
     </Grid>
 </Page>

@@ -20,9 +20,13 @@ namespace ArchiveSearchEngine.IntertnalPages
     /// </summary>
     public partial class DestroyActCreationPage : Page
     {
-        public DestroyActCreationPage()
+        MainSpace _owner;
+        public DestroyActCreationPage(MainSpace owner)
         {
             InitializeComponent();
+            _owner = owner;
+            TermGUI.ItemsSource = new List<string> { "Дела временного хранения", "Дела долговременного хранения", "Дела по личному составу", "Дела постоянного хранения" };
+            TermGUI.SelectedIndex = 0;
         }
     }
 }
