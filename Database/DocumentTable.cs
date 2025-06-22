@@ -32,6 +32,7 @@ namespace ArchiveSearchEngine.Database
                 "inventory_num TEXT NOT NULL, " +
                 "object_index TEXT NOT NULL, " +
                 "object_name TEXT NOT NULL, " +
+                "storage TEXT NOT NULL, " +
                 "rack TEXT NOT NULL, " +
                 "shelf TEXT NOT NULL, " +
                 "expiring_in TEXT NOT NULL, " +
@@ -39,10 +40,10 @@ namespace ArchiveSearchEngine.Database
                 "case_num INTEGER NOT NULL, " +
                 "destruct_act_num TEXT NOT NULL, " +
                 "destruct_act_date DATE, " +
-                "struct_division TEXT NOT NULL, " +
-                "gived_post TEXT NOT NULL, " +
-                "gived_fullname TEXT NOT NULL, " +
-                "achieved_username TEXT NOT NULL, " +
+                "struct_division TEXT, " +
+                "gived_post TEXT, " +
+                "gived_fullname TEXT, " +
+                "achieved_username TEXT, " +
                 "is_personnel INTEGER NOT NULL, " +
                 "taken_username TEXT, " +
                 "taken_datetime TEXT, " +
@@ -52,28 +53,29 @@ namespace ArchiveSearchEngine.Database
         // Creates new document. If document with this registrationNum already exists, returns false
         public bool NewDocument(string registrationNum,
             string volumeNum, string bookNum,
-            int contentQuantity,
-            DateTime? inventoryDate, string inventoryNum,
+            int contentQuantity, string inventoryNum,
             string objectIndex, string objectName,
-            string rack, string shelf, string expiringIn,
-            DateTime documentsDate, int caseNum,
-            string destructActNum, DateTime? destructActDate,
+            string storage, string rack, string shelf,
+            string expiringIn, DateTime documentsDate,
+            int caseNum, string destructActNum,
             string structDivision, string givedPost,
             string givedFullname, bool isPersonnel,
-            string achievedUsername, string note)
+            string achievedUsername, string note,
+            DateTime? inventoryDate = null,
+            DateTime? destructActDate = null)
         {
             if (!DocumentExists(registrationNum))
             {
                 new SqliteCommand($"INSERT INTO DocumentTable " +
                 $"(registration_num, volume_num, book_num, content_quantity, " +
                 $"inventory_date, inventory_num, object_index, object_name," +
-                $"rack, shelf, expiring_in, documents_date, case_num," +
+                $"storage, rack, shelf, expiring_in, documents_date, case_num," +
                 $"destruct_act_num, destruct_act_date, struct_division," +
                 $"gived_post, gived_fullname, is_personnel, achieved_username, note) VALUES " +
                 $"('{registrationNum.Replace("'", "")}', '{volumeNum.Replace("'", "")}', '{bookNum.Replace("'", "")}', {contentQuantity}, " +
                 $"'{inventoryDate}', '{inventoryNum.Replace("'", "")}', '{objectIndex.Replace("'", "")}', '{objectName.Replace("'", "")}', " +
-                $"'{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', '{documentsDate}', {caseNum}, " +
-                $"'{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
+                $"'{storage.Replace("'", "")}', '{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', " +
+                $"'{documentsDate}', {caseNum}, '{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
                 $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', {isPersonnel}, '{achievedUsername}', '{note.Replace("'", "")}')",
                 _connection).ExecuteNonQuery();
             }
@@ -95,7 +97,8 @@ namespace ArchiveSearchEngine.Database
                         (string)reader["volume_num"], (string)reader["book_num"],
                         Convert.ToInt32(reader["content_quantity"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
-                        (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
+                        (string)reader["object_name"], (string)reader["storage"],
+                        (string)reader["rack"], (string)reader["shelf"],
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
                         Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
                         (string)reader["struct_division"], (string)reader["gived_post"],
@@ -128,7 +131,8 @@ namespace ArchiveSearchEngine.Database
                         (string)reader["volume_num"], (string)reader["book_num"],
                         Convert.ToInt32(reader["content_quantity"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
-                        (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
+                        (string)reader["object_name"], (string)reader["storage"],
+                        (string)reader["rack"], (string)reader["shelf"],
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
                         Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
                         (string)reader["struct_division"], (string)reader["gived_post"],
@@ -177,7 +181,8 @@ namespace ArchiveSearchEngine.Database
                         (string)reader["volume_num"], (string)reader["book_num"],
                         Convert.ToInt32(reader["content_quantity"]),
                         (string)reader["inventory_num"], (string)reader["object_index"],
-                        (string)reader["object_name"], (string)reader["rack"], (string)reader["shelf"],
+                        (string)reader["object_name"], (string)reader["storage"],
+                        (string)reader["rack"], (string)reader["shelf"],
                         (string)reader["expiring_in"], Convert.ToDateTime(reader["documents_date"]),
                         Convert.ToInt32(reader["case_num"]), (string)reader["destruct_act_num"],
                         (string)reader["struct_division"], (string)reader["gived_post"],
@@ -223,6 +228,7 @@ namespace ArchiveSearchEngine.Database
                     $"inventory_num='{doc.InventoryNum.Replace("'", "")}', " +
                     $"object_index='{doc.ObjectIndex.Replace("'", "")}', " +
                     $"object_name='{doc.ObjectName.Replace("'", "")}', " +
+                    $"storage='{doc.Storage.Replace("'", "")}', " +
                     $"rack='{doc.Rack.Replace("'", "")}', " +
                     $"shelf='{doc.Shelf.Replace("'", "")}', " +
                     $"expiring_in='{doc.ExpiringIn.Replace("'", "")}', " +

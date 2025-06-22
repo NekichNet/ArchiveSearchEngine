@@ -47,6 +47,7 @@ namespace ArchiveSearchEngine
                 openFileDialog.Filter = "Файл формата (*.csv)| *.csv";
                 openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
                 openFileDialog.ShowDialog();
+                nonUserTable.ImportFromCSV(openFileDialog.FileName);
                 return openFileDialog.FileName;
             }
             Spaces.Add(new UserSpace("Импорт сотрудников (*.csv)", method));

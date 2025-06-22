@@ -13,12 +13,12 @@ namespace ArchiveSearchEngine
             string volumeNum, string bookNum,
             int contentQuantity, string inventoryNum,
             string objectIndex, string objectName,
-            string rack, string shelf, string expiringIn,
-            DateTime documentsDate, int caseNum,
-            string destructActNum, string structDivision,
-            string givedPost, string givedFullname,
-            bool isPersonnel, string achievedUsername,
-            string note,
+            string storage, string rack, string shelf,
+            string expiringIn, DateTime documentsDate,
+            int caseNum, string destructActNum,
+            string structDivision, string givedPost,
+            string givedFullname, bool isPersonnel,
+            string achievedUsername, string note,
             DateTime? inventoryDate = null,
             DateTime? destructActDate = null)
         {
@@ -30,6 +30,7 @@ namespace ArchiveSearchEngine
             InventoryNum = inventoryNum;
             ObjectIndex = objectIndex;
             ObjectName = objectName;
+            Storage = storage;
             Rack = rack;
             Shelf = shelf;
             ExpiringIn = expiringIn;
@@ -57,6 +58,7 @@ namespace ArchiveSearchEngine
         public string ObjectIndex { get; set; } // 7 Код/индекс дела
         public string ObjectName { get; set; } // 8 Наименование объекта
 
+        public string Storage { get; set; } // 8.5 Хранилище
         public string Rack { get; set; } // 9 Стеллаж
         public string Shelf { get; set; } // 10 Полка
 

@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
 
 
-        <TextBlock Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Center" FontWeight="Black" Grid.Column="1" Grid.Row="2">Справочник незарегистрированых</TextBlock>
+        <TextBlock Style="{StaticResource DefaultTextStyle}" VerticalAlignment="Center" FontWeight="Black" Grid.Column="1" Grid.Row="2">Справочник сотрудников</TextBlock>
 
         <TextBox Margin="15" Grid.ColumnSpan="2" TextChanged="TextBox_TextChanged" Name="PromptLine"></TextBox>
         <Button FontSize="30" Click="AddUser_Click" Grid.Column="2" Margin="15" Content="Добавить" FontWeight="Black"></Button>
