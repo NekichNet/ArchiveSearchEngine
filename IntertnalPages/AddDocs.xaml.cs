@@ -44,11 +44,18 @@ namespace ArchiveSearchEngine.IntertnalPages
                 if (!_table.DocumentExists(RegistrationObjectNumberGUI.Text))
                 {
                     User user = _userTable.GetUsers()[selectedUserIndex];
-                    _table.NewDocument(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text, Int32.Parse(AmountOfSheetsGUI.Text),
-                        (DateTime?)InventoryDateGUI.SelectedDate, InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, RackGUI.Text,
-                        ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
-                        (DateTime?)DestroyActDateGUI.SelectedDate, user.StructDivision, user.Post, user.Fullname, (bool)IsPersonnelGUI.IsChecked, _owner.Owner.LoggedUser.Username,
-                        AdditionGUI.Text);
+                    _table.NewDocument(RegistrationObjectNumberGUI.Text, 
+                        TomNumberGUI.Text, BookNumberGUI.Text, 
+                        Int32.Parse(AmountOfSheetsGUI.Text), InventoryNumberGUI.Text, 
+                        DealIndexGUI.Text, ObjectNameGUI.Text, 
+                        StorageGUI.Text, RackGUI.Text, ShelfGUI.Text, 
+                        StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, 
+                        Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text, 
+                        user.StructDivision, user.Post, 
+                        user.Fullname, (bool)IsPersonnelGUI.IsChecked, 
+                        _owner.Owner.LoggedUser.Username, AdditionGUI.Text, 
+                        (DateTime?)InventoryDateGUI.SelectedDate, 
+                        (DateTime?)DestroyActDateGUI.SelectedDate);
 
                     MessageBox.Show("Документ был успешно добавлен", "", MessageBoxButton.OK, MessageBoxImage.Information);
 

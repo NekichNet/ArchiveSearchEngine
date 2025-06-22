@@ -89,7 +89,7 @@ namespace ArchiveSearchEngine.IntertnalPages
             try
             {
                 Document updatedDoc = new Document(RegistrationObjectNumberGUI.Text, TomNumberGUI.Text, BookNumberGUI.Text,
-                    Int32.Parse(AmountOfSheetsGUI.Text), InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, /*Сюда вставить StorageGUI.Text*/ RackGUI.Text,
+                    Int32.Parse(AmountOfSheetsGUI.Text), InventoryNumberGUI.Text, DealIndexGUI.Text, ObjectNameGUI.Text, StorageGUI.Text, RackGUI.Text,
                     ShelfGUI.Text, StoringTermComboGUI.Text, (DateTime)DocDateGUI.SelectedDate, Int32.Parse(CaseNumberGUI.Text), DestroyActNumberGUI.Text,
                     doc_.StructDivision, doc_.GivedPost, doc_.GivedFullname, doc_.IsPersonnel, doc_.AchievedUsername,
                     AdditionGUI.Text, (DateTime?)InventoryDateGUI.SelectedDate, (DateTime?)DestroyActDateGUI.SelectedDate);
