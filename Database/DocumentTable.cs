@@ -288,6 +288,24 @@ namespace ArchiveSearchEngine.Database
             }
         }
 
+        public List<string> GetCellValues(string cell_name)
+        {
+            List<string> values = new List<string>();
+            using (SqliteDataReader reader = new SqliteCommand(
+                $"SELECT {cell_name} FROM DocumentTable GROUP BY {cell_name}",
+                _connection).ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        values.Add((string)reader[0]);
+                    }
+                }
+            }
+            return values;
+        }
+
         // Deletes document with exact id
         public void DeleteDocument(string registrationNum)
         {
@@ -301,7 +319,7 @@ namespace ArchiveSearchEngine.Database
         {
             if (int.TryParse(expiring_in, out _))
             {
-                return Int32.Parse(expiring_in) <= 5;
+                return Int32.Parse(expiring_in) <= 10;
             }
             return false;
         }
@@ -321,7 +339,7 @@ namespace ArchiveSearchEngine.Database
             return expiring_in.ToLower().Contains("постоянно");
         }
 
-        // ToDo: Генерация описей четырёх видов
+        // Генерация описи
         public void ExportToWord(string filepath, string inventory_num, string doc_type,
             string by_year, int startCaseNum, int endCaseNum)
         {
@@ -527,6 +545,222 @@ namespace ArchiveSearchEngine.Database
                 $"с № {startCaseNum} по № {endCaseNum} в том числе: \r\n" +
                 "литерные номера: нет\r\n" +
                 $"пропущенные номера: {(numbers_lost < 1 ? "нет" : numbers_lost)} \r\n\r\n\r\n" +
+                "Начальник АХО ____________________\r\n" +
+                $"{DateTime.Now.ToShortDateString()}\r\n\r\n\r\n" +
+                "СОГЛАСОВАНО\r\n" +
+                "Протокол ЭК Ноябрьского УМН \r\n" +
+                "от __________ № ____\r\n");
+
+            document.SaveToFile(filepath, FileFormat.Docx);
+            document.Dispose();
+        }
+
+        // Формирование акта о выделении к уничтожению
+        public void FormDestroyingAct(
+            string filepath, string destruct_act_num, string doc_type, string by_year, string struct_division)
+        {
+            // ToDo: Вот это заменить на проверку в самом SQL запросе
+            CheckExpiring check_method;
+            if (doc_type == "Дела временного хранения")
+            {
+                doc_type = "дел временного хранения";
+                check_method = CheckIsTempExpiring;
+            }
+            else if (doc_type == "Дела долговременного хранения")
+            {
+                doc_type = "дел долговременного хранения";
+                check_method = CheckIsLongExpiring;
+            }
+            else if (doc_type == "Дела постоянного хранения")
+            {
+                doc_type = "дел, документов постоянного хранения";
+                check_method = CheckIsNoExpiring;
+            }
+            else if (doc_type == "Дела по личному составу")
+            {
+                doc_type = "дел по личному составу";
+                check_method = (string expiring_in) => { return true; };
+            }
+            else { throw new Exception("Некоректный тип документа"); }
+
+            Spire.Doc.Document document = new Spire.Doc.Document();
+
+            ParagraphStyle textStyle = new ParagraphStyle(document);
+            textStyle.Name = "MainTextStyle";
+            textStyle.CharacterFormat.FontName = "Franklin Gothic Book";
+            textStyle.CharacterFormat.FontSize = 12f;
+            document.Styles.Add(textStyle);
+
+            ParagraphStyle tableStyle = new ParagraphStyle(document);
+            tableStyle.Name = "TableTextStyle";
+            tableStyle.CharacterFormat.FontName = "Franklin Gothic Book";
+            tableStyle.CharacterFormat.FontSize = 12f;
+            tableStyle.ParagraphFormat.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Center;
+            document.Styles.Add(tableStyle);
+
+            Spire.Doc.Section section = document.AddSection();
+            section.PageSetup.Margins.Left = 90f;
+
+            Spire.Doc.Documents.Paragraph heading1 = section.AddParagraph();
+            heading1.ApplyStyle("MainTextStyle");
+            heading1.AppendText("АКЦИОНЕРНОЕ ОБЩЕСТВО\r\n" +
+                "«ТРАНСНЕФТЬ - СИБИРЬ» \r\n" +
+                "Ноябрьское управление магистральных нефтепроводов\r\n");
+
+            Spire.Doc.Table heading_table = section.AddTable(false);
+            heading_table.ResetCells(1, 2);
+
+            heading_table[0, 0].SetCellWidth(390f, CellWidthType.Point);
+            heading_table[0, 1].SetCellWidth(210f, CellWidthType.Point);
+
+            Spire.Doc.Documents.Paragraph heading2 = heading_table[0, 0].AddParagraph();
+            heading2.ApplyStyle("MainTextStyle");
+
+            heading2.AppendText($"АКТ № ___\r\n«___» __________ {DateTime.Now.Year}г. \r\nг. Ноябрьск\r\n");
+
+            Spire.Doc.Documents.Paragraph heading3 = heading_table[0, 1].AddParagraph();
+            heading2.ApplyStyle("MainTextStyle");
+
+            heading2.AppendText("УТВЕРЖДАЮ\r\n" +
+                "Начальник управления\r\n" +
+                "Ноябрьского УМН\r\n" +
+                "АО «Транснефть-Сибирь» \r\n" +
+                $"________________________\r\n" +
+                $"«____»____________ {DateTime.Now.Year} г.\r\n");
+
+            Spire.Doc.Documents.Paragraph heading4 = section.AddParagraph();
+            heading4.ApplyStyle("MainTextStyle");
+            heading4.AppendText("О выделении к уничтожению документов, \r\n" +
+                "не подлежащих хранению\r\n\r\n" +
+                "На основании Приказа Федерального архивного агентства от 20" +
+                " декабря 2019 г. №236 «Об утверждении Перечня типовых" +
+                " управленческих архивных документов, образующихся в процессе" +
+                " деятельности государственных органов, органов местного" +
+                " самоуправления и организаций, с указанием сроков их хранения»," +
+                " а также утвержденных номенклатур дел АО «Транснефть - Сибирь»" +
+                " отобраны к уничтожению как не имеющие научно-исторической" +
+                " ценности и утратившие практическое значение следующие документы" +
+                " ______________________________________________" +
+                $" Ноябрьского УМН АО «Транснефть -Сибирь» за {by_year} год:\r\n");
+
+            Spire.Doc.Table datatable = section.AddTable(true);
+
+            Spire.Doc.TableRow headingRow = datatable.AddRow();
+
+            Spire.Doc.TableCell caseNumCellH = headingRow.AddCell();
+            caseNumCellH.AddParagraph().AppendText("№ п\\п");
+            caseNumCellH.FirstParagraph.ApplyStyle("MainTextStyle");
+
+            Spire.Doc.TableCell objectNameCellH = headingRow.AddCell();
+            objectNameCellH.AddParagraph().AppendText("Заголовок дела или групповой заголовок дел");
+            objectNameCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+
+            Spire.Doc.TableCell documentsDateCellH = headingRow.AddCell();
+            documentsDateCellH.AddParagraph().AppendText("Дата дела или крайние даты дел");
+            documentsDateCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+
+            Spire.Doc.TableCell inventoryNumCellH = headingRow.AddCell();
+            inventoryNumCellH.AddParagraph().AppendText("Номера описей");
+            inventoryNumCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+
+            Spire.Doc.TableCell objectIndexCellH = headingRow.AddCell();
+            objectIndexCellH.AddParagraph().AppendText("Индекс дела (тома, части) по номенклатуре или № дела по описи");
+            objectIndexCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+
+            Spire.Doc.TableCell contentQuantityCellH = headingRow.AddCell();
+            contentQuantityCellH.AddParagraph().AppendText("Количество дел");
+            contentQuantityCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+
+            Spire.Doc.TableCell expiringInCellH = headingRow.AddCell();
+            expiringInCellH.AddParagraph().AppendText("Сроки хранения дела и номера статей по перечню");
+            expiringInCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+
+            Spire.Doc.TableCell noteCellH = headingRow.AddCell();
+            noteCellH.AddParagraph().AppendText("Примечание");
+
+            Spire.Doc.TableRow heading2Row = datatable.AddRow();
+
+            heading2Row.Cells[0].AddParagraph().AppendText("1");
+            heading2Row.Cells[1].AddParagraph().AppendText("2");
+            heading2Row.Cells[2].AddParagraph().AppendText("3");
+            heading2Row.Cells[3].AddParagraph().AppendText("4");
+            heading2Row.Cells[4].AddParagraph().AppendText("5");
+            heading2Row.Cells[5].AddParagraph().AppendText("6");
+            heading2Row.Cells[6].AddParagraph().AppendText("7");
+            heading2Row.Cells[7].AddParagraph().AppendText("8");
+
+            heading2Row.Cells[0].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[1].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[2].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[3].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[4].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[5].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[6].FirstParagraph.ApplyStyle("TableTextStyle");
+            heading2Row.Cells[7].FirstParagraph.ApplyStyle("TableTextStyle");
+
+            int docCounter = 0;
+            List<int> mergeIndexes = new List<int>();
+
+            // ToDo: Здесь заполнение таблицы описи
+            using (SqliteDataReader reader = new SqliteCommand(
+                "SELECT registration_num, case_num, object_name, documents_date, inventory_num," +
+                " object_index, content_quantity, expiring_in, note, struct_division, expiring_in" +
+                " FROM DocumentTable ORDER BY case_num",
+                _connection).ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        // Проверка документа по фильтрам (todo: потом впихнуть в sql)
+                        if (!check_method((string)reader["expiring_in"]) || Convert.ToDateTime((string)reader["documents_date"]).Year > Convert.ToInt32(by_year))
+                        {
+                            continue;
+                        }
+
+                        // Заполнение данными
+                        Spire.Doc.TableRow newRow = datatable.AddRow();
+
+                        newRow.Cells[0].AddParagraph().AppendText(Convert.ToString(reader["case_num"]) + ".");
+                        newRow.Cells[1].AddParagraph().AppendText((string)reader["object_index"]);
+                        newRow.Cells[2].AddParagraph().AppendText((string)reader["object_name"]);
+                        newRow.Cells[3].AddParagraph().AppendText((string)reader["documents_date"]);
+                        newRow.Cells[4].AddParagraph().AppendText(Convert.ToString(reader["content_quantity"]));
+                        newRow.Cells[5].AddParagraph().AppendText((string)reader["note"]);
+
+                        newRow.Cells[0].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[1].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[2].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[3].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[4].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[5].FirstParagraph.ApplyStyle("TableTextStyle");
+
+                        docCounter++;
+
+                        new SqliteCommand($"UPDATE DocumentTable SET " +
+                            $"destruct_act_num = '{destruct_act_num}', " +
+                            $"destruct_act_date = '{DateTime.Now}'" +
+                            $" WHERE registration_num = {(string)reader["registration_num"]}", _connection).ExecuteNonQuery();
+                    }
+                }
+            }
+
+            foreach (int ind in mergeIndexes)
+            {
+                datatable.ApplyHorizontalMerge(ind, 0, 5);
+            }
+
+            datatable.SetColumnWidth(0, 0.118f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(1, 0.164f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(2, 0.388f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(3, 0.119f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(4, 0.104f * 600f, CellWidthType.Point);
+            datatable.SetColumnWidth(5, 0.105f * 600f, CellWidthType.Point);
+
+            Spire.Doc.Documents.Paragraph ending = section.AddParagraph();
+            ending.ApplyStyle("MainTextStyle");
+
+            ending.AppendText($"\r\nВ данный раздел описи внесено {docCounter} ({NumToStringConverter(Convert.ToString(docCounter))}) дел,\r\n" +
                 "Начальник АХО ____________________\r\n" +
                 $"{DateTime.Now.ToShortDateString()}\r\n\r\n\r\n" +
                 "СОГЛАСОВАНО\r\n" +
