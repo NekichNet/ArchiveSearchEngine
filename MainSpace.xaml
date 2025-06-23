@@ -24,7 +24,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border>
-                            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="{Binding Path=Title}" TextWrapping="Wrap" MaxWidth="450"></TextBlock>
+                            <TextBlock Style="{StaticResource DefaultTextStyle}" Text="{Binding Path=Title}" TextWrapping="Wrap" MaxWidth="400"></TextBlock>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
