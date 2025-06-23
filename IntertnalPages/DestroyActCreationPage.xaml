@@ -39,7 +39,7 @@
                     <TextBox Name="YearPickerGUI" FontSize="20" Style="{StaticResource DocTextBox}" PreviewKeyDown="YearPickerGUI_PreviewKeyDown" PreviewTextInput="YearPickerGUI_PreviewTextInput" TextChanged="YearPickerGUI_TextChanged"></TextBox>
 
                     <TextBlock Style="{StaticResource DocTextBlock}" Text="Структурное подразделение" Margin="0,15,0,0"></TextBlock>
-                    <ComboBox Name="StructDivisionGUI" IsEditable="True" IsTextSearchEnabled="True"></ComboBox>
+                    <ComboBox Name="StructDivisionGUI" IsEditable="True" IsTextSearchEnabled="True" FontSize="20"></ComboBox>
                 </StackPanel>
 
                 <Button Click="InventGenerationButton_Click" Grid.Row="2" Grid.Column="3" FontSize="30" Style="{StaticResource AcceptButtonStyle}" Name="InventGenerationButton" Margin="15" Content="Сгенерировать"></Button>

@@ -45,12 +45,14 @@ namespace ArchiveSearchEngine.IntertnalPages
 
             if (StructDivisionGUI.Text.Equals(""))
             {
-                var Divisions = _documentTable.GetCellValues("struct_division");
-                for (int i = 0; i < Divisions.Count; i++)
+                List<string> Divisions = _documentTable.GetCellValues("struct_division");
+                foreach (string struct_division in Divisions)
                 {
-
-                    _documentTable.FormDestroyingAct(openFileDialog.FileName, DestroyActNumberGUI.Text, TermGUI.Text, YearPickerGUI.Text, Divisions[i]);
-                    MessageBox.Show($"Акты сгенерирован по пути: {openFileDialog.FileName}");
+                    _documentTable.FormDestroyingAct(
+                        openFileDialog.FileName.Replace(".docx", "") + " " +
+                        struct_division.Replace("\\", "").Replace("/", "").Replace("|", "").Replace("\"", "").Replace("*", "").Replace(":", "").Replace("?", "") // чтобы винда приняла имя файла
+                        + ".docx", DestroyActNumberGUI.Text, TermGUI.Text, YearPickerGUI.Text, struct_division);
+                    MessageBox.Show($"Акты сгенерированы по пути: {openFileDialog.FileName}");
                 }
             }
             else
@@ -70,7 +72,7 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void YearPickerGUI_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            e.Handled = e.Key == Key.Space || ((e.Key == Key.Delete || e.Key == Key.Back) && (sender as TextBox).Text.Length == 1);
+            e.Handled = e.Key == Key.Space;
 
         }
 
@@ -82,7 +84,11 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void YearPickerGUI_TextChanged(object sender, TextChangedEventArgs e)
         {
-            e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0 || Convert.ToInt32((sender as TextBox).Text) > 9999;
+            if ((sender as TextBox).Text != "")
+            {
+                e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
+            }
+            else { e.Handled = false; }
         }
     }
 }

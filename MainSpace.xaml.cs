@@ -38,8 +38,10 @@ namespace ArchiveSearchEngine
             InitializeComponent();
             _owner = owner;
 
+            AddDocs addDocPage = new AddDocs(this, documentTable, userTable, nonUserTable);
+
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, documentTable, userTable)));
-            Spaces.Add(new UserSpace("Добавление документа", new AddDocs(this, documentTable, userTable, nonUserTable)));
+            Spaces.Add(new UserSpace("Добавление документа", addDocPage));
             Spaces.Add(new UserSpace("Генерация описи", new InventoryGeneration(this, userTable, nonUserTable, documentTable)));
             Spaces.Add(new UserSpace("Генерация акта об уничтожении", new DestroyActCreationPage(this, documentTable)));
 
@@ -49,6 +51,8 @@ namespace ArchiveSearchEngine
                 openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
                 openFileDialog.ShowDialog();
                 nonUserTable.ImportFromCSV(openFileDialog.FileName);
+
+                addDocPage.RefreshFullnameSearchGUI();
                 return openFileDialog.FileName;
             }
             Spaces.Add(new UserSpace("Импорт сотрудников (*.csv)", method));

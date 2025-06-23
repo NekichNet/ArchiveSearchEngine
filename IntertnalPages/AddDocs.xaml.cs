@@ -1,6 +1,7 @@
 ﻿using ArchiveSearchEngine.Database;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,8 +34,13 @@ namespace ArchiveSearchEngine.IntertnalPages
             _table = _documentTable;
             _userTable = userTable;
             _nonUserTable = nonUserTable;
+            RefreshFullnameSearchGUI();
+            StoringTermComboGUI.ItemsSource = new List<string> { "3", "5", "10", "Постоянно" };
+        }
+
+        public void RefreshFullnameSearchGUI()
+        {
             FullnameSearchGUI.ItemsSource = _nonUserTable.GetUnits().Select(x => x.Fullname);
-            StoringTermComboGUI.ItemsSource = new List<string> { "5", "10", "Постоянно" };
         }
 
         public void AddDock()
@@ -123,6 +129,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 InventoryNumberGUI.Text = docAsPreset.InventoryNum;
                 DealIndexGUI.Text = docAsPreset.ObjectIndex;
                 ObjectNameGUI.Text = docAsPreset.ObjectName;
+                StorageGUI.Text = docAsPreset.Storage;
                 RackGUI.Text = docAsPreset.Rack;
                 ShelfGUI.Text = docAsPreset.Shelf;
                 StoringTermComboGUI.Text = docAsPreset.ExpiringIn;
@@ -152,6 +159,7 @@ namespace ArchiveSearchEngine.IntertnalPages
             InventoryNumberGUI.Text = "";
             DealIndexGUI.Text = "";
             ObjectNameGUI.Text = "";
+            StorageGUI.Text = "";
             RackGUI.Text = "";
             ShelfGUI.Text = "";
             StoringTermComboGUI.Text = "";

@@ -50,6 +50,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 InventoryNumberGUI.Text = doc_.InventoryNum;
                 DealIndexGUI.Text = doc_.ObjectIndex;
                 ObjectNameGUI.Text = doc_.ObjectName;
+                StorageGUI.Text = doc_.Storage;
                 RackGUI.Text = doc_.Rack;
                 ShelfGUI.Text = doc_.Shelf;
                 StoringTermComboGUI.Text = doc_.ExpiringIn;

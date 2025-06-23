@@ -563,23 +563,13 @@ namespace ArchiveSearchEngine.Database
             CheckExpiring check_method;
             if (doc_type == "Дела временного хранения")
             {
-                doc_type = "дел временного хранения";
+                doc_type = "Временного (до 10 лет включительно) хранения";
                 check_method = CheckIsTempExpiring;
             }
             else if (doc_type == "Дела долговременного хранения")
             {
-                doc_type = "дел долговременного хранения";
+                doc_type = "Долговременного (более 10 лет) хранения";
                 check_method = CheckIsLongExpiring;
-            }
-            else if (doc_type == "Дела постоянного хранения")
-            {
-                doc_type = "дел, документов постоянного хранения";
-                check_method = CheckIsNoExpiring;
-            }
-            else if (doc_type == "Дела по личному составу")
-            {
-                doc_type = "дел по личному составу";
-                check_method = (string expiring_in) => { return true; };
             }
             else { throw new Exception("Некоректный тип документа"); }
 
@@ -591,10 +581,17 @@ namespace ArchiveSearchEngine.Database
             textStyle.CharacterFormat.FontSize = 12f;
             document.Styles.Add(textStyle);
 
+            ParagraphStyle tableHeaderStyle = new ParagraphStyle(document);
+            tableHeaderStyle.Name = "TableHeaderTextStyle";
+            tableHeaderStyle.CharacterFormat.FontName = "Franklin Gothic Book";
+            tableHeaderStyle.CharacterFormat.FontSize = 9f;
+            tableHeaderStyle.ParagraphFormat.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Center;
+            document.Styles.Add(tableHeaderStyle);
+
             ParagraphStyle tableStyle = new ParagraphStyle(document);
             tableStyle.Name = "TableTextStyle";
             tableStyle.CharacterFormat.FontName = "Franklin Gothic Book";
-            tableStyle.CharacterFormat.FontSize = 12f;
+            tableStyle.CharacterFormat.FontSize = 10f;
             tableStyle.ParagraphFormat.HorizontalAlignment = Spire.Doc.Documents.HorizontalAlignment.Center;
             document.Styles.Add(tableStyle);
 
@@ -626,7 +623,7 @@ namespace ArchiveSearchEngine.Database
                 "Ноябрьского УМН\r\n" +
                 "АО «Транснефть-Сибирь» \r\n" +
                 $"________________________\r\n" +
-                $"«____»____________ {DateTime.Now.Year} г.\r\n");
+                $"«____»____________ 20__ г.\r\n");
 
             Spire.Doc.Documents.Paragraph heading4 = section.AddParagraph();
             heading4.ApplyStyle("MainTextStyle");
@@ -649,31 +646,31 @@ namespace ArchiveSearchEngine.Database
 
             Spire.Doc.TableCell caseNumCellH = headingRow.AddCell();
             caseNumCellH.AddParagraph().AppendText("№ п\\п");
-            caseNumCellH.FirstParagraph.ApplyStyle("MainTextStyle");
+            caseNumCellH.FirstParagraph.ApplyStyle("TableHeaderTextStyle");
 
             Spire.Doc.TableCell objectNameCellH = headingRow.AddCell();
             objectNameCellH.AddParagraph().AppendText("Заголовок дела или групповой заголовок дел");
-            objectNameCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+            objectNameCellH.FirstParagraph.ApplyStyle("TableHeaderTextStyle");
 
             Spire.Doc.TableCell documentsDateCellH = headingRow.AddCell();
             documentsDateCellH.AddParagraph().AppendText("Дата дела или крайние даты дел");
-            documentsDateCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+            documentsDateCellH.FirstParagraph.ApplyStyle("TableHeaderTextStyle");
 
             Spire.Doc.TableCell inventoryNumCellH = headingRow.AddCell();
             inventoryNumCellH.AddParagraph().AppendText("Номера описей");
-            inventoryNumCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+            inventoryNumCellH.FirstParagraph.ApplyStyle("TableHeaderTextStyle");
 
             Spire.Doc.TableCell objectIndexCellH = headingRow.AddCell();
             objectIndexCellH.AddParagraph().AppendText("Индекс дела (тома, части) по номенклатуре или № дела по описи");
-            objectIndexCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+            objectIndexCellH.FirstParagraph.ApplyStyle("TableHeaderTextStyle");
 
             Spire.Doc.TableCell contentQuantityCellH = headingRow.AddCell();
             contentQuantityCellH.AddParagraph().AppendText("Количество дел");
-            contentQuantityCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+            contentQuantityCellH.FirstParagraph.ApplyStyle("TableHeaderTextStyle");
 
             Spire.Doc.TableCell expiringInCellH = headingRow.AddCell();
             expiringInCellH.AddParagraph().AppendText("Сроки хранения дела и номера статей по перечню");
-            expiringInCellH.FirstParagraph.ApplyStyle("TableTextStyle");
+            expiringInCellH.FirstParagraph.ApplyStyle("TableHeaderTextStyle");
 
             Spire.Doc.TableCell noteCellH = headingRow.AddCell();
             noteCellH.AddParagraph().AppendText("Примечание");
@@ -699,13 +696,14 @@ namespace ArchiveSearchEngine.Database
             heading2Row.Cells[7].FirstParagraph.ApplyStyle("TableTextStyle");
 
             int docCounter = 0;
-            List<int> mergeIndexes = new List<int>();
 
-            // ToDo: Здесь заполнение таблицы описи
+            // Здесь заполнение таблицы описи
             using (SqliteDataReader reader = new SqliteCommand(
                 "SELECT registration_num, case_num, object_name, documents_date, inventory_num," +
                 " object_index, content_quantity, expiring_in, note, struct_division, expiring_in" +
-                " FROM DocumentTable ORDER BY case_num",
+                $" FROM DocumentTable WHERE struct_division = '{struct_division}'" +
+                " AND lower(expiring_in) NOT IN ('постоянно', 'постоянно ст.607 нтд')" +
+                " ORDER BY case_num",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
@@ -713,7 +711,10 @@ namespace ArchiveSearchEngine.Database
                     while (reader.Read())
                     {
                         // Проверка документа по фильтрам (todo: потом впихнуть в sql)
-                        if (!check_method((string)reader["expiring_in"]) || Convert.ToDateTime((string)reader["documents_date"]).Year > Convert.ToInt32(by_year))
+                        if (!check_method((string)reader["expiring_in"]) 
+                            || Convert.ToDateTime((string)reader["documents_date"]).Year > Convert.ToInt32(by_year) 
+                            || Convert.ToDateTime((string)reader["documents_date"]).AddYears(Convert.ToInt32((string)reader["expiring_in"]))
+                            >= new DateTime(Convert.ToInt32(by_year), 12, 31))
                         {
                             continue;
                         }
@@ -722,18 +723,22 @@ namespace ArchiveSearchEngine.Database
                         Spire.Doc.TableRow newRow = datatable.AddRow();
 
                         newRow.Cells[0].AddParagraph().AppendText(Convert.ToString(reader["case_num"]) + ".");
-                        newRow.Cells[1].AddParagraph().AppendText((string)reader["object_index"]);
-                        newRow.Cells[2].AddParagraph().AppendText((string)reader["object_name"]);
-                        newRow.Cells[3].AddParagraph().AppendText((string)reader["documents_date"]);
-                        newRow.Cells[4].AddParagraph().AppendText(Convert.ToString(reader["content_quantity"]));
-                        newRow.Cells[5].AddParagraph().AppendText((string)reader["note"]);
+                        newRow.Cells[1].AddParagraph().AppendText((string)reader["object_name"]);
+                        newRow.Cells[2].AddParagraph().AppendText((string)reader["documents_date"]);
+                        newRow.Cells[3].AddParagraph().AppendText((string)reader["inventory_num"]);
+                        newRow.Cells[4].AddParagraph().AppendText((string)reader["object_index"]);
+                        newRow.Cells[5].AddParagraph().AppendText(Convert.ToString(reader["content_quantity"]));
+                        newRow.Cells[6].AddParagraph().AppendText((string)reader["expiring_in"]);
+                        newRow.Cells[7].AddParagraph().AppendText((string)reader["note"]);
 
-                        newRow.Cells[0].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[0].FirstParagraph.ApplyStyle("MainTextStyle");
                         newRow.Cells[1].FirstParagraph.ApplyStyle("TableTextStyle");
                         newRow.Cells[2].FirstParagraph.ApplyStyle("TableTextStyle");
                         newRow.Cells[3].FirstParagraph.ApplyStyle("TableTextStyle");
                         newRow.Cells[4].FirstParagraph.ApplyStyle("TableTextStyle");
                         newRow.Cells[5].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[6].FirstParagraph.ApplyStyle("TableTextStyle");
+                        newRow.Cells[7].FirstParagraph.ApplyStyle("TableTextStyle");
 
                         docCounter++;
 
@@ -743,11 +748,6 @@ namespace ArchiveSearchEngine.Database
                             $" WHERE registration_num = {(string)reader["registration_num"]}", _connection).ExecuteNonQuery();
                     }
                 }
-            }
-
-            foreach (int ind in mergeIndexes)
-            {
-                datatable.ApplyHorizontalMerge(ind, 0, 5);
             }
 
             datatable.SetColumnWidth(0, 0.118f * 600f, CellWidthType.Point);
@@ -760,12 +760,30 @@ namespace ArchiveSearchEngine.Database
             Spire.Doc.Documents.Paragraph ending = section.AddParagraph();
             ending.ApplyStyle("MainTextStyle");
 
-            ending.AppendText($"\r\nВ данный раздел описи внесено {docCounter} ({NumToStringConverter(Convert.ToString(docCounter))}) дел,\r\n" +
-                "Начальник АХО ____________________\r\n" +
-                $"{DateTime.Now.ToShortDateString()}\r\n\r\n\r\n" +
-                "СОГЛАСОВАНО\r\n" +
-                "Протокол ЭК Ноябрьского УМН \r\n" +
-                "от __________ № ____\r\n");
+            ending.AppendText($"* - срок хранения {doc_type}\r\n\r\nИтого:" +
+                $" {docCounter} ({NumToStringConverter(Convert.ToString(docCounter))})" +
+                $" дел за {by_year} год.\r\n\r\n" +
+                $"Экспертиза ценности документов проведена экспертной комиссией" +
+                $"             \r\n\r\nЭкспертиза ценности документов проведена" +
+                $" экспертной комиссией Ноябрьского УМН                    " +
+                $"АО «Транснефть-Сибирь»             \r\n\r\n_____________________" +
+                $" –\t\t                                               \t\t        " +
+                $"___________ \r\n_____________________________________\t\t\t\t \t" +
+                $"   \r\n                                                         " +
+                $"                                                              «___»" +
+                $" __________ {DateTime.Now.Year} г.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n" +
+                $"\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nСОГЛАСОВАНО\r\nПротокол " +
+                $"центральной экспертной комиссии АО «Транснефть-Сибирь» от ____________" +
+                $" № ___\r\n\r\nПротокол экспертной комиссии Ноябрьского УМН АО " +
+                $"«Транснефть-Сибирь» от _______ № ___\r\n\r\nДокументы в количестве " +
+                $"_____ (____________________________________________) дел уничтожены" +
+                $" _____________________________________________________________________" +
+                $"\r\n_______________________________________________________________" +
+                $"___________________________________________________________________" +
+                $"________________________________.\r\n\r\n_______________________ " +
+                $"–\t\t                                               \t\t  " +
+                $"_________________ \r\n______________________________________" +
+                $"\t\t\t\t \t   \r\n    «___» __________ 20__ г.\r\n");
 
             document.SaveToFile(filepath, FileFormat.Docx);
             document.Dispose();

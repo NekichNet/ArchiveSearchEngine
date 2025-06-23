@@ -71,7 +71,11 @@ namespace ArchiveSearchEngine.IntertnalPages
 
         private void Number_TextChanged(object sender, TextChangedEventArgs e)
         {
-            e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0 || Convert.ToInt32((sender as TextBox).Text) > 9999;
+            if ((sender as TextBox).Text != "")
+            {
+                e.Handled = Convert.ToInt32((sender as TextBox).Text) < 0;
+            }
+            else { e.Handled = false; }
         }
     }
 }
