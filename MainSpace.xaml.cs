@@ -41,6 +41,7 @@ namespace ArchiveSearchEngine
             Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, documentTable, userTable)));
             Spaces.Add(new UserSpace("Добавление документа", new AddDocs(this, documentTable, userTable, nonUserTable)));
             Spaces.Add(new UserSpace("Генерация описи", new InventoryGeneration(this, userTable, nonUserTable, documentTable)));
+            Spaces.Add(new UserSpace("Генерация акта об уничтожении", new DestroyActCreationPage(this, documentTable)));
 
             string method() { 
                 OpenFileDialog openFileDialog = new OpenFileDialog();

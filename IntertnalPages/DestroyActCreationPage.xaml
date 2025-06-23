@@ -30,7 +30,7 @@
                 <TextBlock Style="{StaticResource DefaultTextStyle}" Grid.Column="1" Grid.ColumnSpan="3" FontWeight="Black" Text="Акт об уничтожении"></TextBlock>
                 <StackPanel Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
                     <TextBlock Style="{StaticResource DocTextBlock}" Text="Номер акта об уничножении"></TextBlock>
-                    <TextBox Name="InventoryNumberGUI" FontSize="20" Style="{StaticResource DocTextBox}"></TextBox>
+                    <TextBox Name="DestroyActNumberGUI" FontSize="20" Style="{StaticResource DocTextBox}"></TextBox>
 
                     <TextBlock Style="{StaticResource DocTextBlock}" Text="Срок хранения" Margin="0,15,0,0"></TextBlock>
                     <ComboBox Name="TermGUI" FontSize="20"></ComboBox>

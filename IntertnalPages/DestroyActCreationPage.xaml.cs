@@ -1,6 +1,8 @@
 ﻿using ArchiveSearchEngine.Database;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,22 +24,45 @@ namespace ArchiveSearchEngine.IntertnalPages
     public partial class DestroyActCreationPage : Page
     {
         MainSpace _owner;
+        DocumentTable _documentTable;
         public DestroyActCreationPage(MainSpace owner, DocumentTable documentTable)
         {
             InitializeComponent();
             _owner = owner;
             TermGUI.ItemsSource = new List<string> { "Дела временного хранения", "Дела долговременного хранения", "Дела по личному составу", "Дела постоянного хранения" };
             TermGUI.SelectedIndex = 0;
+            _documentTable = documentTable;
+            StructDivisionGUI.ItemsSource = documentTable.GetCellValues("struct_division");
         }
 
         private void InventGenerationButton_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog openFileDialog = new SaveFileDialog();
+            openFileDialog.Filter = "Файл формата (*.docx)| *.docx";
+            openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
+            openFileDialog.ShowDialog();
 
+
+            if (StructDivisionGUI.Text.Equals(""))
+            {
+                var Divisions = _documentTable.GetCellValues("struct_division");
+                for (int i = 0; i < Divisions.Count; i++)
+                {
+
+                    _documentTable.FormDestroyingAct(openFileDialog.FileName, DestroyActNumberGUI.Text, TermGUI.Text, YearPickerGUI.Text, Divisions[i]);
+                    MessageBox.Show($"Акты сгенерирован по пути: {openFileDialog.FileName}");
+                }
+            }
+            else
+            {
+                _documentTable.FormDestroyingAct(openFileDialog.FileName, DestroyActNumberGUI.Text, TermGUI.Text, YearPickerGUI.Text, StructDivisionGUI.Text);
+                MessageBox.Show($"Акт сгенерирован по пути: {openFileDialog.FileName}");
+            }
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            InventoryNumberGUI.Text = string.Empty;
+            DestroyActNumberGUI.Text = string.Empty;
             StructDivisionGUI.Text = string.Empty;
             TermGUI.SelectedIndex = 0;
             YearPickerGUI.Text = string.Empty;
