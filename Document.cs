@@ -47,6 +47,8 @@ namespace ArchiveSearchEngine
         }
         static public DocumentTable Table { get; set; }
 
+        public string Id { get { return RegistrationNum + " " + ObjectIndex + " " + Convert.ToString(CaseNum); } }
+
         public string RegistrationNum { get; set; } // 1 Номер регистрации объекта
         public string VolumeNum { get; set; } // 2 Номер тома
         public string BookNum { get; set; } // 3 Номер книги
@@ -78,7 +80,7 @@ namespace ArchiveSearchEngine
 
         public bool IsPersonnel { get; set; } // Является ли делом по личному составу
 
-        public bool Available { get { return Table.IsAvailable(RegistrationNum); } } // Доступен ли к выдаче
+        public bool Available { get { return Table.IsAvailable(Id); } } // Доступен ли к выдаче
 
         public string AchievedUsername { get; } // username того, кто принял документ со стороны архива
     }

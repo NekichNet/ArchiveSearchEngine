@@ -1,10 +1,13 @@
 ﻿using Microsoft.Data.Sqlite;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using Spire.Doc;
 using Spire.Doc.Collections;
 using Spire.Doc.Documents;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -24,7 +27,8 @@ namespace ArchiveSearchEngine.Database
             _connection = connection;
 
             new SqliteCommand("CREATE TABLE IF NOT EXISTS DocumentTable (" +
-                "registration_num TEXT PRIMARY KEY NOT NULL, " +
+                "id TEXT PRIMARY KEY," +
+                "registration_num TEXT NOT NULL, " +
                 "volume_num TEXT, " +
                 "book_num TEXT, " +
                 "content_quantity INTEGER NOT NULL, " +
@@ -50,7 +54,7 @@ namespace ArchiveSearchEngine.Database
                 "note TEXT)", _connection).ExecuteNonQuery();
         }
 
-        // Creates new document. If document with this registrationNum already exists, returns false
+        // Creates new document. If document with this id already exists, returns false
         public bool NewDocument(string registrationNum,
             string volumeNum, string bookNum,
             int contentQuantity, string inventoryNum,
@@ -64,29 +68,31 @@ namespace ArchiveSearchEngine.Database
             DateTime? inventoryDate = null,
             DateTime? destructActDate = null)
         {
-            if (!DocumentExists(registrationNum))
+            bool exists = DocumentExists(registrationNum + " " + objectIndex + " " + caseNum);
+            if (!exists)
             {
                 new SqliteCommand($"INSERT INTO DocumentTable " +
-                $"(registration_num, volume_num, book_num, content_quantity, " +
+                $"(id, registration_num, volume_num, book_num, content_quantity, " +
                 $"inventory_date, inventory_num, object_index, object_name," +
                 $"storage, rack, shelf, expiring_in, documents_date, case_num," +
                 $"destruct_act_num, destruct_act_date, struct_division," +
                 $"gived_post, gived_fullname, is_personnel, achieved_username, note) VALUES " +
-                $"('{registrationNum.Replace("'", "")}', '{volumeNum.Replace("'", "")}', '{bookNum.Replace("'", "")}', {contentQuantity}, " +
+                $"('{registrationNum.Replace("'", "")} {objectIndex.Replace("'", "")} {caseNum}', " +
+                $"'{registrationNum.Replace("'", "")}', '{volumeNum.Replace("'", "")}', '{bookNum.Replace("'", "")}', {contentQuantity}, " +
                 $"'{inventoryDate}', '{inventoryNum.Replace("'", "")}', '{objectIndex.Replace("'", "")}', '{objectName.Replace("'", "")}', " +
                 $"'{storage.Replace("'", "")}', '{rack.Replace("'", "")}', '{shelf.Replace("'", "")}', '{expiringIn.Replace("'", "")}', " +
                 $"'{documentsDate}', {caseNum}, '{destructActNum.Replace("'", "")}', '{destructActDate}', '{structDivision.Replace("'", "")}', " +
                 $"'{givedPost.Replace("'", "")}', '{givedFullname.Replace("'", "")}', {isPersonnel}, '{achievedUsername}', '{note.Replace("'", "")}')",
                 _connection).ExecuteNonQuery();
             }
-            return !DocumentExists(registrationNum);
+            return !exists;
         }
 
         // Returns document found by his id (throws an exception, if not exists)
-        public Document GetDocument(string registrationNum)
+        public Document GetDocument(string id)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT * FROM DocumentTable WHERE registration_num = {registrationNum}",
+                $"SELECT * FROM DocumentTable WHERE id = {id}",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
@@ -109,7 +115,7 @@ namespace ArchiveSearchEngine.Database
                 }
                 else
                 {
-                    throw new Exception($"Документ с регистрационным номером: {registrationNum} не найден");
+                    throw new Exception($"Документ с регистрационным номером: {id} не найден");
                 }
             }
         }
@@ -199,13 +205,13 @@ namespace ArchiveSearchEngine.Database
             return documents;
         }
 
-        // Checks, if document with exact registration_num already exists
-        public bool DocumentExists(string registrationNum)
+        // Checks, if document with exact id already exists
+        public bool DocumentExists(string id)
         {
-            registrationNum = registrationNum.Replace("'", "");
+            id = id.Replace("'", "");
 
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT registration_num FROM DocumentTable WHERE registration_num = '{registrationNum}'",
+                $"SELECT id FROM DocumentTable WHERE id = '{id}'",
                 _connection).ExecuteReader())
             {
                 return reader.HasRows;
@@ -213,10 +219,10 @@ namespace ArchiveSearchEngine.Database
         }
 
         // Updates document info in database, found by his id.
-        // Returns false, if doc.RegistrationNum is already claimed
-        public bool UpdateDocument(Document doc, string oldRegistrationNum)
+        // Returns false, if doc.Id is already claimed
+        public bool UpdateDocument(Document doc, string oldId)
         {
-            if (doc.RegistrationNum == oldRegistrationNum || !DocumentExists(doc.RegistrationNum))
+            if (doc.Id == oldId || !DocumentExists(doc.Id))
             {
                 new SqliteCommand($"UPDATE DocumentTable SET " +
 
@@ -242,28 +248,28 @@ namespace ArchiveSearchEngine.Database
                     $"is_personnel={(doc.IsPersonnel? 1 : 0)}, " +
                     $"note='{doc.Note.Replace("'", "")}' " +
 
-                    $"WHERE registration_num = '{oldRegistrationNum}'", _connection).ExecuteNonQuery();
+                    $"WHERE id = '{oldId}'", _connection).ExecuteNonQuery();
                 return true;
             }
             return false;
         }
 
-        public void TakeDocument(string registrationNum, string username)
+        public void TakeDocument(string id, string username)
         {
-            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username='{username}', taken_datetime='{DateTime.Now}' WHERE registration_num = '{registrationNum}'",
+            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username='{username}', taken_datetime='{DateTime.Now}' WHERE id = '{id}'",
                 _connection).ExecuteNonQuery();
         }
 
-        public void ReturnDocument(string registrationNum)
+        public void ReturnDocument(string id)
         {
-            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE registration_num = '{registrationNum}'",
+            int cmd = new SqliteCommand($"UPDATE DocumentTable SET taken_username=NULL, taken_datetime=NULL WHERE id = '{id}'",
                 _connection).ExecuteNonQuery();
         }
 
-        public string UserWhoTook(string registrationNum)
+        public string UserWhoTook(string id)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT taken_username FROM DocumentTable WHERE registration_num = '{registrationNum}' AND NOT taken_username IS NULL LIMIT 1",
+                $"SELECT taken_username FROM DocumentTable WHERE id = '{id}' AND NOT taken_username IS NULL LIMIT 1",
                 _connection).ExecuteReader())
             {
                 if (reader.HasRows)
@@ -273,15 +279,15 @@ namespace ArchiveSearchEngine.Database
                 }
                 else
                 {
-                    throw new Exception($"Не существует документа с регистрационным номером: {registrationNum}, либо документ доступен к выдаче");
+                    throw new Exception($"Не существует документа с id: {id}, либо документ доступен к выдаче");
                 }
             }
         }
 
-        public bool IsAvailable(string registrationNum)
+        public bool IsAvailable(string id)
         {
             using (SqliteDataReader reader = new SqliteCommand(
-                $"SELECT taken_username FROM DocumentTable WHERE registration_num='{registrationNum}' AND taken_username IS NULL LIMIT 1",
+                $"SELECT taken_username FROM DocumentTable WHERE id='{id}' AND taken_username IS NULL LIMIT 1",
                 _connection).ExecuteReader())
             {
                 return reader.HasRows;
@@ -307,9 +313,9 @@ namespace ArchiveSearchEngine.Database
         }
 
         // Deletes document with exact id
-        public void DeleteDocument(string registrationNum)
+        public void DeleteDocument(string id)
         {
-            new SqliteCommand($"DELETE FROM UserDocument WHERE registration_num = '{registrationNum}'", _connection).ExecuteNonQuery();
+            new SqliteCommand($"DELETE FROM UserDocument WHERE id = '{id}'", _connection).ExecuteNonQuery();
         }
 
         delegate bool CheckExpiring(string expiring_in);
@@ -317,9 +323,9 @@ namespace ArchiveSearchEngine.Database
         // Проверка значения "срока хранения" на то, что документ "временного хранения"
         public bool CheckIsTempExpiring(string expiring_in)
         {
-            if (int.TryParse(expiring_in, out _))
+            if (int.TryParse(expiring_in.Split(" ")[0], out _))
             {
-                return Int32.Parse(expiring_in) <= 10;
+                return Int32.Parse(expiring_in.Split(" ")[0]) <= 10;
             }
             return false;
         }
@@ -327,9 +333,9 @@ namespace ArchiveSearchEngine.Database
         // Проверка значения "срока хранения" на то, что документ "долговременного хранения"
         private bool CheckIsLongExpiring(string expiring_in)
         {
-            if (int.TryParse(expiring_in, out _))
+            if (int.TryParse(expiring_in.Split(" ")[0], out _))
             {
-                return Int32.Parse(expiring_in) > 10;
+                return Int32.Parse(expiring_in.Split(" ")[0]) > 10;
             }
             return false;
         }
@@ -442,6 +448,7 @@ namespace ArchiveSearchEngine.Database
 
             Spire.Doc.TableCell noteCellH = headingRow.AddCell();
             noteCellH.AddParagraph().AppendText("Примечание");
+            noteCellH.FirstParagraph.ApplyStyle("TableTextStyle");
 
             Spire.Doc.TableRow heading2Row = datatable.AddRow();
 
@@ -505,7 +512,7 @@ namespace ArchiveSearchEngine.Database
                         newRow.Cells[0].AddParagraph().AppendText(Convert.ToString(reader["case_num"]) + ".");
                         newRow.Cells[1].AddParagraph().AppendText((string)reader["object_index"]);
                         newRow.Cells[2].AddParagraph().AppendText((string)reader["object_name"]);
-                        newRow.Cells[3].AddParagraph().AppendText((string)reader["documents_date"]);
+                        newRow.Cells[3].AddParagraph().AppendText(Convert.ToDateTime(reader["documents_date"]).ToShortDateString());
                         newRow.Cells[4].AddParagraph().AppendText(Convert.ToString(reader["content_quantity"]));
                         newRow.Cells[5].AddParagraph().AppendText((string)reader["note"]);
 
@@ -542,7 +549,7 @@ namespace ArchiveSearchEngine.Database
             ending.ApplyStyle("MainTextStyle");
 
             ending.AppendText($"\r\nВ данный раздел описи внесено {docCounter} ({NumToStringConverter(Convert.ToString(docCounter))}) дел,\r\n" +
-                $"с № {startCaseNum} по № {endCaseNum} в том числе: \r\n" +
+                $"с № {lastNum - (docCounter + numbers_lost)} по № {lastNum} в том числе: \r\n" +
                 "литерные номера: нет\r\n" +
                 $"пропущенные номера: {(numbers_lost < 1 ? "нет" : numbers_lost)} \r\n\r\n\r\n" +
                 "Начальник АХО ____________________\r\n" +
@@ -674,6 +681,7 @@ namespace ArchiveSearchEngine.Database
 
             Spire.Doc.TableCell noteCellH = headingRow.AddCell();
             noteCellH.AddParagraph().AppendText("Примечание");
+            noteCellH.FirstParagraph.ApplyStyle("TableHeaderTextStyle");
 
             Spire.Doc.TableRow heading2Row = datatable.AddRow();
 
@@ -713,7 +721,7 @@ namespace ArchiveSearchEngine.Database
                         // Проверка документа по фильтрам (todo: потом впихнуть в sql)
                         if (!check_method((string)reader["expiring_in"]) 
                             || Convert.ToDateTime((string)reader["documents_date"]).Year > Convert.ToInt32(by_year) 
-                            || Convert.ToDateTime((string)reader["documents_date"]).AddYears(Convert.ToInt32((string)reader["expiring_in"]))
+                            || Convert.ToDateTime((string)reader["documents_date"]).AddYears(Convert.ToInt32(((string)reader["expiring_in"]).Split(" ")[0]))
                             >= new DateTime(Convert.ToInt32(by_year), 12, 31))
                         {
                             continue;
@@ -724,7 +732,7 @@ namespace ArchiveSearchEngine.Database
 
                         newRow.Cells[0].AddParagraph().AppendText(Convert.ToString(reader["case_num"]) + ".");
                         newRow.Cells[1].AddParagraph().AppendText((string)reader["object_name"]);
-                        newRow.Cells[2].AddParagraph().AppendText((string)reader["documents_date"]);
+                        newRow.Cells[2].AddParagraph().AppendText(Convert.ToDateTime(reader["documents_date"]).ToShortDateString());
                         newRow.Cells[3].AddParagraph().AppendText((string)reader["inventory_num"]);
                         newRow.Cells[4].AddParagraph().AppendText((string)reader["object_index"]);
                         newRow.Cells[5].AddParagraph().AppendText(Convert.ToString(reader["content_quantity"]));
@@ -853,6 +861,81 @@ namespace ArchiveSearchEngine.Database
                 word = "Ошибка чтения числа";
             }
             return word;
+        }
+
+        public void ImportFromExcel(string filename, string username)
+        {
+            uint docCounter = 0;
+            List<string> erroredRows = new List<string>();
+
+            try
+            {
+                using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read))
+                {
+                    IWorkbook workbook = new XSSFWorkbook(file);
+                    ISheet sheet = workbook.GetSheetAt(0);
+                    for (int rowIdx = 5; rowIdx <= sheet.LastRowNum; rowIdx++)
+                    {
+                        if (sheet.GetRow(rowIdx) != null)
+                        {
+                            IRow row = sheet.GetRow(rowIdx);
+                            try
+                            {
+                                NewDocument(row.GetCell(0).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(1).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(2).SetCellType(CellType.String).StringCellValue,
+                                    Convert.ToInt32(row.GetCell(3).SetCellType(CellType.String).StringCellValue),
+                                    row.GetCell(5).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(6).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(7).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(8).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(9).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(10).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(11).SetCellType(CellType.String).StringCellValue,
+
+                                    (DateTime)(row.GetCell(12).CellType == CellType.Numeric ? row.GetCell(12).DateCellValue : row.GetCell(12).SetCellType(CellType.String).StringCellValue.Contains(".") ?
+                                    Convert.ToDateTime(row.GetCell(12).SetCellType(CellType.String).StringCellValue) : new DateTime(Convert.ToInt32(row.GetCell(12).SetCellType(CellType.String).StringCellValue), 1, 1)),
+
+                                    Convert.ToInt32(row.GetCell(13).SetCellType(CellType.String).StringCellValue),
+                                    row.GetCell(14).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(16).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(17).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(18).SetCellType(CellType.String).StringCellValue,
+                                    row.GetCell(7).SetCellType(CellType.String).StringCellValue.ToLower().Contains("личное дело"),
+                                    username,
+                                    "",
+
+                                    row.GetCell(4).CellType == CellType.Numeric ?
+                                    row.GetCell(4).DateCellValue : new List<string> { "", "-" }.Contains(row.GetCell(4).SetCellType(CellType.String).StringCellValue.Trim()) ?
+                                    null : row.GetCell(4).SetCellType(CellType.String).StringCellValue.Contains(".") ?
+                                    Convert.ToDateTime(row.GetCell(4).SetCellType(CellType.String).StringCellValue) : new DateTime(Convert.ToInt32(row.GetCell(4).SetCellType(CellType.String).StringCellValue), 1, 1),
+
+                                    row.GetCell(15).CellType == CellType.Numeric ?
+                                    row.GetCell(15).DateCellValue : new List<string> { "", "-" }.Contains(row.GetCell(15).SetCellType(CellType.String).StringCellValue.Trim()) ?
+                                    null : row.GetCell(15).SetCellType(CellType.String).StringCellValue.Contains(".") ?
+                                    Convert.ToDateTime(row.GetCell(15).SetCellType(CellType.String).StringCellValue) : new DateTime(Convert.ToInt32(row.GetCell(4).SetCellType(CellType.String).StringCellValue), 1, 1));
+                                docCounter++;
+                            }
+                            catch (Exception ex)
+                            {
+                                erroredRows.Add(row.GetCell(13).SetCellType(CellType.String).StringCellValue);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Возникла ошибка при попытке открыть файл." +
+                    "\nВозможно, файл не существует или открыт другой программой.");
+                return;
+            }
+            MessageBox.Show($"В электронный реестр было внесено {docCounter} документов." +
+                $"\n{erroredRows.Count()} строк не были успешно считаны и были пропущены.");
+            if (erroredRows.Count > 0)
+            {
+                File.WriteAllLines($"{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-")}.txt", erroredRows);
+            }
         }
     }
 }

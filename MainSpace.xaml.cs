@@ -64,6 +64,7 @@ namespace ArchiveSearchEngine
                 openFileDialog.Filter = "Таблица формата (*.xlsx)| *.xlsx";
                 openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
                 openFileDialog.ShowDialog();
+                documentTable.ImportFromExcel(openFileDialog.FileName, owner.LoggedUser.Username);
                 return openFileDialog.FileName;
             }
             Spaces.Add(new UserSpace("Импорт документов из excel (*.xlsx)", method1));

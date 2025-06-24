@@ -38,7 +38,7 @@
                     <TextBlock Style="{StaticResource DocTextBlock}" Text="Год" Margin="0,15,0,0"></TextBlock>
                     <TextBox Name="YearPickerGUI" FontSize="20" Style="{StaticResource DocTextBox}" PreviewKeyDown="YearPickerGUI_PreviewKeyDown" PreviewTextInput="YearPickerGUI_PreviewTextInput" TextChanged="YearPickerGUI_TextChanged"></TextBox>
 
-                    <TextBlock Style="{StaticResource DocTextBlock}" Text="Структурное подразделение" Margin="0,15,0,0"></TextBlock>
+                    <TextBlock Style="{StaticResource DocTextBlock}" Text="Структурное подразделение (для генерации по каждому пункту, оставьте пустым)" Margin="0,15,0,0"></TextBlock>
                     <ComboBox Name="StructDivisionGUI" IsEditable="True" IsTextSearchEnabled="True" FontSize="20"></ComboBox>
                 </StackPanel>
 

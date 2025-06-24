@@ -29,7 +29,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             InitializeComponent();
             _owner = owner;
-            TermGUI.ItemsSource = new List<string> { "Дела временного хранения", "Дела долговременного хранения", "Дела по личному составу", "Дела постоянного хранения" };
+            TermGUI.ItemsSource = new List<string> { "Дела временного хранения", "Дела долговременного хранения" };
             TermGUI.SelectedIndex = 0;
             _documentTable = documentTable;
             StructDivisionGUI.ItemsSource = documentTable.GetCellValues("struct_division");
@@ -50,7 +50,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 {
                     _documentTable.FormDestroyingAct(
                         openFileDialog.FileName.Replace(".docx", "") + " " +
-                        struct_division.Replace("\\", "").Replace("/", "").Replace("|", "").Replace("\"", "").Replace("*", "").Replace(":", "").Replace("?", "") // чтобы винда приняла имя файла
+                        struct_division.Replace("\\", "").Replace("/", "").Replace("|", "").Replace("\"", "").Replace("*", "").Replace(":", "").Replace("?", "").Trim() // чтобы винда приняла имя файла
                         + ".docx", DestroyActNumberGUI.Text, TermGUI.Text, YearPickerGUI.Text, struct_division);
                     MessageBox.Show($"Акты сгенерированы по пути: {openFileDialog.FileName}");
                 }

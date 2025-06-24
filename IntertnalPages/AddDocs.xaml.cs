@@ -47,7 +47,7 @@ namespace ArchiveSearchEngine.IntertnalPages
         {
             try
             {
-                if (!_table.DocumentExists(RegistrationObjectNumberGUI.Text))
+                if (!_table.DocumentExists($"{RegistrationObjectNumberGUI.Text} {DealIndexGUI.Text} {CaseNumberGUI.Text}"))
                 {
                     User user = _userTable.GetUsers()[selectedUserIndex];
                     _table.NewDocument(RegistrationObjectNumberGUI.Text, 
@@ -69,7 +69,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 }
                 else
                 {
-                    MessageBox.Show("Документ с таким регистрационным номером уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Документ с таким id уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (Exception exception)
