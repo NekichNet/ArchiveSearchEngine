@@ -38,11 +38,8 @@ namespace ArchiveSearchEngine
             InitializeComponent();
             _owner = owner;
 
-            AddDocs addDocPage = new AddDocs(this, documentTable, userTable, nonUserTable);
-            DocRegistry docRegistryPage = new DocRegistry(this, documentTable, userTable);
-
-            Spaces.Add(new UserSpace("Электронный реестр", docRegistryPage));
-            Spaces.Add(new UserSpace("Добавление документа", addDocPage));
+            Spaces.Add(new UserSpace("Электронный реестр", new DocRegistry(this, documentTable, userTable)));
+            Spaces.Add(new UserSpace("Добавление документа", new AddDocs(this, documentTable, userTable, nonUserTable)));
             Spaces.Add(new UserSpace("Генерация описи", new InventoryGeneration(this, userTable, nonUserTable, documentTable)));
             Spaces.Add(new UserSpace("Генерация акта об уничтожении", new DestroyActCreationPage(this, documentTable)));
 
@@ -53,7 +50,7 @@ namespace ArchiveSearchEngine
                 openFileDialog.ShowDialog();
                 nonUserTable.ImportFromCSV(openFileDialog.FileName);
 
-                addDocPage.RefreshFullnameSearchGUI();
+                (Spaces[1].Page as AddDocs).RefreshFullnameSearchGUI();
                 return openFileDialog.FileName;
             }
             Spaces.Add(new UserSpace("Импорт сотрудников (*.csv)", method));
@@ -66,7 +63,7 @@ namespace ArchiveSearchEngine
                 openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
                 openFileDialog.ShowDialog();
                 documentTable.ImportFromExcel(openFileDialog.FileName, owner.LoggedUser.Username);
-                docRegistryPage.RefreshDataGrid();
+                (Spaces[0].Page as DocRegistry).RefreshDataGrid();
                 return openFileDialog.FileName;
             }
             Spaces.Add(new UserSpace("Импорт документов из excel (*.xlsx)", method1));

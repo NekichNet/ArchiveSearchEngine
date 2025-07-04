@@ -11,7 +11,7 @@ namespace ArchiveSearchEngine
     public class UserSpace
     {
         private string title_;
-        private Page page_;
+        public Page page_;
         public delegate string Method();
         public Method DelegateMethod { get; set; }
 

@@ -24,12 +24,16 @@ namespace ArchiveSearchEngine.AdditionalElements
         {
             InitializeComponent();
         }
-        public ProgressBar(ref int val)
+        public ProgressBar(int val)
         {
             InitializeComponent();
-            ProgressBarGUI.Value = val;
             ProgressBarGUI.IsIndeterminate = false;
+            ProgressBarGUI.Value = val;
         }
 
+        public void UpdateValue(int val)
+        {
+            ProgressBarGUI.Value = val;
+        }
     }
 }

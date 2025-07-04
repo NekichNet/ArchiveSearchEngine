@@ -867,7 +867,7 @@ namespace ArchiveSearchEngine.Database
         public void ImportFromExcel(string filename, string username)
         {
             int progress = 0;
-            AdditionalElements.ProgressBar progressBar = new AdditionalElements.ProgressBar(ref progress);
+            AdditionalElements.ProgressBar progressBar = new AdditionalElements.ProgressBar(progress);
             progressBar.Show();
 
             uint docCounter = 0;
@@ -926,8 +926,8 @@ namespace ArchiveSearchEngine.Database
                                 erroredRows.Add(row.GetCell(13).SetCellType(CellType.String).StringCellValue);
                             }
                         }
-                        progress = (int)((float)(rowIdx - 5) / (float)(sheet.LastRowNum - 5) * 100.0f);
-                        MessageBox.Show(progress.ToString());
+                        progressBar.UpdateValue((int)((float)(rowIdx - 5) / (float)(sheet.LastRowNum - 5) * 100.0f));
+                        
                     }
                 }
                 MessageBox.Show($"В электронный реестр было внесено {docCounter} документов." +
