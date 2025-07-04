@@ -62,5 +62,11 @@ namespace ArchiveSearchEngine
             ErrorGui.Text = "";
         }
 
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter){
+                _owner.TrySigningIn(LoginSearchGUI.Text, PasswordGUI.Password);
+            }
+        }
     }
 }

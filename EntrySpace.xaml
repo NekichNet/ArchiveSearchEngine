@@ -9,7 +9,7 @@
       Title="EntrySpace" >
     
     
-    <Grid>
+    <Grid KeyDown="Grid_KeyDown">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.3*"></RowDefinition>
             <RowDefinition></RowDefinition>
