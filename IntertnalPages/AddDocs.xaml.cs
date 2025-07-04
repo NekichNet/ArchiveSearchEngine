@@ -35,6 +35,13 @@ namespace ArchiveSearchEngine.IntertnalPages
             _userTable = userTable;
             _nonUserTable = nonUserTable;
             RefreshFullnameSearchGUI();
+            IsVisibleChanged += (s, e) =>
+            {
+                if (IsVisible)
+                {
+                    RefreshFullnameSearchGUI();
+                }
+            };
             StoringTermComboGUI.ItemsSource = new List<string> { "3", "5", "10", "Постоянно" };
         }
 

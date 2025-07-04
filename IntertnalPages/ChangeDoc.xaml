@@ -117,6 +117,7 @@
                 <Button Name="TakeDocButton" Click="TakeDocButton_Click" Content="Забрать" FontSize="20"></Button>
                 <Button Visibility="Collapsed" Name="ReturnDocButton" Click="ReturnDocButton_Click" Content="Вернуть" FontSize="20"></Button>
             </StackPanel>
+            <Button Name="DeleteDocButton" Click="DeleteDocButton_Click" Margin="0,20,0,0" Content="Удалить" Style="{StaticResource DenyButtonStyle}" FontWeight="Black" FontSize="20"></Button>
         </StackPanel>
 
     <StackPanel Margin="15" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2">

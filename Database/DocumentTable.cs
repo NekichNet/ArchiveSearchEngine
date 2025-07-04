@@ -315,7 +315,7 @@ namespace ArchiveSearchEngine.Database
         // Deletes document with exact id
         public void DeleteDocument(string id)
         {
-            new SqliteCommand($"DELETE FROM UserDocument WHERE id = '{id}'", _connection).ExecuteNonQuery();
+            new SqliteCommand($"DELETE FROM DocumentTable WHERE id = '{id}'", _connection).ExecuteNonQuery();
         }
 
         delegate bool CheckExpiring(string expiring_in);

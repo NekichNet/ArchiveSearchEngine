@@ -192,5 +192,21 @@ namespace ArchiveSearchEngine.IntertnalPages
             var previewUser = new UserPreview(doc_.AchievedUsername, userTable_);
             previewUser.ShowDialog();
         }
+
+        private void DeleteDocButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Удалить документ?", "Внимание", MessageBoxButton.YesNo);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    documentTable_.DeleteDocument(doc_.Id);
+                    owner_.RefreshDataGrid();
+                    this.Close();
+                }
+                catch (Exception ex) { MessageBox.Show(ex.Message); }
+            }
+        }
     }
 }
