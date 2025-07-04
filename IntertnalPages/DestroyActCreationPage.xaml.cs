@@ -73,7 +73,6 @@ namespace ArchiveSearchEngine.IntertnalPages
         private void YearPickerGUI_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             e.Handled = e.Key == Key.Space;
-
         }
 
         private void YearPickerGUI_PreviewTextInput(object sender, TextCompositionEventArgs e)

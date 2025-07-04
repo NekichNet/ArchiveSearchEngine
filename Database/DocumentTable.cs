@@ -564,7 +564,8 @@ namespace ArchiveSearchEngine.Database
 
         // Формирование акта о выделении к уничтожению
         public void FormDestroyingAct(
-            string filepath, string destruct_act_num, string doc_type, string by_year, string struct_division)
+            string filepath, string destruct_act_num, string doc_type, string by_year, string struct_division
+            )
         {
             // ToDo: Вот это заменить на проверку в самом SQL запросе
             CheckExpiring check_method;
@@ -863,17 +864,17 @@ namespace ArchiveSearchEngine.Database
             return word;
         }
 
-        public void ImportFromExcel(string filename, string username)
+        public void ImportFromExcel(string filename, string username, UpdateProgressBar progress)
         {
             uint docCounter = 0;
             List<string> erroredRows = new List<string>();
-
             try
             {
                 using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
                     IWorkbook workbook = new XSSFWorkbook(file);
                     ISheet sheet = workbook.GetSheetAt(0);
+
                     for (int rowIdx = 5; rowIdx <= sheet.LastRowNum; rowIdx++)
                     {
                         if (sheet.GetRow(rowIdx) != null)
@@ -921,6 +922,7 @@ namespace ArchiveSearchEngine.Database
                                 erroredRows.Add(row.GetCell(13).SetCellType(CellType.String).StringCellValue);
                             }
                         }
+                        progress((rowIdx - 5) / (sheet.LastRowNum - 5) * 100);
                     }
                 }
             }
@@ -937,5 +939,7 @@ namespace ArchiveSearchEngine.Database
                 File.WriteAllLines($"{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-")}.txt", erroredRows);
             }
         }
+
+        public delegate void UpdateProgressBar(int progress);
     }
 }
