@@ -65,7 +65,14 @@ namespace ArchiveSearchEngine
         private void Grid_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter){
-                _owner.TrySigningIn(LoginSearchGUI.Text, PasswordGUI.Password);
+                try
+                {
+                    _owner.TrySigningIn(LoginSearchGUI.Text, PasswordGUI.Password);
+                }
+                catch (Exception ex)
+                {
+                    ErrorOut(ex.Message);
+                }
             }
         }
     }
