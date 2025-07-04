@@ -864,8 +864,12 @@ namespace ArchiveSearchEngine.Database
             return word;
         }
 
-        public void ImportFromExcel(string filename, string username, ref int progress)
+        public void ImportFromExcel(string filename, string username)
         {
+            int progress = 0;
+            AdditionalElements.ProgressBar progressBar = new AdditionalElements.ProgressBar(ref progress);
+            progressBar.Show();
+
             uint docCounter = 0;
             List<string> erroredRows = new List<string>();
             try
@@ -922,24 +926,26 @@ namespace ArchiveSearchEngine.Database
                                 erroredRows.Add(row.GetCell(13).SetCellType(CellType.String).StringCellValue);
                             }
                         }
-                        progress = (rowIdx - 5) / (sheet.LastRowNum - 5) * 100;
+                        progress = (int)((float)(rowIdx - 5) / (float)(sheet.LastRowNum - 5) * 100.0f);
+                        MessageBox.Show(progress.ToString());
                     }
+                }
+                MessageBox.Show($"В электронный реестр было внесено {docCounter} документов." +
+                $"\n{erroredRows.Count()} строк не были успешно считаны и были пропущены.");
+                if (erroredRows.Count > 0)
+                {
+                    File.WriteAllLines($"{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-")}.txt", erroredRows);
                 }
             }
             catch (IOException)
             {
                 MessageBox.Show("Возникла ошибка при попытке открыть файл." +
                     "\nВозможно, файл не существует или открыт другой программой.");
-                return;
             }
-            MessageBox.Show($"В электронный реестр было внесено {docCounter} документов." +
-                $"\n{erroredRows.Count()} строк не были успешно считаны и были пропущены.");
-            if (erroredRows.Count > 0)
+            finally
             {
-                File.WriteAllLines($"{DateTime.Now.ToString().Replace(":", "-").Replace(".", "-")}.txt", erroredRows);
+                progressBar.Close();
             }
         }
-
-        public delegate void UpdateProgressBar(int progress);
     }
 }
