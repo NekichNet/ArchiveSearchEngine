@@ -864,7 +864,7 @@ namespace ArchiveSearchEngine.Database
             return word;
         }
 
-        public void ImportFromExcel(string filename, string username, UpdateProgressBar progress)
+        public void ImportFromExcel(string filename, string username, ref int progress)
         {
             uint docCounter = 0;
             List<string> erroredRows = new List<string>();
@@ -922,7 +922,7 @@ namespace ArchiveSearchEngine.Database
                                 erroredRows.Add(row.GetCell(13).SetCellType(CellType.String).StringCellValue);
                             }
                         }
-                        progress((rowIdx - 5) / (sheet.LastRowNum - 5) * 100);
+                        progress = (rowIdx - 5) / (sheet.LastRowNum - 5) * 100;
                     }
                 }
             }
