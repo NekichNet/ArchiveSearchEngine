@@ -51,7 +51,6 @@ namespace ArchiveSearchEngine
             currentIndex = Random.Shared.Next(0, _imageFiles.Count);
             BitmapImage bitmap1 = new BitmapImage(new Uri(_imageFiles[currentIndex], UriKind.Relative));
             BackgroundImage1.Source = bitmap1;
-            _imageFiles.RemoveAt(currentIndex);
             ChangeBackground();
 
         }
@@ -82,8 +81,15 @@ namespace ArchiveSearchEngine
                 }
                 BackgroundImage2.Opacity = 0.0f;
 
-
+                try
+                {
                 _imageFiles.RemoveAt(currentIndex);
+
+                }
+                catch( Exception ex)
+                {
+                    //MessageBox.Show(ex.Message);
+                }
 
                 do
                 {
