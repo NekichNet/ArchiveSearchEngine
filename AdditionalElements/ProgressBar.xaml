@@ -11,6 +11,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
+        <StackPanel Background="WhiteSmoke" Grid.RowSpan="2"></StackPanel>
         <TextBlock Style="{StaticResource DefaultTextStyle}" Text="Процесс загрузки" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Black"></TextBlock>
         <ProgressBar Name="ProgressBarGUI" Value="{Binding ProgressValue}" Margin="15" Grid.Row="1" Minimum="0" Maximum="100" IsIndeterminate="True">
             <ProgressBar.Foreground>

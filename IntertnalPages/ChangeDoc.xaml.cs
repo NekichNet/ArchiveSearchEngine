@@ -58,6 +58,7 @@ namespace ArchiveSearchEngine.IntertnalPages
                 DocDateGUI.DisplayDate = doc_.DocumentsDate;
                 DocDateGUI.Text = doc_.DocumentsDate.ToShortDateString();
                 CaseNumberGUI.Text = $"{doc_.CaseNum}";
+                StructDivisionDisplayGUI.Text = doc_.StructDivision;
                 if (doc_.DestructActDate is not null)
                 {
                     DestroyActDateGUI.DisplayDate = (DateTime)doc_.DestructActDate;
