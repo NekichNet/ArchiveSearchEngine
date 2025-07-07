@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ArchiveSearchEngine.Database;
+using NPOI.HSSF.Record;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,16 +26,19 @@ namespace ArchiveSearchEngine.AdditionalElements
         {
             InitializeComponent();
         }
-        public ProgressBar(int val)
-        {
-            InitializeComponent();
-            ProgressBarGUI.IsIndeterminate = false;
-            ProgressBarGUI.Value = val;
-        }
+        //public ProgressBar(string filename, string username, DocumentTable documentTable)
+        //{
+        //    InitializeComponent();
+        //    ProgressBarGUI.IsIndeterminate = false;
+        //    ProgressBarGUI.Value = 0.0;
+        //    Show();
+        //    documentTable.ImportFromExcel(filename, username, UpdateValue);
+        //    Close();
+        //}
 
-        public void UpdateValue(int val)
-        {
-            ProgressBarGUI.Value = val;
-        }
+        //public void UpdateValue(double val)
+        //{
+        //    ProgressBarGUI.Value = val;
+        //}
     }
 }

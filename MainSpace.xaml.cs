@@ -5,6 +5,7 @@ using ArchiveSearchEngine.IntertnalPages.UserManager;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -62,7 +63,10 @@ namespace ArchiveSearchEngine
                 openFileDialog.Filter = "Таблица формата (*.xlsx)| *.xlsx";
                 openFileDialog.DefaultDirectory = Directory.GetCurrentDirectory();
                 openFileDialog.ShowDialog();
+                AdditionalElements.ProgressBar progressBar = new AdditionalElements.ProgressBar();
+                progressBar.Show();
                 documentTable.ImportFromExcel(openFileDialog.FileName, owner.LoggedUser.Username);
+                progressBar.Close();
                 (Spaces[0].Page as DocRegistry).RefreshDataGrid();
                 return openFileDialog.FileName;
             }
